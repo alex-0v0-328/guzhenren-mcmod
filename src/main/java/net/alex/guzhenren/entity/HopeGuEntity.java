@@ -26,7 +26,6 @@ import net.minecraft.world.level.Level;
  * @since 1.0.0
  */
 
-@SuppressWarnings("resource")
 public class HopeGuEntity extends FlyingGuEntity {
 
     private static final int FADE_TICKS = Ticks.MINUTE;

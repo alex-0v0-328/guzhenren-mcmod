@@ -126,7 +126,6 @@ public class LandRestGoal extends Goal {
         return REST_TICKS + gu.getRandom().nextInt(REST_JITTER_TICKS);
     }
 
-    @SuppressWarnings("resource")
     private boolean retargetGround() {
         // Scan down from the Gu itself rather than read the column heightmap: that top can be a canopy, an
         // overhang or a roof above the Gu, which it could never settle on from below.
@@ -142,7 +141,7 @@ public class LandRestGoal extends Goal {
     }
 
     /** The {@code MOTION_BLOCKING} heightmap's own test, inverted: nothing to stand on and no fluid. */
-    @SuppressWarnings({"resource", "deprecation"})
+    @SuppressWarnings("deprecation")
     private boolean isOpen(BlockPos pos) {
         BlockState state = gu.level().getBlockState(pos);
         return !state.blocksMotion() && state.getFluidState().isEmpty();

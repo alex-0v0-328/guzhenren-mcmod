@@ -128,7 +128,6 @@ public final class ApertureNourishService {
             if (!nourishSecond(player)) return;
         }
     }
-    @SuppressWarnings("resource")
     private static boolean nourishSecond(ServerPlayer player) {
         ApertureNourishData data = get(player);
         if (!data.cultivating()) return false;

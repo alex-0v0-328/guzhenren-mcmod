@@ -113,7 +113,6 @@ public final class PlayerDataService {
      * A death that wipes the apertures shakes one Human Aperture [人窍] loose per aperture, each at its
      * own rank, at the corpse. keepInventory deaths keep the apertures and drop nothing.
      */
-    @SuppressWarnings("resource")
     private static void dropHumanApertures(@NotNull Player from) {
         ApertureData data = from.getData(ModAttachments.APERTURE);
         for (int i = 0; i < data.count(); i++) {

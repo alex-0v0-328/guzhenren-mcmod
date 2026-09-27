@@ -123,7 +123,6 @@ public final class ApertureService {
     public static void shiftTalent(@NotNull ServerPlayer p, int index, int d) {
         setTalent(p, index, aperture(p, index).talent().shift(d));
     }
-    @SuppressWarnings("resource")
     public static void setPressure(@NotNull ServerPlayer player, int index, int value) {
         Aperture current = aperture(player, index);
         if (!BodyService.isExtreme(player) || index != PRIMARY) return;
@@ -139,7 +138,6 @@ public final class ApertureService {
         if (!BodyService.isExtreme(player)) return;
         setPressure(player, PRIMARY, Math.max(0, current.pressure() - amount));
     }
-    @SuppressWarnings("resource")
     public static void tickPressure(@NotNull ServerPlayer player) {
         Aperture aperture = aperture(player, PRIMARY);
         if (!BodyService.isExtreme(player) || aperture.pressure() >= Aperture.MAX_PRESSURE) return;
@@ -166,14 +164,12 @@ public final class ApertureService {
         Aperture aperture = aperture(player, PRIMARY);
         return BodyService.isExtreme(player) && aperture.pressure() >= Aperture.MAX_PRESSURE;
     }
-    @SuppressWarnings("resource")
     public static long pressureRemainingTicks(@NotNull Player player) {
         Aperture aperture = aperture(player, PRIMARY);
         if (!BodyService.isExtreme(player) || aperture.pressure() != Aperture.PRESSURE_COUNTDOWN_START
                 || aperture.pressureDeadlineTick() <= 0L) return 0L;
         return Math.max(0L, aperture.pressureDeadlineTick() - player.level().getGameTime());
     }
-    @SuppressWarnings("resource")
     public static void detonatePressure(@NotNull ServerPlayer player) {
         Aperture aperture = aperture(player);
         ExtremePhysique physique = BodyService.extremePhysique(player);

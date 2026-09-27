@@ -89,7 +89,6 @@ public class FleePlayerGoal extends Goal {
                 away.x, away.z, ESCAPE_CONE_ANGLE);
     }
 
-    @SuppressWarnings("resource")
     static @Nullable Player nearestThreat(RestingFlyingGuEntity gu) {
         return gu.level().getNearestPlayer(gu.getX(), gu.getY(), gu.getZ(), RestingFlyingGuEntity.FLEE_RANGE,
                 FleePlayerGoal::isThreat);

@@ -48,7 +48,6 @@ public final class PathQiService {
         }
         store(p, get(p).with(kind, new PathQiEntry(amount, holdEnd)));
     }
-    @SuppressWarnings("resource")
     private static long now(Player p) {return p.level().getGameTime();}
     private static void store(ServerPlayer p, PathQiData data) {
         long now = now(p);

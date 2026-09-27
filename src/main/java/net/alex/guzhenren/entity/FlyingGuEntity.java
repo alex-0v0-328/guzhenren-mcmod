@@ -38,7 +38,6 @@ import org.jetbrains.annotations.Nullable;
  * @since 1.0.0
  */
 
-@SuppressWarnings("resource")
 public class FlyingGuEntity extends WildGuEntity {
 
     public static final double DETECT_RANGE = 12.0;
