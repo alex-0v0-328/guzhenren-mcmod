@@ -73,7 +73,7 @@ public final class ModCreativeTabs {
     }
     static boolean belongsInMortalGu(Item item) {return item instanceof MortalGuItem gu && gu.path() != STRENGTH;}
     static boolean belongsInGuMaterial(Item item) {
-        return GuMaterialItem.class.isInstance(item)
+        return item instanceof GuMaterialItem
                 || item instanceof BlockItem blockItem && blockItem.getBlock() instanceof SpiritSpringBlock;
     }
     public static void register(IEventBus modEventBus) {

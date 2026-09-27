@@ -142,7 +142,7 @@ public class LandRestGoal extends Goal {
     }
 
     /** The {@code MOTION_BLOCKING} heightmap's own test, inverted: nothing to stand on and no fluid. */
-    @SuppressWarnings("resource")
+    @SuppressWarnings({"resource", "deprecation"})
     private boolean isOpen(BlockPos pos) {
         BlockState state = gu.level().getBlockState(pos);
         return !state.blocksMotion() && state.getFluidState().isEmpty();

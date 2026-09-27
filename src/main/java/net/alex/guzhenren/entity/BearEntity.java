@@ -63,10 +63,6 @@ public final class BearEntity extends BeastEntity {
     @Override
     protected int swipeActionTicks() { return SWIPE_END_TICKS; }
     @Override
-    protected int heavyHitTick() { return REAR_HIT_TICK; }
-    @Override
-    protected int heavyActionTicks() { return REAR_END_TICKS; }
-    @Override
     protected int roarActionTicks() { return ROAR_TICKS; }
     @Override
     protected int lieDownActionTicks() { return LIE_DOWN_TICKS; }

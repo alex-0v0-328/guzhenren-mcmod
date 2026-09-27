@@ -430,7 +430,7 @@ public class RefinementScreen extends AbstractContainerScreen<RefinementMenu> {
     private int pickLeft() {return leftPos + (imageWidth - PICK_W) / 2;}
     private int pickTop(int visible) {return topPos + (imageHeight - pickHeight(visible)) / 2;}
     private int pickRowY(int y0, int i) {return y0 + PICK_HEADER_H + PICK_PAD + i * PICK_ROW_H;}
-    private boolean clickPicker(double mx, double my) {
+    private void clickPicker(double mx, double my) {
         List<RecipeHolder<GuRecipe>> known = known();
         int visible = Math.min(PICK_MAX_ROWS, known.size() + 1);
         int x0 = pickLeft();
@@ -443,11 +443,9 @@ public class RefinementScreen extends AbstractContainerScreen<RefinementMenu> {
             int row = pickScroll + i;
             send(row == 0 ? RefinementMenu.BUTTON_CLEAR_RECIPE
                     : RefinementMenu.BUTTON_RECIPE_BASE + row - 1);
-            picking = false;
-            return true;
+            break;
         }
         picking = false;
-        return true;
     }
     //endregion
 
@@ -486,7 +484,11 @@ public class RefinementScreen extends AbstractContainerScreen<RefinementMenu> {
     }
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
-        if (picking) return button != 0 || clickPicker(mx, my);
+        if (picking) {
+            // The open picker swallows every click; only the left button acts on it.
+            if (button == 0) clickPicker(mx, my);
+            return true;
+        }
         if (button == 0) {
             if (inBack(mx, my)) return clickBack();
             if (inRecipe(mx, my) && !menu.running()) return openPicker();

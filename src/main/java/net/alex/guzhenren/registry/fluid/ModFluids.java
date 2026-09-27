@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
  * underwater sound, water drip particle -- minus the infinite-source rule:
  * {@code canConvertToSource} stays false, so springs exist only where a source was placed. There
  * is no dedicated bucket item; scooping with a vanilla empty bucket clears the spring and hands
- * the bucket straight back ({@link #getBucket}).
+ * the bucket straight back ({@link SpiritSpringFluid#getBucket}).
  *
  * <p>⚠ The source's random tick is only a reload watchdog: it re-arms the deterministic
  * block-tick chain in {@link SpiritSpringBlock} and never produces stones by itself.

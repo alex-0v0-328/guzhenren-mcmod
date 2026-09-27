@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
  * One Gu's numbers, given as a builder chain at registration so that a registration reads as a table row.
  *
  * <p>The single source of truth for every Gu's numerical identity: refine cost, channel/cost-per-use,
- * hunger bar geometry, feed tags, cooldown, and max health. Stored on {@link MortalGuItem} at
+ * hunger bar geometry, feed tags, and cooldown. Stored on {@link MortalGuItem} at
  * construction; read by {@link TendedGuItem}, {@link GuClock}, and the tooltip/HUD renderers.
  *
  * <p>⚠ {@link #validate} runs at registration and refuses to start the game, naming the Gu, when
@@ -41,7 +41,6 @@ public final class GuSpec {
     private int feedUnits;
     private int effectCooldownTicks;
     private int itemCooldownTicks;
-    private int maxHealth;
     private GuSpec(Rank rank, GuPath path) {
         this.rank = rank;
         this.path = path;
@@ -106,7 +105,6 @@ public final class GuSpec {
     public boolean channels() {return channels;}
     public int effectCooldownTicks() {return effectCooldownTicks;}
     public int itemCooldownTicks() {return itemCooldownTicks;}
-    public int maxHealth() {return maxHealth;}
     public int unitsPerHealth() {return unitsPerHunger;}
     public GuClock buildClock() {
         if (maxHunger > 0) {

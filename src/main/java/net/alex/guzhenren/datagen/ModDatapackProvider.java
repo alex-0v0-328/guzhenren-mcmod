@@ -42,7 +42,6 @@ import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
@@ -174,11 +173,11 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
         HolderGetter<ConfiguredFeature<?, ?>> configured = context.lookup(Registries.CONFIGURED_FEATURE);
         context.register(SPIRIT_SPRING_PLACED, new PlacedFeature(
                 configured.getOrThrow(SPIRIT_SPRING_CONFIGURED),
-                List.<PlacementModifier>of(RarityFilter.onAverageOnceEvery(SPIRIT_SPRING_RARITY),
+                List.of(RarityFilter.onAverageOnceEvery(SPIRIT_SPRING_RARITY),
                         InSquarePlacement.spread(), BiomeFilter.biome())));
         context.register(SPIRIT_SPRING_UNDERGROUND_PLACED, new PlacedFeature(
                 configured.getOrThrow(SPIRIT_SPRING_UNDERGROUND_CONFIGURED),
-                List.<PlacementModifier>of(RarityFilter.onAverageOnceEvery(SPIRIT_SPRING_UNDERGROUND_RARITY),
+                List.of(RarityFilter.onAverageOnceEvery(SPIRIT_SPRING_UNDERGROUND_RARITY),
                         InSquarePlacement.spread(),
                         HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(8), VerticalAnchor.belowTop(8)),
                         BiomeFilter.biome())));

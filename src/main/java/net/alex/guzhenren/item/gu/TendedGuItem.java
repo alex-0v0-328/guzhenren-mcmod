@@ -88,10 +88,7 @@ public abstract class TendedGuItem extends MortalGuItem {
 
     //region 蛊虫生命值 [Gu health] -- stored as damage TAKEN, so an untouched 野生 Gu reads as full
     public static final int HEALTH_PER_RANK = 12;
-    public int maxHealth() {
-        int health = spec.maxHealth();
-        return health > 0 ? health : HEALTH_PER_RANK;
-    }
+    public int maxHealth() {return HEALTH_PER_RANK;}
     public int health(ItemStack stack) {return maxHealth() - state(stack).damageTaken();}
     public boolean damageKills(ServerPlayer holder, ItemStack stack, int amount) {
         if (amount <= 0) return false;

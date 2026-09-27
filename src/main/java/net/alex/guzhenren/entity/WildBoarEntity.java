@@ -331,25 +331,23 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
 
     private void performToss() {
         LivingEntity target = this.actionTarget;
-        if (target == null || !this.canAttackTarget(target) || this.distanceTo(target) > 2.0D
+        if (!this.canAttackTarget(target) || this.distanceTo(target) > 2.0D
                 || !this.hasLineOfSight(target)) return;
         Vec3 direction = directionTo(target);
         if (direction == Vec3.ZERO) direction = facingDirection();
         this.applyAttack(target, TOSS_DAMAGE, TOSS_KNOCKBACK, TOSS_UPWARD, direction);
     }
 
-    private boolean applyAttack(LivingEntity target, float damage, double horizontalStrength,
-                                double upward, Vec3 direction) {
+    private void applyAttack(LivingEntity target, float damage, double horizontalStrength,
+                             double upward, Vec3 direction) {
         Vec3 oldMovement = target.getDeltaMovement();
-        boolean hurt = target.hurt(this.damageSources().mobAttack(this), damage);
-        if (!hurt) return false;
+        if (!target.hurt(this.damageSources().mobAttack(this), damage)) return;
         double resistance = target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
         double scale = Mth.clamp(1.0D - resistance, 0.0D, 1.0D);
         target.setDeltaMovement(direction.x * horizontalStrength * scale,
                 oldMovement.y + upward * scale, direction.z * horizontalStrength * scale);
         target.hasImpulse = true;
         target.hurtMarked = true;
-        return true;
     }
 
     private void validateTarget() {
@@ -381,11 +379,8 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
         }
         if (target.level() != this.level() || this.isAlliedTo(target)
                 || this.distanceToSqr(target) > TARGET_MAX_DISTANCE_SQR) return false;
-        if (target instanceof Player player
-                && (player.isSpectator() || player.isCreative() || this.level().getDifficulty() == Difficulty.PEACEFUL)) {
-            return false;
-        }
-        return true;
+        return !(target instanceof Player player
+                && (player.isSpectator() || player.isCreative() || this.level().getDifficulty() == Difficulty.PEACEFUL));
     }
 
     private boolean canStartCharge(LivingEntity target) {
@@ -438,7 +433,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
         } else if (!this.action().isAttack() && this.action() != Action.ALERT) {
             this.setActionWithoutTarget(Action.HURT);
         }
-        return accepted;
+        return true;
     }
 
     @Nullable

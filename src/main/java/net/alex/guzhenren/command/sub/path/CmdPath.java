@@ -37,14 +37,13 @@ public final class CmdPath {
     private static final String ARG_PATH = "path";
     public static ArgumentBuilder<CommandSourceStack, ?> node() {
         return Commands.literal("path")
-                .then(tally("marks", PathService::setMark, PathService::addMark))
+                .then(marks(PathService::setMark, PathService::addMark))
                 .then(attainment())
                 .then(CmdQi.node())
                 .then(CmdStrength.node());
     }
-    private static ArgumentBuilder<CommandSourceStack, ?> tally(
-            String literal, TallyOperation set, TallyOperation add) {
-        return Commands.literal(literal)
+    private static ArgumentBuilder<CommandSourceStack, ?> marks(TallyOperation set, TallyOperation add) {
+        return Commands.literal("marks")
                 .then(ModEnumArgument.arg(ARG_PATH, GuPath.values())
                         .then(countNode("set", set))
                         .then(countNode("add", add))

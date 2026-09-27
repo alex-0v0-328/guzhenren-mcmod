@@ -71,10 +71,6 @@ public final class TigerEntity extends BeastEntity {
     @Override
     protected int swipeActionTicks() { return SWIPE_END_TICKS; }
     @Override
-    protected int heavyHitTick() { return POUNCE_LEAP_TICK; }
-    @Override
-    protected int heavyActionTicks() { return POUNCE_END_TICKS; }
-    @Override
     protected int roarActionTicks() { return ROAR_TICKS; }
     @Override
     protected int lieDownActionTicks() { return LIE_DOWN_TICKS; }
@@ -105,7 +101,7 @@ public final class TigerEntity extends BeastEntity {
         if (distance <= SWIPE_REACH && this.swipeCooldown() == 0 && this.hasLineOfSight(target)) {
             this.startAction(Action.ATTACK_SWIPE);
         } else if (distance >= POUNCE_MIN_DISTANCE && distance <= POUNCE_MAX_DISTANCE
-                && this.heavyCooldown() == 0 && this.canStartLunge(target, 6.0D)) {
+                && this.heavyCooldown() == 0 && this.canStartLunge(target, POUNCE_MAX_DISTANCE)) {
             this.startAction(Action.ATTACK_HEAVY);
         }
     }

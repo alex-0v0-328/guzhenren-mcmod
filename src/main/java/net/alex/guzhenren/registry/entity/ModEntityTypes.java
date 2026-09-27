@@ -70,7 +70,7 @@ public final class ModEntityTypes {
             beetle("charging_crash_gu_5_entity", ModItems.CHARGING_CRASH_GU_5);
     public static final DeferredHolder<EntityType<?>, EntityType<WildBoarEntity>> WILD_BOAR =
             ENTITY_TYPES.register("wild_boar", () -> EntityType.Builder
-                    .<WildBoarEntity>of(WildBoarEntity::new, MobCategory.CREATURE)
+                    .of(WildBoarEntity::new, MobCategory.CREATURE)
                     .sized(WILD_BOAR_WIDTH, WILD_BOAR_HEIGHT)
                     .clientTrackingRange(TRACKING_CHUNKS)
                     .build("wild_boar"));
@@ -84,13 +84,13 @@ public final class ModEntityTypes {
             bear(BearSpecies.ALBINO);
     public static final DeferredHolder<EntityType<?>, EntityType<TigerEntity>> TIGER =
             ENTITY_TYPES.register("tiger", () -> EntityType.Builder
-                    .<TigerEntity>of(TigerEntity::new, MobCategory.CREATURE)
+                    .of(TigerEntity::new, MobCategory.CREATURE)
                     .sized(TIGER_WIDTH, TIGER_HEIGHT)
                     .clientTrackingRange(TRACKING_CHUNKS)
                     .build("tiger"));
     public static final DeferredHolder<EntityType<?>, EntityType<TigerEntity>> WHITE_TIGER =
             ENTITY_TYPES.register("white_tiger", () -> EntityType.Builder
-                    .<TigerEntity>of(TigerEntity::new, MobCategory.CREATURE)
+                    .of(TigerEntity::new, MobCategory.CREATURE)
                     .sized(TIGER_WIDTH, TIGER_HEIGHT)
                     .clientTrackingRange(TRACKING_CHUNKS)
                     .build("white_tiger"));

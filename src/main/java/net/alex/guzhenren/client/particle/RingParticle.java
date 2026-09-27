@@ -70,6 +70,8 @@ public final class RingParticle extends TextureSheetParticle {
      * left at the vanilla default.
      */
     public static final ParticleRenderType ADDITIVE_GLOW = new ParticleRenderType() {
+        // Vanilla's own particle render types bind this deprecated atlas id; there is no replacement.
+        @SuppressWarnings("deprecation")
         @Override
         public BufferBuilder begin(Tesselator tesselator, @NotNull TextureManager textureManager) {
             RenderSystem.enableBlend();

@@ -8,7 +8,6 @@ import net.alex.guzhenren.registry.effect.ModEffects;
 import net.alex.guzhenren.registry.fluid.ModFluidTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -30,7 +29,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 @Mod(value = Guzhenren.MOD_ID, dist = Dist.CLIENT)
 public class GuzhenrenClient {
 
-    public GuzhenrenClient(ModContainer container, IEventBus modEventBus) {
+    public GuzhenrenClient(IEventBus modEventBus) {
         modEventBus.addListener(GuzhenrenClient::onRegisterClientExtensions);
         modEventBus.addListener(GuzhenrenClient::onRegisterDimensionSpecialEffects);
     }

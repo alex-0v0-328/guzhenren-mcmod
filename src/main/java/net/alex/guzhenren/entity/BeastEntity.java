@@ -80,10 +80,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     protected abstract int swipeHitTick();
     /** Tick at which the swipe action ends and the pose returns to idle. */
     protected abstract int swipeActionTicks();
-    /** Tick at which the heavy attack's hit frame lands (or its leap window opens). */
-    protected abstract int heavyHitTick();
-    /** Tick at which the heavy attack action ends. */
-    protected abstract int heavyActionTicks();
     /** Length of the first-lock roar. */
     protected abstract int roarActionTicks();
     /** Length of the lie-down transition into lie/sleep. */
@@ -330,18 +326,16 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
                 || contact.clip(from, to).isPresent());
     }
 
-    protected boolean applyAttack(LivingEntity target, float damage, double horizontalStrength,
-                                  double upward, Vec3 direction) {
+    protected void applyAttack(LivingEntity target, float damage, double horizontalStrength,
+                               double upward, Vec3 direction) {
         Vec3 oldMovement = target.getDeltaMovement();
-        boolean hurt = target.hurt(this.damageSources().mobAttack(this), damage);
-        if (!hurt) return false;
+        if (!target.hurt(this.damageSources().mobAttack(this), damage)) return;
         double resistance = target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
         double scale = Mth.clamp(1.0D - resistance, 0.0D, 1.0D);
         target.setDeltaMovement(direction.x * horizontalStrength * scale,
                 oldMovement.y + upward * scale, direction.z * horizontalStrength * scale);
         target.hasImpulse = true;
         target.hurtMarked = true;
-        return true;
     }
 
     private void tickCooldowns() {
@@ -388,11 +382,8 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         double range = this.getAttributeValue(Attributes.FOLLOW_RANGE);
         if (target.level() != this.level() || this.isAlliedTo(target)
                 || this.distanceToSqr(target) > range * range) return false;
-        if (target instanceof Player player
-                && (player.isSpectator() || player.isCreative() || this.level().getDifficulty() == Difficulty.PEACEFUL)) {
-            return false;
-        }
-        return true;
+        return !(target instanceof Player player
+                && (player.isSpectator() || player.isCreative() || this.level().getDifficulty() == Difficulty.PEACEFUL));
     }
 
     /** Collision-and-ground scan ahead of a lunging attack; refuses walls and ledges. */
@@ -474,7 +465,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
                 && current != Action.HURT_LEFT && current != Action.HURT_RIGHT) {
             this.setActionWithoutTarget(this.directionalHurt(attacker));
         }
-        return accepted;
+        return true;
     }
 
     /**
