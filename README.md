@@ -13,7 +13,7 @@
 | Minecraft     | `1.21.1`                              |
 | NeoForge      | `21.1.x`                              |
 | Java          | `21`                                  |
-| mod id / 包名 | `guzhenren` · `com.unknown.guzhenren` |
+| mod id / 包名 | `guzhenren` · `net.alex.guzhenren` |
 | 必需依赖      | Epic Fight · GeckoLib                 |
 | 可选依赖      | JEI · Curios                          |
 

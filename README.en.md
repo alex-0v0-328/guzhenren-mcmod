@@ -15,7 +15,7 @@ This is a translation of [README.md](README.md); where the two differ, the Chine
 | Minecraft        | `1.21.1`                              |
 | NeoForge         | `21.1.x`                              |
 | Java             | `21`                                  |
-| mod id / package | `guzhenren` · `com.unknown.guzhenren` |
+| mod id / package | `guzhenren` · `net.alex.guzhenren` |
 | Required         | Epic Fight · GeckoLib                 |
 | Optional         | JEI · Curios                          |
 
