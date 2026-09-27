@@ -15,6 +15,7 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import org.jetbrains.annotations.NotNull;
 
 /** Writes the wild boar's pork drop, including vanilla fire and looting behavior. */
 public final class WildBoarLootProvider extends EntityLootSubProvider {
@@ -24,7 +25,7 @@ public final class WildBoarLootProvider extends EntityLootSubProvider {
     }
 
     @Override
-    protected Stream<EntityType<?>> getKnownEntityTypes() {
+    protected @NotNull Stream<EntityType<?>> getKnownEntityTypes() {
         return Stream.of(ModEntityTypes.WILD_BOAR.get());
     }
 

@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 /**
@@ -70,7 +71,7 @@ public final class RingParticle extends TextureSheetParticle {
      */
     public static final ParticleRenderType ADDITIVE_GLOW = new ParticleRenderType() {
         @Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
+        public BufferBuilder begin(Tesselator tesselator, @NotNull TextureManager textureManager) {
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             RenderSystem.depthMask(false);
@@ -200,7 +201,7 @@ public final class RingParticle extends TextureSheetParticle {
      * degenerate quads -- and corner UVs stay pinned to their corners on the reversed side.
      */
     @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTick) {
+    public void render(@NotNull VertexConsumer buffer, @NotNull Camera camera, float partialTick) {
         if (this.dashTrail && ownDashHiddenNow()) return;
         float size = this.getQuadSize(partialTick);
         Vector3f look = camera.getLookVector();
@@ -246,5 +247,5 @@ public final class RingParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {return ADDITIVE_GLOW;}
+    public @NotNull ParticleRenderType getRenderType() {return ADDITIVE_GLOW;}
 }

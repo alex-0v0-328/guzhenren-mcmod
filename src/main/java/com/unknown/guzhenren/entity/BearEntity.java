@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationState;
@@ -134,7 +135,7 @@ public final class BearEntity extends BeastEntity {
     @Override
     protected SoundEvent getAmbientSound() { return SoundEvents.POLAR_BEAR_AMBIENT; }
     @Override
-    protected SoundEvent getHurtSound(net.minecraft.world.damagesource.DamageSource source) {
+    protected SoundEvent getHurtSound(net.minecraft.world.damagesource.@NotNull DamageSource source) {
         return SoundEvents.POLAR_BEAR_HURT;
     }
     @Override

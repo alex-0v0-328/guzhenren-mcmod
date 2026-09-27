@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The Spirit Spring [元泉] liquid block: vanilla water behavior plus the stone heartbeat.
@@ -47,18 +48,21 @@ public class SpiritSpringBlock extends LiquidBlock {
         super(fluid, properties);
     }
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+    protected void onPlace(@NotNull BlockState state, @NotNull Level level,
+                           @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
         scheduleProduction(level, pos);
     }
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos,
+    protected void neighborChanged(@NotNull BlockState state, @NotNull Level level,
+                                   @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos,
                                    boolean isMoving) {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
         scheduleProduction(level, pos);
     }
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    protected void tick(@NotNull BlockState state, ServerLevel level,
+                        @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (!level.getFluidState(pos).isSource()) return;
         boolean playerNear = level.hasNearbyAlivePlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
                 PRODUCTION_PLAYER_RANGE);

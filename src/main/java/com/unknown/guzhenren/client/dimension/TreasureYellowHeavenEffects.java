@@ -3,6 +3,7 @@ package com.unknown.guzhenren.client.dimension;
 import com.unknown.guzhenren.client.ModPalette;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Client-side visual effects for the Treasure Yellow Heaven dimension.
@@ -27,7 +28,7 @@ public class TreasureYellowHeavenEffects extends DimensionSpecialEffects {
     }
 
     @Override
-    public Vec3 getBrightnessDependentFogColor(Vec3 fogColor, float brightness) {
+    public @NotNull Vec3 getBrightnessDependentFogColor(@NotNull Vec3 fogColor, float brightness) {
         return new Vec3(RED, GREEN, BLUE).scale(brightness);
     }
 

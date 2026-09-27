@@ -1,6 +1,7 @@
 package com.unknown.guzhenren.entity;
 
 import java.util.EnumSet;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.unknown.guzhenren.registry.entity.ModEntityTypeTags;
 import net.minecraft.nbt.CompoundTag;
@@ -12,7 +13,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -131,7 +131,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_ACTION, Action.IDLE.id());
         builder.define(DATA_ACTION_START, 0L);
@@ -459,7 +459,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public boolean hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
+    public boolean hurt(net.minecraft.world.damagesource.@NotNull DamageSource source, float amount) {
         boolean accepted = super.hurt(source, amount);
         if (!accepted || this.level().isClientSide() || this.isDeadOrDying()) return accepted;
         LivingEntity attacker = resolveAttacker(source);
@@ -503,12 +503,12 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(@NotNull Entity target) {
         return false;
     }
 
     @Override
-    public void die(net.minecraft.world.damagesource.DamageSource source) {
+    public void die(net.minecraft.world.damagesource.@NotNull DamageSource source) {
         boolean wasDead = this.dead;
         super.die(source);
         if (this.dead && !wasDead) {
@@ -534,7 +534,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("BeastSwipeCooldown", this.swipeCooldown());
         tag.putInt("BeastHeavyCooldown", this.heavyCooldown());
@@ -542,7 +542,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.setTarget(null);
         this.actionTarget = null;
@@ -576,14 +576,14 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public AABB getBoundingBoxForCulling() {
+    public @NotNull AABB getBoundingBoxForCulling() {
         AABB box = super.getBoundingBoxForCulling().inflate(this.cullHorizontalInflate());
         return box.setMaxY(box.maxY + this.cullExtraHeight());
     }
 
     @Override
-    protected void playStepSound(net.minecraft.core.BlockPos pos,
-                                 net.minecraft.world.level.block.state.BlockState block) {
+    protected void playStepSound(net.minecraft.core.@NotNull BlockPos pos,
+                                 net.minecraft.world.level.block.state.@NotNull BlockState block) {
         this.playSound(this.stepSound(), 0.15F, 1.0F);
     }
 

@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A flying Gu [飞行蛊] with a shared flight, landing and rest lifecycle.
@@ -47,7 +48,7 @@ public abstract class RestingFlyingGuEntity extends FlyingGuEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_FLIGHT_PHASE, FlightPhase.FLYING.id());
         builder.define(DATA_WANTS_TO_LAND, false);
@@ -89,14 +90,14 @@ public abstract class RestingFlyingGuEntity extends FlyingGuEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("FlightPhase", phase().id());
         tag.putBoolean("WantsToLand", wantsToLand());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         FlightPhase savedPhase = FlightPhase.fromId(tag.getByte("FlightPhase"));
         entityData.set(DATA_FLIGHT_PHASE, savedPhase.id());

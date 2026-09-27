@@ -90,7 +90,7 @@ public class FlyingGuEntity extends WildGuEntity {
     @Override
     public boolean isNoGravity() {return true;}
     @Override
-    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
+    protected void checkFallDamage(double y, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
         // Every descent is self-propelled (hover approach, landing goal, escape cone), so the accrued
         // fall distance must never become damage; vanilla flyers such as bees and bats clear this
         // check the same way.

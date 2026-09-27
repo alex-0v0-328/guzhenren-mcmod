@@ -1,6 +1,7 @@
 package com.unknown.guzhenren.entity;
 
 import java.util.EnumSet;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -108,7 +109,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_ACTION, Action.IDLE.id());
         builder.define(DATA_ACTION_START, 0L);
@@ -423,7 +424,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public boolean hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
+    public boolean hurt(net.minecraft.world.damagesource.@NotNull DamageSource source, float amount) {
         boolean accepted = super.hurt(source, amount);
         if (!accepted || this.level().isClientSide() || this.isDeadOrDying()) return accepted;
         LivingEntity attacker = resolveAttacker(source);
@@ -452,12 +453,12 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(@NotNull Entity target) {
         return false;
     }
 
     @Override
-    public void die(net.minecraft.world.damagesource.DamageSource source) {
+    public void die(net.minecraft.world.damagesource.@NotNull DamageSource source) {
         boolean wasDead = this.dead;
         super.die(source);
         if (this.dead && !wasDead) {
@@ -484,7 +485,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("WildBoarChargeCooldown", this.chargeCooldown());
         tag.putInt("WildBoarTossCooldown", this.tossCooldown());
@@ -492,7 +493,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.setTarget(null);
         this.actionTarget = null;
@@ -535,7 +536,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(net.minecraft.world.damagesource.DamageSource source) {
+    protected SoundEvent getHurtSound(net.minecraft.world.damagesource.@NotNull DamageSource source) {
         return SoundEvents.PIG_HURT;
     }
 
@@ -545,7 +546,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, BlockState block) {
+    protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState block) {
         this.playSound(SoundEvents.PIG_STEP, 0.15F, 1.0F);
     }
 
