@@ -124,7 +124,13 @@ public final class TreasureYellowHeavenGuardEvents {
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        if (!inTyh(player)) return;
+        if (!inTyh(player)) {
+            // Leaving by any route -- exit, vanilla /tp, another mod's teleport -- drops the flight grant.
+            if (!ModDimensions.ANCHORED_DIMENSIONS.containsKey(player.level().dimension())) {
+                DimensionTravelService.revokeFlight(player);
+            }
+            return;
+        }
 
         DimensionTravelService.ensureFlight(player);
         DimensionTravelService.rescueIfBelowVoid(player, ModDimensions.TREASURE_YELLOW_HEAVEN_SPAWN);

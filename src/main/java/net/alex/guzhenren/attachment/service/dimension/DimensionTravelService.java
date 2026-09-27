@@ -1,25 +1,35 @@
 package net.alex.guzhenren.attachment.service.dimension;
 
 import java.util.Objects;
+import net.alex.guzhenren.Guzhenren;
 import net.alex.guzhenren.attachment.data.dimension.DimensionReturnData.ReturnPoint;
 import net.alex.guzhenren.attachment.data.dimension.DimensionReturnData;
 import net.alex.guzhenren.registry.attachment.ModAttachments;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Generic anchored-dimension travel service. A single {@link DimensionReturnData} attachment stores the
  * one return point for the one anchored dimension a player may be inside at a time.
  *
- * <p>{@link #enter} snapshots the player's original location and flight abilities before teleporting;
+ * <p>{@link #enter} snapshots the player's original location and flying state before teleporting;
  * {@link #exit} restores them. Death clears the record through {@link
  * net.alex.guzhenren.attachment.PlayerDataService}.
+ *
+ * <p>⚠ Flight inside is a transient {@code CREATIVE_FLIGHT} modifier, never the raw
+ * {@code Abilities.mayfly}: the raw field is saved with the player and shared with game modes and other
+ * mods, so writing it leaked survival flight whenever a player left without a matching restore.
+ * Transient keeps the grant out of the save file; {@link #revokeFlight} drops it on any way out.
  *
  * @author Alex
  * @version 1.0.0
@@ -30,6 +40,7 @@ import org.jetbrains.annotations.NotNull;
 public final class DimensionTravelService {
 
     private DimensionTravelService() {}
+    private static final ResourceLocation FLIGHT_MODIFIER_ID = Guzhenren.id("anchored_dimension_flight");
 
     /**
      * @return {@code true} if the player is currently in the given dimension.
@@ -61,12 +72,11 @@ public final class DimensionTravelService {
                 player.level().dimension(),
                 player.getX(), player.getY(), player.getZ(),
                 player.getYRot(), player.getXRot(),
-                player.getAbilities().mayfly,
                 player.getAbilities().flying);
         player.setData(ModAttachments.DIMENSION_RETURN, DimensionReturnData.of(point));
 
         player.teleportTo(target, spawn.x, spawn.y, spawn.z, player.getYRot(), player.getXRot());
-        player.getAbilities().mayfly = true;
+        ensureFlight(player);
         player.getAbilities().flying = true;
         player.onUpdateAbilities();
         return true;
@@ -75,9 +85,9 @@ public final class DimensionTravelService {
     /**
      * Exits the anchored dimension.
      *
-     * <p>If a return point exists, the player is teleported back to it and their saved flight abilities
-     * are restored. If no record exists, the player is sent to the Overworld shared spawn as a fallback.
-     * In both cases the record is cleared afterwards.
+     * <p>If a return point exists, the player is teleported back to it and resumes flying only if they
+     * were flying on entry and can still fly without the grant. If no record exists, the player is sent to
+     * the Overworld shared spawn as a fallback. Both paths revoke the flight grant and clear the record.
      *
      * @return {@code true} if a stored return point was used; {@code false} if the fallback was used.
      */
@@ -89,8 +99,8 @@ public final class DimensionTravelService {
             boolean used = target != null;
             if (used) {
                 player.teleportTo(target, point.x(), point.y(), point.z(), point.yaw(), point.pitch());
-                player.getAbilities().mayfly = point.mayfly();
-                player.getAbilities().flying = point.flying();
+                revokeFlight(player);
+                player.getAbilities().flying = point.flying() && player.mayFly();
                 player.fallDistance = 0.0F;
                 player.onUpdateAbilities();
             } else {
@@ -110,6 +120,7 @@ public final class DimensionTravelService {
         BlockPos spawn = overworld.getSharedSpawnPos();
         player.teleportTo(overworld, spawn.getX() + 0.5, spawn.getY(), spawn.getZ() + 0.5,
                 player.getYRot(), player.getXRot());
+        revokeFlight(player);
         player.fallDistance = 0.0F;
     }
 
@@ -129,8 +140,23 @@ public final class DimensionTravelService {
      * player is inside an anchored dimension so they may choose to hover or stop flying freely.
      */
     public static void ensureFlight(@NotNull ServerPlayer player) {
-        if (!player.getAbilities().mayfly) {
-            player.getAbilities().mayfly = true;
+        AttributeInstance flight = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT);
+        if (flight != null && !flight.hasModifier(FLIGHT_MODIFIER_ID)) {
+            flight.addTransientModifier(new AttributeModifier(FLIGHT_MODIFIER_ID, 1.0D,
+                    AttributeModifier.Operation.ADD_VALUE));
+        }
+    }
+
+    /**
+     * Drops the flight grant, and {@code flying} with it unless something else still lets the player fly.
+     * Call this each tick while the player is outside every anchored dimension, so leaving by any route --
+     * exit, vanilla {@code /tp}, another mod's teleport -- revokes it.
+     */
+    public static void revokeFlight(@NotNull ServerPlayer player) {
+        AttributeInstance flight = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT);
+        if (flight == null || !flight.removeModifier(FLIGHT_MODIFIER_ID)) return;
+        if (player.getAbilities().flying && !player.mayFly()) {
+            player.getAbilities().flying = false;
             player.onUpdateAbilities();
         }
     }

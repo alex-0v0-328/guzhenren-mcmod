@@ -31,7 +31,7 @@ public record DimensionReturnData(Optional<ReturnPoint> point) {
     ).apply(instance, DimensionReturnData::new));
 
     public DimensionReturnData {
-        point = Objects.requireNonNull(point, "point");
+        Objects.requireNonNull(point, "point");
     }
 
     public boolean isPresent() {
@@ -47,8 +47,8 @@ public record DimensionReturnData(Optional<ReturnPoint> point) {
     }
 
     public static DimensionReturnData of(@NotNull ResourceKey<Level> level, double x, double y, double z,
-            float yaw, float pitch, boolean mayfly, boolean flying) {
-        return of(new ReturnPoint(level, x, y, z, yaw, pitch, mayfly, flying));
+            float yaw, float pitch, boolean flying) {
+        return of(new ReturnPoint(level, x, y, z, yaw, pitch, flying));
     }
 
     public DimensionReturnData cleared() {
@@ -56,11 +56,12 @@ public record DimensionReturnData(Optional<ReturnPoint> point) {
     }
 
     /**
-     * One saved location: dimension, position, rotation, and the flight abilities that should be
-     * restored on exit.
+     * One saved location: dimension, position, rotation, and whether the player was flying on entry.
+     * Flight permission itself is not saved -- the anchored-dimension grant is a transient attribute
+     * modifier, so a record written before it may still carry a {@code mayfly} key that decoding ignores.
      */
     public record ReturnPoint(ResourceKey<Level> level, double x, double y, double z, float yaw, float pitch,
-            boolean mayfly, boolean flying) {
+            boolean flying) {
 
         public static final Codec<ReturnPoint> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Level.RESOURCE_KEY_CODEC.fieldOf("level").forGetter(ReturnPoint::level),
@@ -69,12 +70,11 @@ public record DimensionReturnData(Optional<ReturnPoint> point) {
                 Codec.DOUBLE.fieldOf("z").forGetter(ReturnPoint::z),
                 Codec.FLOAT.fieldOf("yaw").forGetter(ReturnPoint::yaw),
                 Codec.FLOAT.fieldOf("pitch").forGetter(ReturnPoint::pitch),
-                Codec.BOOL.fieldOf("mayfly").forGetter(ReturnPoint::mayfly),
                 Codec.BOOL.fieldOf("flying").forGetter(ReturnPoint::flying)
         ).apply(instance, ReturnPoint::new));
 
         public ReturnPoint {
-            level = Objects.requireNonNull(level, "level");
+            Objects.requireNonNull(level, "level");
         }
     }
 }
