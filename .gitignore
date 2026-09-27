@@ -56,6 +56,9 @@ rules/
 ### Local-only tool scripts: everything under tools/ stays untracked; the four legacy tracked tools were untracked 2026-09-23 (Alex, 2026-09-20; updated 2026-09-23) ###
 tools/
 
+### Local-only tests: every test layer under src/test stays out of GitHub (Alex, 2026-09-27) ###
+src/test/
+
 ### Python export tools ###
 __pycache__/
 *.py[cod]

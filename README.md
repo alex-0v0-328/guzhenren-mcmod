@@ -24,23 +24,16 @@
 `build.gradle` 按文件名引用 `run/mods/` 下的 Epic Fight 与 GeckoLib jar。该目录不入库，首次构建前需放入同名 jar（CI 从 Modrinth 下载）。
 
 ```text
-gradlew.bat build              # 编译、打包、运行 L1/L2 测试
+gradlew.bat build              # 编译、打包
 gradlew.bat runClient          # 开发客户端
 gradlew.bat runData            # 重新生成数据
-gradlew.bat runGameTestServer  # 运行 L3 GameTest
 ```
 
 其他系统用 `./gradlew`。`runData` 的产物 `src/generated/resources` 属于源码集，provider 改动后需重新生成并提交。
 
 ## 测试
 
-| 层  | 位置                                           | 范围                     |
-|-----|------------------------------------------------|--------------------------|
-| L1  | `src/pureTest/java`                            | 纯 JVM，不启动模组运行时 |
-| L2  | `src/test/java`                                | 加载注册表，无世界       |
-| L3  | `src/main/java/com/unknown/guzhenren/gametest` | 真实世界与 tick          |
-
-传入 `-PwikiDir=<wiki 根目录>` 时，L2 额外核对源码与玩家向 wiki 的一致性；不传则跳过。
+自动化测试只保留在开发者本地，不随仓库发布；CI 负责编译、打包与生成数据一致性检查。
 
 ## 许可
 

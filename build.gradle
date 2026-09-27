@@ -40,6 +40,32 @@ base {
 // Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
+// Every test lives under src/test, one folder per layer, and none of them ships in the jar:
+//   pure    L1 'pureTest': plain JVM, no Minecraft bootstrap -- enum ladders, math seams and
+//           self-contained records. Anything touching Items.X / ModItems.X / ItemStack is L2.
+//   modded  L2 'test': modded JUnit with registries loaded but no world.
+//   game    L3 'gametest': @GameTest classes plus their scene templates, run by runGameTestServer
+//           on a real dedicated server. The source set joins the mod below, so dev runs still find
+//           the tests (and the /test command), while the jar task packs only 'main'.
+sourceSets {
+    test {
+        java.srcDirs = ['src/test/modded/java']
+        resources.srcDirs = ['src/test/modded/resources']
+    }
+    pureTest {
+        java.srcDirs = ['src/test/pure/java']
+        resources.srcDirs = ['src/test/pure/resources']
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+    gametest {
+        java.srcDirs = ['src/test/game/java']
+        resources.srcDirs = ['src/test/game/resources']
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
 neoForge {
     // Specify the version of NeoForge to use.
     version = project.neo_version
@@ -62,10 +88,14 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
+        // -PserverGameDir=<dir> swaps the game directory for a throwaway one: tools/check.py boots
+        // its server smoke test there, so the pack mirror in run/mods (some of whose jars crash a
+        // dedicated server) and the run/ world stay out. Without the property nothing changes.
         server {
             server()
             programArgument '--nogui'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            gameDirectory = project.file(providers.gradleProperty('serverGameDir').getOrElse('run'))
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -76,6 +106,7 @@ neoForge {
         // Curios) still load from the classpath.
         gameTestServer {
             type = "gameTestServer"
+            sourceSet = sourceSets.gametest
             gameDirectory = project.file('run-gametest')
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
@@ -111,6 +142,10 @@ neoForge {
         // multi mod projects should define one per mod
         "${mod_id}" {
             sourceSet(sourceSets.main)
+            // src/test is local-only (gitignored), so a CI checkout has no GameTests to join.
+            if (file('src/test/game/java').isDirectory()) {
+                sourceSet(sourceSets.gametest)
+            }
         }
     }
 
@@ -152,16 +187,15 @@ dependencies {
 
 def junitGameDir = project.file('build/minecraft-junit')
 
-// Pure JVM tests over logic that loads without any registry or bootstrap: enum ladders, math
-// seams and self-contained records. Anything touching Items.X / ModItems.X / ItemStack belongs
-// to the modded 'test' source set, and anything needing a live world belongs in a GameTest.
-sourceSets {
-    pureTest {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-    }
-}
 neoForge.addModdingDependenciesTo sourceSets.pureTest
+
+// GameTests compile against everything the mod compiles against and run with its runtime extras.
+neoForge.addModdingDependenciesTo sourceSets.gametest
+configurations {
+    gametestCompileOnly.extendsFrom compileOnly
+    gametestImplementation.extendsFrom implementation
+    gametestRuntimeOnly.extendsFrom localRuntime, runtimeOnly
+}
 
 dependencies {
     pureTestImplementation platform("org.junit:junit-bom:${junit_version}")
@@ -201,8 +235,7 @@ tasks.named('test', Test) {
                     '玩家向/蛊真人MOD 1.0.0 总表.md',
                     '开发向/工程/测试集.md'
             ].collect { new File(wikiRoot, it) })
-            inputs.files(fileTree('src/pureTest/java'), fileTree('src/test/java'),
-                    fileTree('src/main/java/com/unknown/guzhenren/gametest'))
+            inputs.files(fileTree('src/test'))
         }
     }
     testLogging {

@@ -26,23 +26,16 @@ Exact versions live in `gradle.properties` and `build.gradle`.
 `build.gradle` references the Epic Fight and GeckoLib jars in `run/mods/` by file name. That directory is not tracked, so put the matching jars there before the first build (CI downloads them from Modrinth).
 
 ```text
-gradlew.bat build              # compile, jar, run L1/L2 tests
+gradlew.bat build              # compile, jar
 gradlew.bat runClient          # dev client
 gradlew.bat runData            # regenerate data
-gradlew.bat runGameTestServer  # run L3 GameTests
 ```
 
 Use `./gradlew` on other systems. `runData` writes `src/generated/resources`, which is a source set: regenerate and commit it after any provider change.
 
 ## Tests
 
-| Layer | Location                                       | Scope                        |
-|-------|------------------------------------------------|------------------------------|
-| L1    | `src/pureTest/java`                            | Plain JVM, no modded runtime |
-| L2    | `src/test/java`                                | Registries loaded, no world  |
-| L3    | `src/main/java/com/unknown/guzhenren/gametest` | Live world and ticks         |
-
-With `-PwikiDir=<wiki root>`, L2 also checks the source against the player wiki; without it the check is skipped.
+The automated tests stay on the developer's machine and are not published with the repository; CI compiles, packages and checks that generated data is up to date.
 
 ## License
 
