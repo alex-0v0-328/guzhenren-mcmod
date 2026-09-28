@@ -26,13 +26,16 @@ import org.jetbrains.annotations.Nullable;
 public class VitalityLeafGuItem extends OneShotGuItem {
 
     private static final String FAILED_VITALITY_ACTIVE = "guzhenren.item.failed.vitality_active";
+
     public VitalityLeafGuItem(Properties properties, GuSpec spec) {
         super(properties, spec);
     }
+
     @Override
     protected @Nullable Refusal useGate(Player player, ItemStack stack) {
         return player.hasEffect(ModEffects.VITALITY_LEAF) ? new Refusal(FAILED_VITALITY_ACTIVE) : null;
     }
+
     @Override
     protected int useApply(ServerPlayer player, ItemStack stack) {
         player.addEffect(ModEffects.instance(ModEffects.VITALITY_LEAF, VitalityLeafEffect.DURATION_TICKS));

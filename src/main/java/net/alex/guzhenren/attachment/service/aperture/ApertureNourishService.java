@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 public final class ApertureNourishService {
 
     private ApertureNourishService() {}
+
     public static final int PERCENT_PER_SECOND = 1;
     public static final int COST_DIVISOR = 100;
     public static final int BASE_LOSS_MIN = 1;
@@ -55,19 +56,25 @@ public final class ApertureNourishService {
     private static final String IMPACT_HOLD = "guzhenren.impact.hold";
     private static final String IMPACT_DROP_STAGE = "guzhenren.impact.drop_stage";
     private static final String IMPACT_DROP_BASE = "guzhenren.impact.drop_base";
+
     /**
      * What one strike against the aperture wall did.
      */
-    public enum Outcome {SUCCESS, HOLD, DROP_STAGE, DROP_BASE}
-    public static @NotNull ApertureNourishData get(@NotNull Player p) {return p.getData(ModAttachments.NOURISH);}
-    public static boolean isCultivating(@NotNull Player p) {return get(p).cultivating();}
+    public enum Outcome { SUCCESS, HOLD, DROP_STAGE, DROP_BASE }
+
+    public static @NotNull ApertureNourishData get(@NotNull Player p) { return p.getData(ModAttachments.NOURISH); }
+
+    public static boolean isCultivating(@NotNull Player p) { return get(p).cultivating(); }
+
     public static float fraction(@NotNull Player p, int index) {
         return ApertureService.aperture(p, index).nourishProgress() / (float) ApertureNourishData.FULL;
     }
+
     public static int targetIndex(@NotNull Player p) {
         int count = ApertureService.get(p).count();
         return count == 0 ? ApertureData.PRIMARY : Math.clamp(get(p).target(), ApertureData.PRIMARY, count - 1);
     }
+
     //region what the screen asks
     public static boolean canNourish(@NotNull Player p, int index) {
         if (!ApertureService.hasAperture(p) || isCultivating(p)) return false;
@@ -76,6 +83,7 @@ public final class ApertureNourishService {
         return !atCeiling(p, index)
                 && ApertureService.aperture(p, index).nourishProgress() < ApertureNourishData.FULL;
     }
+
     public static boolean canImpact(@NotNull Player p) {
         Aperture a = ApertureService.aperture(p);
         return ApertureService.isAwakened(p) && !isCultivating(p)
@@ -83,30 +91,37 @@ public final class ApertureNourishService {
                 && a.nourishProgress() >= ApertureNourishData.FULL
                 && a.stage() == Stage.HIGHEST && a.rank() != Rank.HIGHEST;
     }
+
     public static boolean atCeiling(@NotNull Player p, int index) {
         Aperture a = ApertureService.aperture(p, index);
         return a.second() ? a.stage() == Stage.HIGHEST
                 : a.rank() == Rank.HIGHEST && a.stage() == Stage.HIGHEST;
     }
     //endregion
+
     public static long costPerSecond(@NotNull Player p, int index) {
         long max = ApertureService.aperture(p, index).maxEssence();
         return Math.max(1L, (max + COST_DIVISOR - 1) / COST_DIVISOR);
     }
+
     public static long impactCost(@NotNull Player p) {
         return IMPACT_COST_PER_RANK_BASE * ApertureService.aperture(p).rank().getRankBase();
     }
-    public static boolean canAffordImpact(@NotNull Player p) {return PrimevalStoneItem.canAfford(p, impactCost(p));}
+
+    public static boolean canAffordImpact(@NotNull Player p) { return PrimevalStoneItem.canAfford(p, impactCost(p)); }
+
     public static void start(@NotNull ServerPlayer player, int index) {
         if (!canNourish(player, index)) return;
         store(player, get(player).withCultivating(true).withTarget(index)
                 .withStarvedSinceTick(ApertureNourishData.NOT_STARVED));
     }
+
     public static void cancel(@NotNull ServerPlayer player) {
         ApertureNourishData data = get(player);
         if (!data.cultivating()) return;
         store(player, data.withCultivating(false).withStarvedSinceTick(ApertureNourishData.NOT_STARVED));
     }
+
     /**
      * When Hope Gu inserts the first aperture at position 0, an in-progress session aimed at the lone
      * second aperture (target 0) would silently slide onto the NEW first aperture -- move the target
@@ -118,6 +133,7 @@ public final class ApertureNourishService {
             store(player, data.withTarget(ApertureData.SECONDARY));
         }
     }
+
     //region 温养 [nourishing] -- the second that the heartbeat bills
     /**
      * ⚠ A hastened clock bills MORE seconds per heartbeat, never a bigger second. Scaling the progress
@@ -128,13 +144,14 @@ public final class ApertureNourishService {
             if (!nourishSecond(player)) return;
         }
     }
+
     private static boolean nourishSecond(ServerPlayer player) {
         ApertureNourishData data = get(player);
         if (!data.cultivating()) return false;
-        if (!ApertureService.hasAperture(player)) {cancel(player); return false;}
+        if (!ApertureService.hasAperture(player)) { cancel(player); return false; }
         int target = targetIndex(player);
         if (ApertureService.status(player, target) != ApertureStatus.NORMAL
-                || atCeiling(player, target)) {cancel(player); return false;}
+                || atCeiling(player, target)) { cancel(player); return false; }
 
         player.setDeltaMovement(Vec3.ZERO);
 
@@ -171,6 +188,7 @@ public final class ApertureNourishService {
         player.displayClientMessage(Component.translatable(STAGE_UP), true);
         return false;
     }
+
     private static boolean pay(ServerPlayer player, long cost) {
         if (player.hasInfiniteMaterials()) return true;
         PrimevalStoneItem.topUp(player);
@@ -193,6 +211,7 @@ public final class ApertureNourishService {
         ApertureService.setPressure(player, index, 0);
         store(player, ApertureNourishData.DEFAULT);
     }
+
     /**
      * The pressure gauge a petrified aperture keeps filling: at full it converts into the next
      * rank's first stage AND cures the stone -- the one way back to NORMAL short of resetAll, and
@@ -253,6 +272,7 @@ public final class ApertureNourishService {
                 ApertureService.aperture(player, ApertureService.PRIMARY).withNourishProgress(0));
         store(player, ApertureNourishData.DEFAULT);
     }
+
     /**
      * The seam the unit tests pin: a roll of {@code 0..99} against the two outcome tables.
      * ☠ The two tables split at different points, and only the Ten-Extremes one can never lose base.
@@ -269,6 +289,8 @@ public final class ApertureNourishService {
         return Outcome.DROP_BASE;
     }
     //endregion
-    private static void say(ServerPlayer p, String key) {p.displayClientMessage(Component.translatable(key), true);}
-    private static void store(ServerPlayer p, ApertureNourishData d) {p.setData(ModAttachments.NOURISH, d);}
+
+    private static void say(ServerPlayer p, String key) { p.displayClientMessage(Component.translatable(key), true); }
+
+    private static void store(ServerPlayer p, ApertureNourishData d) { p.setData(ModAttachments.NOURISH, d); }
 }

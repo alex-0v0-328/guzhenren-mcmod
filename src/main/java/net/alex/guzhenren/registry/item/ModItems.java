@@ -67,10 +67,13 @@ import org.jetbrains.annotations.Nullable;
 public final class ModItems {
 
     private ModItems() {}
+
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Guzhenren.MOD_ID);
     private static final long PRIMEVAL_STONE_ESSENCE = 20L;
-    private static Item.Properties tended() {return new Item.Properties().stacksTo(1);}
-    private static Item.Properties oneShot() {return new Item.Properties();}
+
+    private static Item.Properties tended() { return new Item.Properties().stacksTo(1); }
+
+    private static Item.Properties oneShot() { return new Item.Properties(); }
 
     //region 一次性蛊虫 -- refining IS the use; one charged press pays, lands and spends
     public static final DeferredItem<Item> HOPE_GU = ITEMS.register("hope_gu",
@@ -339,6 +342,7 @@ public final class ModItems {
             ModItems::fifthRankZombieGu);
     public static final DeferredItem<Item> BLOOD_WIGHT_GU = ITEMS.register("blood_wight_gu",
             ModItems::fifthRankZombieGu);
+
     private static ZombieGuItem fifthRankZombieGu() {
         return new ZombieGuItem(tended(), 8 * Ticks.MINUTE, GuSpec.of(Rank.FIVE, GuPath.TRANSFORMATION)
                 .refine(8_000_000).costPerUse(160_000)
@@ -441,6 +445,7 @@ public final class ModItems {
             () -> secondApertureGu(Rank.FOUR));
     public static final DeferredItem<Item> SECOND_APERTURE_GU_5 = ITEMS.register("second_aperture_gu_5",
             () -> secondApertureGu(Rank.FIVE));
+
     private static SecondApertureGuItem secondApertureGu(Rank rank) {
         return new SecondApertureGuItem(oneShot(), GuSpec.of(rank, GuPath.HUMAN));
     }
@@ -471,9 +476,11 @@ public final class ModItems {
     public static final DeferredItem<Item> HUMAN_APERTURE_3 = humanAperture("human_aperture_3", Rank.THREE);
     public static final DeferredItem<Item> HUMAN_APERTURE_4 = humanAperture("human_aperture_4", Rank.FOUR);
     public static final DeferredItem<Item> HUMAN_APERTURE_5 = humanAperture("human_aperture_5", Rank.FIVE);
+
     private static DeferredItem<Item> humanAperture(String id, Rank rank) {
         return ITEMS.register(id, () -> new GuMaterialItem(new Item.Properties().stacksTo(64), rank, GuPath.HUMAN));
     }
+
     public static @Nullable Item humanAperture(Rank rank) {
         return switch (rank) {
             case ONE -> HUMAN_APERTURE_1.get();
@@ -514,10 +521,12 @@ public final class ModItems {
     public static final DeferredItem<Item> ESSENCE_QI_5 = qiMaterial("essence_qi_5", Rank.FIVE, QiKind.ESSENCE);
     public static final DeferredItem<Item> DEATH_QI_5 = ITEMS.register("death_qi_5",
             () -> new DeathQiItem(qiProperties(), Rank.FIVE));
+
     private static DeferredItem<Item> qiMaterial(String id, Rank rank, QiKind kind) {
         return ITEMS.register(id, () -> new QiMaterialItem(qiProperties(), rank, kind));
     }
-    private static Item.Properties qiProperties() {return new Item.Properties().stacksTo(64);}
+
+    private static Item.Properties qiProperties() { return new Item.Properties().stacksTo(64); }
     //endregion
 
     public static void register(IEventBus modEventBus) {

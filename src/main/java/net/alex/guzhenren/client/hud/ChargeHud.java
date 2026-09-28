@@ -29,7 +29,9 @@ import org.jetbrains.annotations.NotNull;
 public final class ChargeHud extends HotbarHud {
 
     public static final ChargeHud INSTANCE = new ChargeHud();
+
     private ChargeHud() {}
+
     @Override
     public void render(@NotNull GuiGraphics graphics, @NotNull DeltaTracker delta) {
         Minecraft minecraft = Minecraft.getInstance();

@@ -31,12 +31,15 @@ import net.minecraft.util.StringRepresentable;
 public final class ModEnumArgument {
 
     private ModEnumArgument() {}
+
     private static final DynamicCommandExceptionType UNKNOWN_VALUE = new DynamicCommandExceptionType(
             value -> Component.translatable("guzhenren.command.unknown_value", value));
+
     public static <E extends Enum<E> & StringRepresentable> RequiredArgumentBuilder<CommandSourceStack, String> arg(
             String name, E[] values) {
         return arg(name, context -> values);
     }
+
     /**
      * The same argument, but the offered constants are computed from what was already parsed.
      * ⚠ The function must tolerate a nonsense earlier argument: {@code word()} accepts any word.
@@ -47,6 +50,7 @@ public final class ModEnumArgument {
                 .suggests((context, builder) -> SharedSuggestionProvider.suggest(
                         Arrays.stream(offered.apply(context)).map(StringRepresentable::getSerializedName), builder));
     }
+
     public static <E extends Enum<E> & StringRepresentable> E get(
             CommandContext<?> context, String name, E[] values) throws CommandSyntaxException {
         String raw = StringArgumentType.getString(context.getLastChild(), name);

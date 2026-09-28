@@ -52,26 +52,34 @@ import org.jetbrains.annotations.NotNull;
  * @see SpiritSpringBlock
  * @since 1.0.0
  */
+
 public final class ModFluids {
 
     private ModFluids() {}
+
     public static final DeferredRegister<Fluid> FLUIDS =
             DeferredRegister.create(Registries.FLUID, Guzhenren.MOD_ID);
     public static final DeferredHolder<Fluid, Source> SPIRIT_SPRING =
             FLUIDS.register("spirit_spring", Source::new);
     public static final DeferredHolder<Fluid, Flowing> FLOWING_SPIRIT_SPRING =
             FLUIDS.register("flowing_spirit_spring", Flowing::new);
-    public static void register(IEventBus modEventBus) {FLUIDS.register(modEventBus);}
+
+    public static void register(IEventBus modEventBus) { FLUIDS.register(modEventBus); }
 
     public static abstract class SpiritSpringFluid extends FlowingFluid {
+
         @Override
-        public @NotNull FluidType getFluidType() {return ModFluidTypes.SPIRIT_SPRING.get();}
+        public @NotNull FluidType getFluidType() { return ModFluidTypes.SPIRIT_SPRING.get(); }
+
         @Override
-        public @NotNull Fluid getFlowing() {return ModFluids.FLOWING_SPIRIT_SPRING.get();}
+        public @NotNull Fluid getFlowing() { return ModFluids.FLOWING_SPIRIT_SPRING.get(); }
+
         @Override
-        public @NotNull Fluid getSource() {return ModFluids.SPIRIT_SPRING.get();}
+        public @NotNull Fluid getSource() { return ModFluids.SPIRIT_SPRING.get(); }
+
         @Override
-        public @NotNull Item getBucket() {return Items.BUCKET;}
+        public @NotNull Item getBucket() { return Items.BUCKET; }
+
         @Override
         public void animateTick(@NotNull Level level, @NotNull BlockPos pos,
                                 FluidState state, @NotNull RandomSource random) {
@@ -86,59 +94,77 @@ public final class ModFluids {
                         pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble(), 0.0, 0.0, 0.0);
             }
         }
+
         @Override
-        protected ParticleOptions getDripParticle() {return ParticleTypes.DRIPPING_WATER;}
+        protected ParticleOptions getDripParticle() { return ParticleTypes.DRIPPING_WATER; }
+
         @Override
-        protected boolean canConvertToSource(@NotNull Level level) {return false;}
+        protected boolean canConvertToSource(@NotNull Level level) { return false; }
+
         @Override
         protected void beforeDestroyingBlock(@NotNull LevelAccessor level, @NotNull BlockPos pos, BlockState state) {
             BlockEntity blockEntity = state.hasBlockEntity() ? level.getBlockEntity(pos) : null;
             Block.dropResources(state, level, pos, blockEntity);
         }
+
         @Override
-        public int getSlopeFindDistance(@NotNull LevelReader level) {return 4;}
+        public int getSlopeFindDistance(@NotNull LevelReader level) { return 4; }
+
         @Override
         public @NotNull BlockState createLegacyBlock(@NotNull FluidState state) {
             return ModBlocks.SPIRIT_SPRING.get().defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
         }
+
         @Override
         public boolean isSame(@NotNull Fluid fluid) {
             return fluid == ModFluids.SPIRIT_SPRING.get() || fluid == ModFluids.FLOWING_SPIRIT_SPRING.get();
         }
+
         @Override
-        public int getDropOff(@NotNull LevelReader level) {return 1;}
+        public int getDropOff(@NotNull LevelReader level) { return 1; }
+
         @Override
-        public int getTickDelay(@NotNull LevelReader level) {return 5;}
+        public int getTickDelay(@NotNull LevelReader level) { return 5; }
+
         @Override
         public boolean canBeReplacedWith(@NotNull FluidState fluidState, @NotNull BlockGetter blockReader,
                                          @NotNull BlockPos pos, @NotNull Fluid fluid, @NotNull Direction direction) {
             return direction == Direction.DOWN && !fluid.isSame(this);
         }
+
         @Override
-        protected float getExplosionResistance() {return 100.0F;}
+        protected float getExplosionResistance() { return 100.0F; }
+
         @Override
-        public @NotNull Optional<SoundEvent> getPickupSound() {return Optional.of(SoundEvents.BUCKET_FILL);}
+        public @NotNull Optional<SoundEvent> getPickupSound() { return Optional.of(SoundEvents.BUCKET_FILL); }
     }
 
     public static class Flowing extends SpiritSpringFluid {
+
         @Override
         protected void createFluidStateDefinition(StateDefinition.@NotNull Builder<Fluid, FluidState> builder) {
             super.createFluidStateDefinition(builder);
             builder.add(LEVEL);
         }
+
         @Override
-        public int getAmount(FluidState state) {return state.getValue(LEVEL);}
+        public int getAmount(FluidState state) { return state.getValue(LEVEL); }
+
         @Override
-        public boolean isSource(@NotNull FluidState state) {return false;}
+        public boolean isSource(@NotNull FluidState state) { return false; }
     }
 
     public static class Source extends SpiritSpringFluid {
+
         @Override
-        public int getAmount(@NotNull FluidState state) {return 8;}
+        public int getAmount(@NotNull FluidState state) { return 8; }
+
         @Override
-        public boolean isSource(@NotNull FluidState state) {return true;}
+        public boolean isSource(@NotNull FluidState state) { return true; }
+
         @Override
-        protected boolean isRandomlyTicking() {return true;}
+        protected boolean isRandomlyTicking() { return true; }
+
         @Override
         protected void randomTick(@NotNull Level level, @NotNull BlockPos pos,
                                   @NotNull FluidState state, @NotNull RandomSource random) {

@@ -36,25 +36,33 @@ public class QiMaterialItem extends GuMaterialItem {
 
     private static final String CHARGE_CAPTION = "guzhenren.hud.refining_plain";
     private static final String FAILED_ESSENCE = "guzhenren.item.failed.essence";
-    private static final long[] ESSENCE_COST = {50L, 500L, 5_000L, 50_000L, 500_000L};
+    private static final long[] ESSENCE_COST = { 50L, 500L, 5_000L, 50_000L, 500_000L };
     private final QiKind kind;
+
     public QiMaterialItem(Properties properties, Rank rank, QiKind kind) {
         super(properties, rank, GuPath.QI);
         this.kind = kind;
     }
-    public QiKind kind() {return kind;}
-    protected long qiAmount() {return QiKind.tierAmount(tier());}
-    protected long essenceCost() {return ESSENCE_COST[tier()];}
+
+    public QiKind kind() { return kind; }
+
+    protected long qiAmount() { return QiKind.tierAmount(tier()); }
+
+    protected long essenceCost() { return ESSENCE_COST[tier()]; }
+
     @Override
-    protected boolean hasUse() {return true;}
+    protected boolean hasUse() { return true; }
+
     @Override
-    protected int useDurationTicks(Player player, ItemStack stack) {return useChargeByGap(player);}
+    protected int useDurationTicks(Player player, ItemStack stack) { return useChargeByGap(player); }
+
     @Override
     protected @Nullable Refusal gate(Player player, ItemStack stack) {
         return essenceCost() > 0 && ApertureEssenceService.spendable(player) < essenceCost()
                 ? new Refusal(FAILED_ESSENCE)
                 : null;
     }
+
     @Override
     public void onUseTick(@NotNull Level level, @NotNull LivingEntity entity, @NotNull ItemStack stack,
                           int remaining) {
@@ -67,11 +75,14 @@ public class QiMaterialItem extends GuMaterialItem {
         long step = paidBy(tick, duration) - paidBy(tick - 1, duration);
         if (step > 0 && !ApertureEssenceService.consume(player, step)) player.stopUsingItem();
     }
-    private long paidBy(int ticks, int duration) {return essenceCost() * ticks / duration;}
+
+    private long paidBy(int ticks, int duration) { return essenceCost() * ticks / duration; }
+
     @Override
     public @Nullable Component chargeCaption(ItemStack stack, int remainingTicks) {
         return Component.translatable(CHARGE_CAPTION);
     }
+
     @Override
     protected int apply(ServerPlayer player, ItemStack stack) {
         PathQiService.add(player, kind, qiAmount());

@@ -48,23 +48,30 @@ public abstract class GuItem extends Item {
     public static final int CHARGE_COLOR_DEFAULT = 0xFF4FC3F7;
     private final Rank rank;
     private final GuPath path;
+
     protected GuItem(Properties properties, Rank rank, GuPath path) {
         super(properties);
         this.rank = rank;
         this.path = path;
     }
-    protected abstract String kindKey();
-    public Rank rank() {return rank;}
-    public GuPath path() {return path;}
-    protected int tier() {return rank.ordinal() - Rank.ONE.ordinal();}
-    public record Refusal(String key, Object... args) {
 
-    }
+    protected abstract String kindKey();
+
+    public Rank rank() { return rank; }
+
+    public GuPath path() { return path; }
+
+    protected int tier() { return rank.ordinal() - Rank.ONE.ordinal(); }
+
+    public record Refusal(String key, Object... args) {}
+
     //region 蓄力 [charge] -- paced by the holder's rank against this item's own, never by the stage
     public static final int USE_FAST_TICKS = 5;
     public static final int USE_SAME_TICKS = Ticks.HALF_SECOND;
     public static final int USE_SLOW_TICKS = 20;
-    protected int rankGap(Player p) {return ApertureService.rank(p).ordinal() - rank.ordinal();}
+
+    protected int rankGap(Player p) { return ApertureService.rank(p).ordinal() - rank.ordinal(); }
+
     protected int useChargeByGap(Player player) {
         int gap = rankGap(player);
         if (gap > 0) return PathTimeFlowService.waited(player, USE_FAST_TICKS);
@@ -73,13 +80,18 @@ public abstract class GuItem extends Item {
     //endregion
 
     //region Vital Gu
-    public static @Nullable UUID owner(ItemStack s) {return s.get(ModDataComponents.VITAL_OWNER.get());}
-    public static boolean isVital(ItemStack s) {return s.has(ModDataComponents.VITAL_OWNER.get());}
-    public static boolean isVitalOf(ItemStack s, Player p) {return p.getUUID().equals(owner(s));}
+    public static @Nullable UUID owner(ItemStack s) { return s.get(ModDataComponents.VITAL_OWNER.get()); }
+
+    public static boolean isVital(ItemStack s) { return s.has(ModDataComponents.VITAL_OWNER.get()); }
+
+    public static boolean isVitalOf(ItemStack s, Player p) { return p.getUUID().equals(owner(s)); }
+
     public static int boundAperture(ItemStack s) {
         return s.getOrDefault(ModDataComponents.VITAL_APERTURE.get(), ApertureData.PRIMARY);
     }
-    public static void bind(ItemStack s, Player p) {bind(s, p, ApertureData.PRIMARY);}
+
+    public static void bind(ItemStack s, Player p) { bind(s, p, ApertureData.PRIMARY); }
+
     public static void bind(ItemStack s, Player p, int aperture) {
         s.set(ModDataComponents.VITAL_OWNER.get(), p.getUUID());
         s.set(ModDataComponents.VITAL_APERTURE.get(), aperture);
@@ -87,17 +99,27 @@ public abstract class GuItem extends Item {
     //endregion
 
     //region the hooks a leaf fills
-    protected boolean hasUse() {return false;}
-    protected @Nullable Refusal gate(Player player, ItemStack stack) {return null;}
-    protected int apply(ServerPlayer player, ItemStack stack) {return 0;}
-    protected int useDurationTicks(Player player, ItemStack stack) {return 0;}
-    protected boolean hasSneakUse(Player player, ItemStack stack) {return false;}
-    protected @Nullable Refusal sneakGate(Player player, ItemStack stack) {return null;}
-    protected int sneakApply(ServerPlayer player, ItemStack stack) {return 0;}
-    public @Nullable Component chargeCaption(ItemStack stack, int remainingTicks) {return null;}
-    public @Nullable Float chargeFraction(ItemStack stack, int remainingTicks) {return null;}
-    public int chargeColor(ItemStack stack, int remainingTicks) {return CHARGE_COLOR_DEFAULT;}
-    protected boolean feedsFromOffhand() {return false;}
+    protected boolean hasUse() { return false; }
+
+    protected @Nullable Refusal gate(Player player, ItemStack stack) { return null; }
+
+    protected int apply(ServerPlayer player, ItemStack stack) { return 0; }
+
+    protected int useDurationTicks(Player player, ItemStack stack) { return 0; }
+
+    protected boolean hasSneakUse(Player player, ItemStack stack) { return false; }
+
+    protected @Nullable Refusal sneakGate(Player player, ItemStack stack) { return null; }
+
+    protected int sneakApply(ServerPlayer player, ItemStack stack) { return 0; }
+
+    public @Nullable Component chargeCaption(ItemStack stack, int remainingTicks) { return null; }
+
+    public @Nullable Float chargeFraction(ItemStack stack, int remainingTicks) { return null; }
+
+    public int chargeColor(ItemStack stack, int remainingTicks) { return CHARGE_COLOR_DEFAULT; }
+
+    protected boolean feedsFromOffhand() { return false; }
     //endregion
 
     private InteractionResultHolder<ItemStack> refused(ServerPlayer player, Refusal refusal, ItemStack stack) {
@@ -106,6 +128,7 @@ public abstract class GuItem extends Item {
                 ? InteractionResultHolder.consume(stack)
                 : InteractionResultHolder.fail(stack);
     }
+
     @Override
     public final @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player,
                                                                  @NotNull InteractionHand hand) {
@@ -126,6 +149,7 @@ public abstract class GuItem extends Item {
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
     }
+
     @Override
     public final @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level,
                                                     @NotNull LivingEntity entity) {
@@ -143,37 +167,48 @@ public abstract class GuItem extends Item {
         }
         return stack;
     }
-    public static boolean crouching(Player player) {return player.isCrouching();}
+
+    public static boolean crouching(Player player) { return player.isCrouching(); }
+
     protected boolean isSneakUse(Player player, ItemStack stack) {
         return crouching(player) && hasSneakUse(player, stack);
     }
+
     @Override
     public final int getUseDuration(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
         if (!hasUse()) return super.getUseDuration(stack, entity);
         return entity instanceof Player player ? useDurationTicks(player, stack) : 0;
     }
+
     @Override
     public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
         return hasUse() ? UseAnim.NONE : super.getUseAnimation(stack);
     }
+
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(ModDisplayText.guLine(rank, path, kindKey()).withStyle(ChatFormatting.GRAY));
     }
+
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {
         return isVital(stack) ? ModDisplayText.vital(super.getName(stack)) : super.getName(stack);
     }
+
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {return isVital(stack) || super.isFoil(stack);}
+    public boolean isFoil(@NotNull ItemStack stack) { return isVital(stack) || super.isFoil(stack); }
+
     protected static void refuse(ServerPlayer player, String key, Object... args) {
         player.displayClientMessage(Component.translatable(key, args).withStyle(ChatFormatting.RED), true);
     }
+
     protected static void inform(ServerPlayer player, String key, Object... args) {
         player.displayClientMessage(Component.translatable(key, args), true);
     }
-    protected int cooldownTicks(ItemStack stack) {return COOLDOWN_TICKS;}
+
+    protected int cooldownTicks(ItemStack stack) { return COOLDOWN_TICKS; }
+
     protected void spend(ServerPlayer player, ItemStack stack, int count) {
         player.getCooldowns().addCooldown(this, PathTimeFlowService.waited(player, cooldownTicks(stack)));
         if (count > 0 && !player.hasInfiniteMaterials()) stack.shrink(count);

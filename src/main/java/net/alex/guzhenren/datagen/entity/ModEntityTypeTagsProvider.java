@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * Writes the entity-type tags. {@link ModEntityTypeTags#PREDATOR_PREY} carries the vanilla farm and
  * small animals that hunting beasts proactively attack.
  */
+
 public class ModEntityTypeTagsProvider extends EntityTypeTagsProvider {
 
     public ModEntityTypeTagsProvider(PackOutput output,

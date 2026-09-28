@@ -32,13 +32,18 @@ public enum WisdomType implements StringRepresentable, EnumTranslatable {
     public static final long BURST_DENOMINATOR = 5L;
     private final long defaultCapacity;
     private final boolean burstable;
+
     WisdomType(long defaultCapacity, boolean burstable) {
         this.defaultCapacity = defaultCapacity;
         this.burstable = burstable;
     }
-    public long getDefaultCapacity() {return defaultCapacity;}
-    public boolean isBurstable() {return burstable;}
+
+    public long getDefaultCapacity() { return defaultCapacity; }
+
+    public boolean isBurstable() { return burstable; }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

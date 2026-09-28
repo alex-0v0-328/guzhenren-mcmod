@@ -35,15 +35,22 @@ public enum Brilliance implements StringRepresentable, EnumTranslatable {
     public static final Brilliance HIGHEST = UNRIVALED;
     private final long thoughtsPerSecond;
     private final int weight;
+
     Brilliance(long thoughtsPerSecond, int weight) {
         this.thoughtsPerSecond = thoughtsPerSecond;
         this.weight = weight;
     }
-    public long getThoughtsPerSecond() {return thoughtsPerSecond;}
-    public int getWeight() {return weight;}
-    public Brilliance shift(int d) {return values()[Math.clamp(ordinal() + d, LOWEST.ordinal(), HIGHEST.ordinal())];}
+
+    public long getThoughtsPerSecond() { return thoughtsPerSecond; }
+
+    public int getWeight() { return weight; }
+
+    public Brilliance shift(int d) { return values()[Math.clamp(ordinal() + d, LOWEST.ordinal(), HIGHEST.ordinal())]; }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
-    public static Brilliance randomBrilliance() {return WeightedPick.pick(values(), b -> b.weight);}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
+
+    public static Brilliance randomBrilliance() { return WeightedPick.pick(values(), b -> b.weight); }
 }

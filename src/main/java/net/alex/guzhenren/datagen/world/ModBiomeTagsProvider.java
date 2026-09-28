@@ -106,10 +106,12 @@ public class ModBiomeTagsProvider extends TagsProvider<Biome> {
             Biomes.STONY_SHORE,
 
             Biomes.MUSHROOM_FIELDS);
+
     public ModBiomeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                                 @Nullable ExistingFileHelper existingFileHelper) {
         super(output, Registries.BIOME, lookupProvider, Guzhenren.MOD_ID, existingFileHelper);
     }
+
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         for (ResourceKey<Biome> biome : LAND_SPAWN_BIOMES) {

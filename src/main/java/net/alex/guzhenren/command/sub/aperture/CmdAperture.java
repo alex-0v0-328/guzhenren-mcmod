@@ -38,8 +38,10 @@ import net.minecraft.util.StringRepresentable;
 public final class CmdAperture {
 
     private CmdAperture() {}
+
     private static final String ARG_APERTURE = "index";
     private static final String FAILED_INDEX = "guzhenren.command.failed.aperture_index";
+
     public static ArgumentBuilder<CommandSourceStack, ?> node() {
         LiteralArgumentBuilder<CommandSourceStack> root =
                 Commands.literal("aperture").requires(ModCommandSupport::sourceAwakened);
@@ -51,6 +53,7 @@ public final class CmdAperture {
         root.then(indexed);
         return root;
     }
+
     private static void attachWrites(ArgumentBuilder<CommandSourceStack, ?> parent) {
         parent.then(graded("rank", Rank.settable(),
                 ApertureService::setRank, ApertureService::shiftRank))
@@ -60,6 +63,7 @@ public final class CmdAperture {
                         ApertureService::setTalent, ApertureService::shiftTalent))
                 .then(essence());
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> essence() {
         return Commands.literal("essence")
                 .then(Commands.literal("base")
@@ -85,6 +89,7 @@ public final class CmdAperture {
                 .then(ModCommandSupport.withTargets(Commands.literal("refill"),
                         context -> ModCommandSupport.applyOnAwakened(context, ApertureEssenceService::refill)));
     }
+
     //region builders
     private static int apertureOf(CommandContext<CommandSourceStack> context) {
         boolean indexed = context.getNodes().stream()
@@ -92,6 +97,7 @@ public final class CmdAperture {
         return indexed ? IntegerArgumentType.getInteger(context, ARG_APERTURE) - 1
                 : ApertureData.PRIMARY;
     }
+
     private static int applyOnAperture(CommandContext<CommandSourceStack> context, Indexed operation)
             throws CommandSyntaxException {
         int index = apertureOf(context);
@@ -101,26 +107,31 @@ public final class CmdAperture {
                 ModCommandSupport.AWAKENED.and(p -> index < ApertureService.get(p).count()),
                 refused, player -> operation.apply(player, index));
     }
+
     @FunctionalInterface
     private interface Indexed {
 
         void apply(ServerPlayer player, int aperture);
     }
+
     @FunctionalInterface
     private interface EnumOp<E extends Enum<E>> {
 
         void apply(ServerPlayer player, int aperture, E value);
     }
+
     @FunctionalInterface
     private interface IntOp {
 
         void apply(ServerPlayer player, int aperture, int value);
     }
+
     @FunctionalInterface
     private interface LongOp {
 
         void apply(ServerPlayer player, int aperture, long value);
     }
+
     private static <E extends Enum<E> & StringRepresentable> ArgumentBuilder<CommandSourceStack, ?> graded(
             String literal, E[] settable, EnumOp<E> set, IntOp shift) {
         return Commands.literal(literal)
@@ -134,10 +145,12 @@ public final class CmdAperture {
                 .then(shiftNode("up", 1, shift))
                 .then(shiftNode("down", -1, shift));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> shiftNode(String literal, int delta, IntOp shift) {
         return ModCommandSupport.withTargets(Commands.literal(literal),
                 context -> applyOnAperture(context, (player, aperture) -> shift.apply(player, aperture, delta)));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> longNode(String literal, LongOp operation) {
         return Commands.literal(literal).then(ModCommandSupport.withTargets(
                 Commands.argument(ModCommandSupport.ARG_VALUE, LongArgumentType.longArg()),
@@ -146,6 +159,7 @@ public final class CmdAperture {
                     return applyOnAperture(context, (player, aperture) -> operation.apply(player, aperture, value));
                 }));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> baseNode(String literal, IntOp operation) {
         return Commands.literal(literal).then(ModCommandSupport.withTargets(
                 Commands.argument(ModCommandSupport.ARG_VALUE,
@@ -155,6 +169,7 @@ public final class CmdAperture {
                     return applyOnAperture(context, (player, aperture) -> operation.apply(player, aperture, value));
                 }));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> baseSetNode() {
         return Commands.literal("set").then(ModCommandSupport.withTargets(
                 Commands.argument(ModCommandSupport.ARG_VALUE,

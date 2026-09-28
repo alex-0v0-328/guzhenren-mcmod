@@ -39,22 +39,27 @@ public record RefinedGuState(boolean refined, int refineProgress, int investedEs
             ByteBufCodecs.VAR_INT, RefinedGuState::hunger,
             ByteBufCodecs.VAR_INT, RefinedGuState::damageTaken,
             RefinedGuState::new);
+
     public RefinedGuState {
         refineProgress = Math.max(0, refineProgress);
         investedEssence = Math.max(0, investedEssence);
         hunger = Math.max(0, hunger);
         damageTaken = Math.max(0, damageTaken);
     }
+
     //region the with* copies -- five components run past 120, so these are blocks
     public RefinedGuState withRefine(int v) {
         return new RefinedGuState(refined, v, investedEssence, hunger, damageTaken);
     }
+
     public RefinedGuState withInvested(int v) {
         return new RefinedGuState(refined, refineProgress, v, hunger, damageTaken);
     }
+
     public RefinedGuState withHunger(int v) {
         return new RefinedGuState(refined, refineProgress, investedEssence, v, damageTaken);
     }
+
     public RefinedGuState withDamageTaken(int v) {
         return new RefinedGuState(refined, refineProgress, investedEssence, hunger, v);
     }

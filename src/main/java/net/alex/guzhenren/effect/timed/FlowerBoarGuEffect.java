@@ -25,9 +25,11 @@ public class FlowerBoarGuEffect extends MobEffect implements AttackContributor {
 
     public static final int DURATION_TICKS = 60 * Ticks.SECOND;
     public static final double ATTACK_BONUS = 5.0D;
+
     public FlowerBoarGuEffect(MobEffectCategory category, int color) {
         super(category, color);
     }
+
     @Override
-    public double attackBonus(int amplifier) {return ATTACK_BONUS;}
+    public double attackBonus(int amplifier) { return ATTACK_BONUS; }
 }

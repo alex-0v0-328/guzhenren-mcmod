@@ -34,14 +34,17 @@ public class MaliciousThoughtGuItem extends ConsumedGuItem {
 
     private final Holder<MobEffect> effect;
     private final long immediateThoughts;
+
     public MaliciousThoughtGuItem(Properties properties, Holder<MobEffect> effect, long immediateThoughts,
                                   GuSpec spec) {
         super(properties, spec);
         this.effect = effect;
         this.immediateThoughts = immediateThoughts;
     }
+
     @Override
-    protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {return null;}
+    protected @Nullable Refusal payoutGate(Player player, ItemStack stack) { return null; }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         MindService.addThoughts(player, immediateThoughts, ThoughtTag.EVIL);

@@ -37,15 +37,22 @@ public record SoulData(long maxSoul, long currentSoul) {
             ByteBufCodecs.VAR_LONG, SoulData::maxSoul,
             ByteBufCodecs.VAR_LONG, SoulData::currentSoul,
             SoulData::new);
+
     public SoulData {
         maxSoul = Math.max(0L, maxSoul);
         currentSoul = Math.clamp(currentSoul, 0L, maxSoul);
     }
-    public SoulTier tier() {return SoulTier.fromSoul(maxSoul);}
-    public boolean isCollapsed() {return currentSoul <= 0L;}
-    public SoulData withMaxSoul(long v) {return new SoulData(v, currentSoul);}
-    public SoulData withCurrentSoul(long v) {return new SoulData(maxSoul, v);}
-    public SoulData refilled() {return new SoulData(maxSoul, maxSoul);}
+
+    public SoulTier tier() { return SoulTier.fromSoul(maxSoul); }
+
+    public boolean isCollapsed() { return currentSoul <= 0L; }
+
+    public SoulData withMaxSoul(long v) { return new SoulData(v, currentSoul); }
+
+    public SoulData withCurrentSoul(long v) { return new SoulData(maxSoul, v); }
+
+    public SoulData refilled() { return new SoulData(maxSoul, maxSoul); }
+
     public SoulData revived() {
         return new SoulData(maxSoul > 0L ? maxSoul : DEFAULT_MAX_SOUL, REVIVED_SOUL);
     }

@@ -63,8 +63,8 @@ public final class PlayerInfoScreen extends Screen {
     private static final int TAB_IDLE = 0x26FFFFFF;
     private static final int TAB_TEXT_IDLE = 0xFFBBBBBB;
     private static final int TAB_TEXT_DEAD = 0xFF6A6A6A;
-    private static final int[] ACCENT = {ModPalette.APERTURE, ModPalette.BODY, ModPalette.SOUL,
-            ModPalette.PATH, ModPalette.MIND, ModPalette.REFINEMENT};
+    private static final int[] ACCENT = { ModPalette.APERTURE, ModPalette.BODY, ModPalette.SOUL,
+            ModPalette.PATH, ModPalette.MIND, ModPalette.REFINEMENT };
     private static final String[] TAB_KEYS = {
             "guzhenren.screen.tab.aperture",
             "guzhenren.screen.tab.body",
@@ -106,7 +106,9 @@ public final class PlayerInfoScreen extends Screen {
     private boolean picking;
     private int pickerAperture = ApertureData.PRIMARY;
     private int scrollRow;
-    public PlayerInfoScreen() {super(Component.translatable("guzhenren.screen.info.title"));}
+
+    public PlayerInfoScreen() { super(Component.translatable("guzhenren.screen.info.title")); }
+
     @Override
     protected void init() {
         panelW = Math.round(width * SCREEN_FRACTION);
@@ -114,6 +116,7 @@ public final class PlayerInfoScreen extends Screen {
         leftPos = (width - panelW) / 2;
         topPos = (height - panelH) / 2;
     }
+
     @Override
     public void render(@NotNull GuiGraphics g, int mouseX, int mouseY, float partialTick) {
         renderBackground(g, mouseX, mouseY, partialTick);
@@ -140,6 +143,7 @@ public final class PlayerInfoScreen extends Screen {
         }
         if (picking) renderPicker(g, mouseX, mouseY, accent);
     }
+
     private void renderRows(GuiGraphics g, List<Row> rows, int mouseX, int mouseY, int accent) {
         int visible = visibleRows();
         int hidden = Math.max(0, rows.size() - visible);
@@ -164,10 +168,12 @@ public final class PlayerInfoScreen extends Screen {
         }
         if (hidden > 0) renderScrollBar(g, rows.size(), visible, accent);
     }
+
     //region aperture columns -- two apertures render side by side, left first right second
     private static boolean twoApertures(LocalPlayer player) {
         return ApertureService.get(player).count() == 2;
     }
+
     private List<List<Row>> apertureGroups(LocalPlayer player) {
         List<List<Row>> groups = new ArrayList<>();
         List<Row> current = null;
@@ -183,6 +189,7 @@ public final class PlayerInfoScreen extends Screen {
         }
         return groups;
     }
+
     private void renderApertureColumns(GuiGraphics g, LocalPlayer player, List<List<Row>> groups,
                                        int mouseX, int mouseY, int accent) {
         int colW = (valueRight() - contentLeft() - COL_GAP) / 2;
@@ -214,7 +221,9 @@ public final class PlayerInfoScreen extends Screen {
 
     //region per-aperture buttons -- 温养空窍 [nourish] / 冲刷窍壁 [flush] / 空窍存储 [storage], one stack per aperture
     private record ApButton(int aperture, int kind, String key, int top) {}
+
     private record ColumnButton(int aperture, int kind, String key, int x0, int x1, int top) {}
+
     private List<ApButton> buttonStack(LocalPlayer player, int aperture) {
         List<ApButton> buttons = new ArrayList<>();
         if (aperture == ApertureData.PRIMARY && ApertureNourishService.canImpact(player)) {
@@ -231,10 +240,12 @@ public final class PlayerInfoScreen extends Screen {
         }
         return withStorage(aperture, buttons, 0);
     }
+
     private static List<ApButton> withStorage(int aperture, List<ApButton> buttons, int top) {
         buttons.add(new ApButton(aperture, BTN_STORAGE, KEY_STORAGE, top));
         return buttons;
     }
+
     private List<ColumnButton> bottomButtons(LocalPlayer player) {
         List<ColumnButton> buttons = new ArrayList<>();
         if (!ApertureService.hasAperture(player)) return buttons;
@@ -246,6 +257,7 @@ public final class PlayerInfoScreen extends Screen {
         }
         return buttons;
     }
+
     private List<ColumnButton> columnButtons(LocalPlayer player, List<List<Row>> groups) {
         List<ColumnButton> buttons = new ArrayList<>();
         if (!ApertureService.hasAperture(player)) return buttons;
@@ -259,6 +271,7 @@ public final class PlayerInfoScreen extends Screen {
         }
         return buttons;
     }
+
     private void renderBottomButtons(GuiGraphics g, int mouseX, int mouseY) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null || activeTab != TAB_APERTURE || twoApertures(player)
@@ -267,6 +280,7 @@ public final class PlayerInfoScreen extends Screen {
             drawApButton(g, player, b, mouseX, mouseY);
         }
     }
+
     private void drawApButton(GuiGraphics g, LocalPlayer player, ColumnButton b, int mouseX, int mouseY) {
         boolean hover = inBox(mouseX, mouseY, b.x0(), b.x1(), b.top());
         switch (b.kind()) {
@@ -301,6 +315,7 @@ public final class PlayerInfoScreen extends Screen {
             }
         }
     }
+
     private boolean clickApertureButtons(double mx, double my) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null || activeTab != TAB_APERTURE || !ApertureService.hasAperture(player)) return false;
@@ -327,31 +342,43 @@ public final class PlayerInfoScreen extends Screen {
         }
         return false;
     }
+
     private void label(GuiGraphics g, Component text, int x0, int x1, int top) {
         g.drawString(font, text, x0 + (x1 - x0 - font.width(text)) / 2,
                 top + (BTN_H - font.lineHeight) / 2, ModPalette.TEXT, false);
     }
+
     private boolean inBox(double mx, double my, int x0, int x1, int top) {
         return mx >= x0 && mx < x1 && my >= top && my < top + BTN_H;
     }
     //endregion
 
     //region scrolling
-    private int contentTop() {return topPos + CONTENT_TOP;}
-    private int contentBottom() {return topPos + panelH - PAD;}
-    private int contentLeft() {return edgeLeft() + inset();}
-    private int valueRight() {return edgeRight() - inset();}
-    private int inset() {return (edgeRight() - edgeLeft()) / CONTENT_INSET_DIVISOR;}
-    private int edgeLeft() {return leftPos + PAD;}
-    private int edgeRight() {return tabLeft() - PAD;}
+    private int contentTop() { return topPos + CONTENT_TOP; }
+
+    private int contentBottom() { return topPos + panelH - PAD; }
+
+    private int contentLeft() { return edgeLeft() + inset(); }
+
+    private int valueRight() { return edgeRight() - inset(); }
+
+    private int inset() { return (edgeRight() - edgeLeft()) / CONTENT_INSET_DIVISOR; }
+
+    private int edgeLeft() { return leftPos + PAD; }
+
+    private int edgeRight() { return tabLeft() - PAD; }
+
     private int bottomButtonCount() {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null || activeTab != TAB_APERTURE || twoApertures(player)
                 || !ApertureService.hasAperture(player)) return 0;
         return buttonStack(player, ApertureData.PRIMARY).size();
     }
-    private int rowsBottom() {return contentBottom() - bottomButtonCount() * (BTN_H + BTN_GAP);}
-    private int visibleRows() {return Math.max(0, (rowsBottom() - contentTop()) / LINE_H);}
+
+    private int rowsBottom() { return contentBottom() - bottomButtonCount() * (BTN_H + BTN_GAP); }
+
+    private int visibleRows() { return Math.max(0, (rowsBottom() - contentTop()) / LINE_H); }
+
     private void renderScrollBar(GuiGraphics g, int total, int visible, int accent) {
         int x0 = tabLeft() - SCROLL_GAP;
         int top = contentTop();
@@ -362,6 +389,7 @@ public final class PlayerInfoScreen extends Screen {
         int offset = (track - thumb) * scrollRow / Math.max(1, total - visible);
         g.fill(x0, top + offset, x0 + SCROLL_W, top + offset + thumb, accent);
     }
+
     @Override
     public boolean mouseScrolled(double mx, double my, double dx, double dy) {
         if (picking) return true;
@@ -395,14 +423,23 @@ public final class PlayerInfoScreen extends Screen {
                     cy + (PICK_CELL_H - font.lineHeight) / 2, ModPalette.TEXT, false);
         }
     }
-    private static int pickCount() {return GuPath.values().length + 1;}
-    private static @Nullable GuPath pickPath(int i) {return i == 0 ? null : GuPath.values()[i - 1];}
-    private static int pickRows() {return (pickCount() + PICK_COLS - 1) / PICK_COLS;}
-    private int pickWidth() {return PICK_COLS * PICK_CELL_W + PICK_PAD * 2;}
-    private int pickHeight() {return pickRows() * PICK_CELL_H + PICK_PAD * 2 + HEADER_H;}
-    private int pickLeft() {return leftPos + (panelW - pickWidth()) / 2;}
-    private int pickTop() {return topPos + (panelH - pickHeight()) / 2;}
-    private static MutableComponent pickHint() {return Component.translatable("guzhenren.screen.pick.hint");}
+
+    private static int pickCount() { return GuPath.values().length + 1; }
+
+    private static @Nullable GuPath pickPath(int i) { return i == 0 ? null : GuPath.values()[i - 1]; }
+
+    private static int pickRows() { return (pickCount() + PICK_COLS - 1) / PICK_COLS; }
+
+    private int pickWidth() { return PICK_COLS * PICK_CELL_W + PICK_PAD * 2; }
+
+    private int pickHeight() { return pickRows() * PICK_CELL_H + PICK_PAD * 2 + HEADER_H; }
+
+    private int pickLeft() { return leftPos + (panelW - pickWidth()) / 2; }
+
+    private int pickTop() { return topPos + (panelH - pickHeight()) / 2; }
+
+    private static MutableComponent pickHint() { return Component.translatable("guzhenren.screen.pick.hint"); }
+
     private void clickPicker(double mx, double my) {
         int x0 = pickLeft() + PICK_PAD;
         int y0 = pickTop() + PICK_PAD + HEADER_H;
@@ -437,17 +474,22 @@ public final class PlayerInfoScreen extends Screen {
                     y0 + (TAB_H - font.lineHeight) / 2 + 1, color, false);
         }
     }
+
     private boolean tabLive(int tab) {
         if (tab != TAB_REFINEMENT) return true;
 
         LocalPlayer player = Minecraft.getInstance().player;
         return player != null && ApertureService.isAwakened(player);
     }
-    private int tabLeft() {return leftPos + panelW - TAB_W - PAD;}
-    private int tabTop(int i) {return topPos + CONTENT_TOP + i * (TAB_H + TAB_GAP);}
+
+    private int tabLeft() { return leftPos + panelW - TAB_W - PAD; }
+
+    private int tabTop(int i) { return topPos + CONTENT_TOP + i * (TAB_H + TAB_GAP); }
+
     private boolean inTab(double mx, double my, int i) {
         return mx >= tabLeft() && mx < tabLeft() + TAB_W && my >= tabTop(i) && my < tabTop(i) + TAB_H;
     }
+
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
         if (picking) {
@@ -474,6 +516,7 @@ public final class PlayerInfoScreen extends Screen {
         }
         return super.mouseClicked(mx, my, button);
     }
+
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (picking && (keyCode == InputConstants.KEY_ESCAPE
@@ -487,8 +530,10 @@ public final class PlayerInfoScreen extends Screen {
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
+
     @Override
-    public boolean isPauseScreen() {return false;}
+    public boolean isPauseScreen() { return false; }
+
     private List<Row> rows(LocalPlayer player) {
         List<InfoModel.Row> model = switch (activeTab) {
             case TAB_BODY -> InfoModel.body(player);
@@ -520,6 +565,7 @@ public final class PlayerInfoScreen extends Screen {
         }
         return rows;
     }
+
     private static @Nullable Row draw(int indent, InfoModel.Entry entry) {
         return switch (entry) {
             case InfoModel.ApertureIndex e -> new Row(indent, ModDisplayText.apertureName(e.number()), null);
@@ -581,20 +627,27 @@ public final class PlayerInfoScreen extends Screen {
                     Component.literal(ModDisplayText.pool(e.pool().current(), e.pool().max())));
         };
     }
+
     private static MutableComponent talent(InfoModel.Talent e) {
         MutableComponent talent = ModDisplayText.talent(e.aperture());
         if (e.awakened()) talent.append(detail(ModDisplayText.baseFraction(e.aperture().baseEssence())));
         return talent;
     }
-    private static MutableComponent name(String key) {return Component.translatable(key);}
-    private static Component label(String name) {return Component.translatable("guzhenren.screen.label." + name);}
-    private static MutableComponent none() {return Component.translatable("guzhenren.display.none");}
+
+    private static MutableComponent name(String key) { return Component.translatable(key); }
+
+    private static Component label(String name) { return Component.translatable("guzhenren.screen.label." + name); }
+
+    private static MutableComponent none() { return Component.translatable("guzhenren.display.none"); }
+
     private static Component detail(Component v) {
         return Component.translatable("guzhenren.command.info.detail", v).withStyle(ChatFormatting.DARK_GRAY);
     }
+
     private record Row(int indent, Component label, @Nullable Component value, @Nullable Click click) {
 
-        Row(int indent, Component label, @Nullable Component value) {this(indent, label, value, null);}
+        Row(int indent, Component label, @Nullable Component value) { this(indent, label, value, null); }
     }
+
     private record Click(int aperture) {}
 }

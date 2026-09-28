@@ -36,6 +36,7 @@ public class ModDamageTypeTagsProvider extends TagsProvider<DamageType> {
                                      @Nullable ExistingFileHelper existingFileHelper) {
         super(output, Registries.DAMAGE_TYPE, lookupProvider, Guzhenren.MOD_ID, existingFileHelper);
     }
+
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         unstoppable(DamageTypeTags.BYPASSES_ARMOR);
@@ -47,6 +48,7 @@ public class ModDamageTypeTagsProvider extends TagsProvider<DamageType> {
         tag(DamageTypeTags.IS_EXPLOSION).add(ModDamageTypes.APERTURE_PRESSURE_EXPLOSION,
                 ModDamageTypes.TEN_EXTREME_DISASTER);
     }
+
     private void unstoppable(TagKey<DamageType> tag) {
         tag(tag).add(ModDamageTypes.LIFESPAN_EXHAUSTED,
                 ModDamageTypes.SOUL_COLLAPSE,

@@ -23,10 +23,12 @@ import net.minecraft.server.level.ServerPlayer;
 public final class CmdReset {
 
     private CmdReset() {}
+
     public static ArgumentBuilder<CommandSourceStack, ?> node() {
         return ModCommandSupport.withTargets(Commands.literal("reset"),
                 context -> ModCommandSupport.apply(context, CmdReset::reset));
     }
+
     private static void reset(ServerPlayer player) {
         PlayerDataService.resetAll(player);
         ModCommandSupport.refreshCommands(player);

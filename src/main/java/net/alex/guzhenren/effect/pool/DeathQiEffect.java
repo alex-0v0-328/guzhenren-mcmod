@@ -28,6 +28,7 @@ public class DeathQiEffect extends MobEffect {
     public static final float HEALTH_PER_HEARTBEAT = 1.0F;
     public static final int REFUND_NUMERATOR = 3;
     public static final int REFUND_DENOMINATOR = 4;
+
     public DeathQiEffect(MobEffectCategory category, int color) {
         super(category, color);
     }

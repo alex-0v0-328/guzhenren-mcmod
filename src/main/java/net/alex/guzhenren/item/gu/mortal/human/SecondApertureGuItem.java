@@ -30,9 +30,11 @@ import org.jetbrains.annotations.Nullable;
 public class SecondApertureGuItem extends OneShotGuItem {
 
     private static final String FAILED_SECOND_RANK = "guzhenren.item.failed.second_aperture_rank";
+
     public SecondApertureGuItem(Properties properties, GuSpec spec) {
         super(properties, spec);
     }
+
     @Override
     protected @Nullable Refusal useGate(Player player, ItemStack stack) {
         ApertureData data = ApertureService.get(player);
@@ -40,6 +42,7 @@ public class SecondApertureGuItem extends OneShotGuItem {
         return index >= 0 && data.get(index).rank().ordinal() >= rank().ordinal()
                 ? new Refusal(FAILED_SECOND_RANK) : null;
     }
+
     @Override
     protected int useApply(ServerPlayer player, ItemStack stack) {
         ApertureService.openSecondary(player, rank());

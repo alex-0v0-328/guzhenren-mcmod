@@ -41,55 +41,66 @@ public final class GuSpec {
     private int feedUnits;
     private int effectCooldownTicks;
     private int itemCooldownTicks;
+
     private GuSpec(Rank rank, GuPath path) {
         this.rank = rank;
         this.path = path;
     }
-    public static GuSpec of(Rank rank, GuPath path) {return new GuSpec(rank, path);}
+
+    public static GuSpec of(Rank rank, GuPath path) { return new GuSpec(rank, path); }
 
     //region the chain -- one call per fact, so a registration reads as a table row
     public GuSpec refine(int cost) {
         this.refineCost = cost;
         return this;
     }
+
     public GuSpec channel(int essencePerRound) {
         this.essencePerRound = essencePerRound;
         this.channels = true;
         return this;
     }
+
     public GuSpec costPerUse(int essence) {
         this.essencePerRound = essence;
         this.channels = false;
         return this;
     }
+
     public GuSpec hungerBar(int max, int unitsPerHunger) {
         this.maxHunger = max;
         this.unitsPerHunger = unitsPerHunger;
         return this;
     }
+
     public GuSpec essencePerHunger(int essence) {
         this.essencePerHunger = essence;
         return this;
     }
+
     public GuSpec hungerPerUse(int points) {
         this.hungerPerUse = points;
         return this;
     }
+
     public GuSpec feed(TagKey<Item> tag, int units) {
         this.feedTag = tag;
         this.feedUnits = units;
         return this;
     }
+
     public GuSpec cooldown(int ticks) {
         this.effectCooldownTicks = ticks;
         this.itemCooldownTicks = ticks;
         return this;
     }
+
     public GuSpec cooldown(int effectTicks, int itemTicks) {
         this.effectCooldownTicks = effectTicks;
         this.itemCooldownTicks = itemTicks;
         return this;
     }
+
     public GuSpec strengthPathBranch(StrengthPathBranch branch) {
         this.strengthPathBranch = branch;
         return this;
@@ -97,21 +108,31 @@ public final class GuSpec {
     //endregion
 
     //region what the base classes read
-    public Rank rank() {return rank;}
-    public GuPath path() {return path;}
-    public StrengthPathBranch strengthPathBranch() {return strengthPathBranch;}
-    public int refineCost() {return refineCost;}
-    public int essencePerRound() {return essencePerRound;}
-    public boolean channels() {return channels;}
-    public int effectCooldownTicks() {return effectCooldownTicks;}
-    public int itemCooldownTicks() {return itemCooldownTicks;}
-    public int unitsPerHealth() {return unitsPerHunger;}
+    public Rank rank() { return rank; }
+
+    public GuPath path() { return path; }
+
+    public StrengthPathBranch strengthPathBranch() { return strengthPathBranch; }
+
+    public int refineCost() { return refineCost; }
+
+    public int essencePerRound() { return essencePerRound; }
+
+    public boolean channels() { return channels; }
+
+    public int effectCooldownTicks() { return effectCooldownTicks; }
+
+    public int itemCooldownTicks() { return itemCooldownTicks; }
+
+    public int unitsPerHealth() { return unitsPerHunger; }
+
     public GuClock buildClock() {
         if (maxHunger > 0) {
             return new GuClock.HungerBar(maxHunger, unitsPerHunger, essencePerHunger, hungerPerUse);
         }
         return new GuClock.NoClock();
     }
+
     public int feedUnits(ItemStack food) {
         return feedTag != null && food.is(feedTag) ? feedUnits : 0;
     }
@@ -131,6 +152,7 @@ public final class GuSpec {
                     .formatted(essencePerRound, essencePerHunger));
         }
     }
+
     private static IllegalStateException fault(String id, String what) {
         return new IllegalStateException("Gu spec for '%s' %s".formatted(id, what));
     }

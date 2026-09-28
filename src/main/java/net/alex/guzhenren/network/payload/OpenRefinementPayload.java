@@ -27,6 +27,7 @@ public record OpenRefinementPayload() implements CustomPacketPayload {
             Guzhenren.id("open_refinement"));
     public static final StreamCodec<ByteBuf, OpenRefinementPayload> STREAM_CODEC =
             StreamCodec.unit(INSTANCE);
+
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {return TYPE;}
+    public @NotNull Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

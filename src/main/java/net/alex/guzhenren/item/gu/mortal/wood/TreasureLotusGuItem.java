@@ -40,17 +40,21 @@ public class TreasureLotusGuItem extends TendedGuItem {
     private static final String FAILED_PASSIVE = "guzhenren.item.failed.no_use";
     private final int stonesPerSecond;
     private final int stonesPerHealth;
+
     public TreasureLotusGuItem(Properties properties, int stonesPerSecond, int stonesPerHealth, GuSpec spec) {
         super(properties, spec);
         this.stonesPerSecond = stonesPerSecond;
         this.stonesPerHealth = stonesPerHealth;
     }
+
     @Override
-    protected boolean feedsFromOffhand() {return false;}
+    protected boolean feedsFromOffhand() { return false; }
+
     @Override
     protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {
         return new Refusal(FAILED_PASSIVE);
     }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {}
 
@@ -60,6 +64,7 @@ public class TreasureLotusGuItem extends TendedGuItem {
         ApertureEssenceService.add(player, ApertureEssenceService.maxEssence(player) * ESSENCE_REGEN_PERCENT / 100);
         mintStones(player, stack);
     }
+
     private void mintStones(ServerPlayer player, ItemStack stack) {
         int hurt = state(stack).damageTaken();
         if (hurt > 0) {
@@ -69,6 +74,7 @@ public class TreasureLotusGuItem extends TendedGuItem {
         clearHealBank(stack);
         giveStones(player, stonesPerSecond);
     }
+
     private void repairFromBank(ItemStack stack, int hurt) {
         int bank = bankOf(stack) + stonesPerSecond;
         int healed = Math.min(hurt, bank / stonesPerHealth);
@@ -82,16 +88,20 @@ public class TreasureLotusGuItem extends TendedGuItem {
             clearHealBank(stack);
         }
     }
+
     private int bankOf(ItemStack stack) {
         return stack.getOrDefault(ModDataComponents.HEAL_BANK.get(), 0);
     }
+
     private void clearHealBank(ItemStack stack) {
         stack.remove(ModDataComponents.HEAL_BANK.get());
     }
+
     private void giveStones(ServerPlayer player, int amount) {
         int left = fillElders(player, amount);
         if (left > 0) dropToInventory(player, left);
     }
+
     private int fillElders(ServerPlayer player, int amount) {
         int left = amount;
         Inventory inventory = player.getInventory();
@@ -119,9 +129,11 @@ public class TreasureLotusGuItem extends TendedGuItem {
         }
         return left;
     }
+
     private int storeInElder(ItemStack stack, int amount) {
         return stack.getItem() instanceof PrimevalElderGuItem elder ? elder.storeStones(stack, amount) : 0;
     }
+
     private void dropToInventory(ServerPlayer player, int amount) {
         ItemStack produced = new ItemStack(ModItems.PRIMEVAL_STONE.get());
         Inventory inventory = player.getInventory();
@@ -144,6 +156,7 @@ public class TreasureLotusGuItem extends TendedGuItem {
             left -= moved;
         }
     }
+
     private int placeInto(Inventory inventory, int from, int to, ItemStack produced, int amount) {
         int left = amount;
         for (int slot = from; slot < to && left > 0; slot++) {

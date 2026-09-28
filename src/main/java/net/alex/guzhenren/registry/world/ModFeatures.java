@@ -20,9 +20,11 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  * @version 1.0.0
  * @since 1.0.0
  */
+
 public final class ModFeatures {
 
     private ModFeatures() {}
+
     public static final DeferredRegister<Feature<?>> FEATURES =
             DeferredRegister.create(Registries.FEATURE, Guzhenren.MOD_ID);
     public static final DeferredHolder<Feature<?>, SpiritSpringFeature> SPIRIT_SPRING =
@@ -31,5 +33,6 @@ public final class ModFeatures {
     public static final DeferredHolder<Feature<?>, SpiritSpringFeature> SPIRIT_SPRING_UNDERGROUND =
             FEATURES.register("spirit_spring_underground",
                     () -> new SpiritSpringFeature(SpiritSpringFeature.Placement.UNDERGROUND));
-    public static void register(IEventBus modEventBus) {FEATURES.register(modEventBus);}
+
+    public static void register(IEventBus modEventBus) { FEATURES.register(modEventBus); }
 }

@@ -29,7 +29,9 @@ import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
 public final class NourishInputEvents {
 
     private NourishInputEvents() {}
+
     public static final float CULTIVATION_FOV = 100.0F;
+
     @SubscribeEvent
     public static void onMovementInput(MovementInputUpdateEvent event) {
         if (!ApertureNourishService.isCultivating(event.getEntity())) return;
@@ -44,6 +46,7 @@ public final class NourishInputEvents {
         input.jumping = false;
         input.shiftKeyDown = false;
     }
+
     @SubscribeEvent
     public static void onComputeFov(ComputeFovModifierEvent event) {
         if (!ApertureNourishService.isCultivating(event.getPlayer())) return;

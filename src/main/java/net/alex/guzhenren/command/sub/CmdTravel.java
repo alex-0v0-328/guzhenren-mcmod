@@ -44,6 +44,7 @@ import net.minecraft.world.phys.Vec3;
 public final class CmdTravel {
 
     private CmdTravel() {}
+
     private static final String ARG_DIMENSION = "dimension";
 
     public static ArgumentBuilder<CommandSourceStack, ?> enterNode() {

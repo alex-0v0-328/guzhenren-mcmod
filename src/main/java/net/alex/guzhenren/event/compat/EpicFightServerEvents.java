@@ -26,12 +26,14 @@ import yesman.epicfight.world.gamerule.EpicFightGameRules;
 public final class EpicFightServerEvents {
 
     private EpicFightServerEvents() {}
+
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
         for (ServerLevel level : event.getServer().getAllLevels()) {
             EpicFightGameRules.KEEP_SKILLS.setRuleValue(level, true);
         }
     }
+
     /**
      * Heavy-punch feedback: a landed attack from an Epic-Fight-mode player punching bare-handed (or
      * with a fist-category weapon; an empty hand resolves to FIST too) opens the punch shockwave

@@ -24,6 +24,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModParticles {
 
     private ModParticles() {}
+
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(Registries.PARTICLE_TYPE, Guzhenren.MOD_ID);
     /**
@@ -39,5 +40,6 @@ public final class ModParticles {
      */
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> IMPACT_RING = PARTICLE_TYPES.register(
             "impact_ring", () -> new SimpleParticleType(false));
-    public static void register(IEventBus modEventBus) {PARTICLE_TYPES.register(modEventBus);}
+
+    public static void register(IEventBus modEventBus) { PARTICLE_TYPES.register(modEventBus); }
 }

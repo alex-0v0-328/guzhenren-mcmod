@@ -25,24 +25,29 @@ import org.jetbrains.annotations.Nullable;
 public abstract class OneShotGuItem extends MortalGuItem {
 
     private static final String TOOLTIP_REFINE_COST = "guzhenren.item.gu.refine_cost";
+
     protected OneShotGuItem(Properties properties, GuSpec spec) {
         super(properties, spec);
     }
+
     //region the one press
     @Override
     protected final @Nullable Refusal gate(Player player, ItemStack stack) {
         Refusal cost = essenceGate(player, refineCost(), FAILED_REFINE_ESSENCE);
         return cost != null ? cost : useGate(player, stack);
     }
+
     @Override
     protected final int apply(ServerPlayer player, ItemStack stack) {
         payRefineCost(player);
         return useApply(player, stack);
     }
+
     @Override
-    protected final int useDurationTicks(Player player, ItemStack stack) {return 0;}
+    protected final int useDurationTicks(Player player, ItemStack stack) { return 0; }
+
     @Override
-    protected int cooldownTicks(ItemStack stack) {return REFINE_DONE_COOLDOWN_TICKS;}
+    protected int cooldownTicks(ItemStack stack) { return REFINE_DONE_COOLDOWN_TICKS; }
     //endregion
 
     //region display

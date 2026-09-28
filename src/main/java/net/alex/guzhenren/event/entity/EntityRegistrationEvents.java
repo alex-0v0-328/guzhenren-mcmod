@@ -44,7 +44,9 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 public final class EntityRegistrationEvents {
 
     private static final double RESTING_GU_FLYING_SPEED = 0.3D;
+
     private EntityRegistrationEvents() {}
+
     @SubscribeEvent
     public static void onCreateAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntityTypes.HOPE_GU_ENTITY.get(), FlyingGuEntity.createAttributes().build());
@@ -62,6 +64,7 @@ public final class EntityRegistrationEvents {
         event.put(ModEntityTypes.TIGER.get(), TigerEntity.createAttributes().build());
         event.put(ModEntityTypes.WHITE_TIGER.get(), TigerEntity.createAttributes().build());
     }
+
     private static EntityType<BearEntity> bearType(BearSpecies species) {
         return switch (species) {
             case BROWN -> ModEntityTypes.BROWN_BEAR.get();
@@ -70,9 +73,11 @@ public final class EntityRegistrationEvents {
             case ALBINO -> ModEntityTypes.ALBINO_BEAR.get();
         };
     }
+
     private static AttributeSupplier.Builder restingGuAttributes() {
         return FlyingGuEntity.createAttributes().add(Attributes.FLYING_SPEED, RESTING_GU_FLYING_SPEED);
     }
+
     @SubscribeEvent
     public static void onRegisterSpawnPlacements(RegisterSpawnPlacementsEvent event) {
         registerSurfaceSpawn(event, ModEntityTypes.HOPE_GU_ENTITY.get());
@@ -91,6 +96,7 @@ public final class EntityRegistrationEvents {
         registerAnimalSpawn(event, ModEntityTypes.TIGER.get());
         registerAnimalSpawn(event, ModEntityTypes.WHITE_TIGER.get());
     }
+
     private static <T extends Mob> void registerAnimalSpawn(RegisterSpawnPlacementsEvent event,
                                                             EntityType<T> type) {
         event.register(type, SpawnPlacementTypes.ON_GROUND,
@@ -100,10 +106,12 @@ public final class EntityRegistrationEvents {
                         && (MobSpawnType.ignoresLightRequirements(reason) || level.getRawBrightness(pos, 0) > 8),
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
+
     private static <T extends Mob> void registerSurfaceSpawn(RegisterSpawnPlacementsEvent event, EntityType<T> type) {
         event.register(type, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 EntityRegistrationEvents::onTheSurface, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
+
     private static <T extends Mob> boolean onTheSurface(EntityType<T> type, ServerLevelAccessor level,
                                                         MobSpawnType reason, BlockPos pos, RandomSource random) {
         return pos.getY() >= level.getLevel().getSeaLevel();

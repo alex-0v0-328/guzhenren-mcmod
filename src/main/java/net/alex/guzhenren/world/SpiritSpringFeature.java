@@ -67,10 +67,11 @@ import org.jetbrains.annotations.Nullable;
  * @version 1.0.0
  * @since 1.0.0
  */
+
 public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
 
     /** Where one placement attempt looks for its spot. */
-    public enum Placement {SURFACE, UNDERGROUND}
+    public enum Placement { SURFACE, UNDERGROUND }
 
     static final String[] LAYER_ONE = {
             "xxtttxx",
@@ -79,7 +80,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
             "yfffffy",
             "yffffft",
             "xtfffyx",
-            "xxytyxx"};
+            "xxytyxx" };
     static final String[] LAYER_TWO = {
             "xxyytxx",
             "xtmcmyx",
@@ -87,14 +88,14 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
             "tmafact",
             "ymaaacy",
             "xyccmyx",
-            "xxttyxx"};
+            "xxttyxx" };
     private static final int RADIUS = 3;
     /** Cells above ground cleared over every non-x column: covers double plants and snow layers. */
     private static final int CLEAR_HEIGHT_ABOVE = 2;
 
     //region Cluster [丛生] -- the size roll and spacing (Alex, 2026-09-26)
     /** Sizes 1..5 with weights 50/20/15/10/5, rolled once per generated spot. */
-    static final int[] CLUSTER_SIZE_WEIGHTS = {50, 20, 15, 10, 5};
+    static final int[] CLUSTER_SIZE_WEIGHTS = { 50, 20, 15, 10, 5 };
     static final int CLUSTER_MIN_SEPARATION = 8;
     static final int CLUSTER_MAX_SEPARATION = 16;
     /** Random candidates tried per cluster member before the member is dropped. */
@@ -122,6 +123,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         super(NoneFeatureConfiguration.CODEC);
         this.placement = placement;
     }
+
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         WorldGenLevel level = context.level();
@@ -141,6 +143,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         }
         return true;
     }
+
     /** The cluster size roll: {@code roll} in [0,100) maps through the cumulative weights. */
     static int clusterSizeForRoll(int roll) {
         int cumulative = 0;
@@ -150,11 +153,13 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         }
         return CLUSTER_SIZE_WEIGHTS.length;
     }
+
     /** The 8..16 block horizontal spacing between any two springs of one cluster. */
     static boolean separationAcceptable(int dx, int dz) {
         double distance = Math.sqrt((double) dx * dx + (double) dz * dz);
         return distance >= CLUSTER_MIN_SEPARATION && distance <= CLUSTER_MAX_SEPARATION;
     }
+
     /**
      * Picks one cluster member spot: a random horizontal offset from the origin, 8..16 blocks from
      * every already-placed spring, inside the write window, on ground this placement accepts.
@@ -182,6 +187,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         }
         return null;
     }
+
     /** Mode dispatch: the surface heightmap rule or the underground cave scan. */
     private @Nullable BlockPos groundAt(WorldGenLevel level, int x, int z, int hintY) {
         return switch (placement) {
@@ -189,6 +195,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
             case UNDERGROUND -> caveGround(level, x, z, hintY);
         };
     }
+
     /**
      * The surface rule: the heightmap ground at the column, vetoed by logs/leaves, fluids and the
      * flat-land check over the structure footprint.
@@ -203,6 +210,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         if (unevenTerrain(level, groundCenter)) return null;
         return groundCenter;
     }
+
     /**
      * The underground rule: scan the column from just below the sampled height (never nearer than
      * {@link #UNDERGROUND_SURFACE_GUARD} under the surface, so open-air terrain never qualifies)
@@ -217,6 +225,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         }
         return null;
     }
+
     /**
      * An enclosed cave floor at the column: sturdy ground under every footprint cell, the clear
      * band open over all of them, and ceiling overhead at the center. Cells hold air or
@@ -238,16 +247,19 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         }
         return true;
     }
+
     private static boolean sturdyFloor(WorldGenLevel level, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         return level.getBlockState(pos).isFaceSturdy(level, pos, Direction.UP);
     }
+
     /** Air or a replaceable plant, never a fluid: the cells the structure clears and fills. */
     private static boolean clearable(WorldGenLevel level, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         BlockState state = level.getBlockState(pos);
         return state.getFluidState().isEmpty() && (state.isAir() || state.canBeReplaced());
     }
+
     /** Solid ceiling within reach over the clear band: a real cave, not a ravine open to the sky. */
     private static boolean enclosed(WorldGenLevel level, int x, int groundY, int z) {
         for (int dy = CLEAR_HEIGHT_ABOVE + 1; dy <= CLEAR_HEIGHT_ABOVE + UNDERGROUND_CEILING_SCAN; dy++) {
@@ -256,6 +268,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         }
         return false;
     }
+
     /**
      * Flat-land rule (Alex, 2026-09-24): any structure column whose own surface height differs
      * from the center's vetoes the whole spot -- slopes, ponds and trees all move the heightmap,
@@ -280,6 +293,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         }
         return false;
     }
+
     /**
      * Lays the two grid layers and the spring source around {@code groundCenter} (the ground
      * block at layer two's level), clearing the two cells above ground over every non-x column
@@ -301,6 +315,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
         level.setBlock(spring, ModBlocks.SPIRIT_SPRING.get().defaultBlockState(), 2);
         level.scheduleTick(spring, ModFluids.SPIRIT_SPRING.get(), 0);
     }
+
     private static void placeLayer(LevelAccessor level, BlockPos layerCenter, String[] grid) {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length(); column++) {
@@ -310,6 +325,7 @@ public class SpiritSpringFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
     }
+
     static @Nullable BlockState stateFor(char symbol) {
         return switch (symbol) {
             case 'y' -> Blocks.COBBLESTONE.defaultBlockState();

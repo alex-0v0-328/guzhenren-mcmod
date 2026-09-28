@@ -20,6 +20,7 @@ import net.minecraft.world.item.Item;
 public final class ModItemTags {
 
     private ModItemTags() {}
+
     public static final TagKey<Item> BOAR_FEED = key("boar_feed");
     public static final TagKey<Item> BEAR_FEED = key("bear_feed");
     public static final TagKey<Item> BEEF_FEED = key("beef_feed");
@@ -34,6 +35,7 @@ public final class ModItemTags {
     public static final TagKey<Item> ZOMBIE_FEED = key("zombie_feed");
     public static final TagKey<Item> MALICIOUS_THOUGHT_FEED = key("malicious_thought_feed");
     public static final TagKey<Item> CASUAL_FEED = key("casual_feed");
+
     private static TagKey<Item> key(String name) {
         return TagKey.create(Registries.ITEM, Guzhenren.id(name));
     }

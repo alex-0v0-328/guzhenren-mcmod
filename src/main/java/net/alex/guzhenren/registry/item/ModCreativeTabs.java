@@ -39,6 +39,7 @@ import static net.alex.guzhenren.custom.enums.path.GuPath.STRENGTH;
 public final class ModCreativeTabs {
 
     private ModCreativeTabs() {}
+
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Guzhenren.MOD_ID);
     private static final ResourceLocation EPIC_FIGHT_ITEMS =
@@ -65,17 +66,21 @@ public final class ModCreativeTabs {
                     .displayItems((parameters, output) -> accept(output,
                             item -> item instanceof MortalGuItem gu && gu.path() == STRENGTH))
                     .build());
+
     private static void accept(CreativeModeTab.Output output, Predicate<Item> accepted) {
         for (var entry : ModItems.ITEMS.getEntries()) {
             Item item = entry.get();
             if (accepted.test(item)) output.accept(item);
         }
     }
-    static boolean belongsInMortalGu(Item item) {return item instanceof MortalGuItem gu && gu.path() != STRENGTH;}
+
+    static boolean belongsInMortalGu(Item item) { return item instanceof MortalGuItem gu && gu.path() != STRENGTH; }
+
     static boolean belongsInGuMaterial(Item item) {
         return item instanceof GuMaterialItem
                 || item instanceof BlockItem blockItem && blockItem.getBlock() instanceof SpiritSpringBlock;
     }
+
     public static void register(IEventBus modEventBus) {
         CREATIVE_MODE_TABS.register(modEventBus);
     }

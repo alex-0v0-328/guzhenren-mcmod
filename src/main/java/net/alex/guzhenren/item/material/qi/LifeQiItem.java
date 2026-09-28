@@ -28,9 +28,11 @@ import net.minecraft.world.item.ItemStack;
 public class LifeQiItem extends QiMaterialItem {
 
     private static final String CURED = "guzhenren.item.death_qi_cured";
+
     public LifeQiItem(Properties properties, Rank rank) {
         super(properties, rank, QiKind.LIFE);
     }
+
     @Override
     protected int apply(ServerPlayer player, ItemStack stack) {
         long death = PathQiService.current(player, QiKind.DEATH);

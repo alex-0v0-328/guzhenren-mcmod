@@ -26,8 +26,10 @@ public enum ThoughtTag implements StringRepresentable, EnumTranslatable {
 
     public static final Codec<ThoughtTag> CODEC = StringRepresentable.fromEnum(ThoughtTag::values);
     private static final String KEY_PREFIX = "guzhenren.enum.wisdom.tag.";
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
     @Override
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

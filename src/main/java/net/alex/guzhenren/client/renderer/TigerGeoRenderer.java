@@ -12,6 +12,7 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
  * Shared GeckoLib renderer for the orange and white tigers; geometry and animations come from the
  * shared {@code tiger} model, each coat's renderer instance injects its fixed texture.
  */
+
 public final class TigerGeoRenderer extends GeoEntityRenderer<TigerEntity> {
 
     public static final ResourceLocation ORANGE_TEXTURE =

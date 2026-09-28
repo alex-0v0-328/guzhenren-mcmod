@@ -11,9 +11,11 @@ package net.alex.guzhenren.particle;
  * @version 1.0.0
  * @since 1.0.0
  */
+
 final class RingTrailSpacing {
 
     private RingTrailSpacing() {}
+
     /** Distance between two neighbouring rings on the dash path, in blocks. */
     static final double SPACING = 2.0D;
 

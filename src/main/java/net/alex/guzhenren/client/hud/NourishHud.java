@@ -31,10 +31,13 @@ import org.jetbrains.annotations.NotNull;
 public final class NourishHud extends HotbarHud {
 
     public static final NourishHud INSTANCE = new NourishHud();
+
     private NourishHud() {}
+
     private static final String CAPTION = "guzhenren.hud.nourishing";
     private static final String STARVING = "guzhenren.hud.nourish_starving";
     private static final int FILL_STARVING = 0xFFE57373;
+
     @Override
     public void render(@NotNull GuiGraphics graphics, @NotNull DeltaTracker delta) {
         Minecraft minecraft = Minecraft.getInstance();

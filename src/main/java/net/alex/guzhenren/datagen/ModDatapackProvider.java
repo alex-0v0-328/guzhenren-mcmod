@@ -76,9 +76,11 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.CONFIGURED_FEATURE, ModDatapackProvider::configuredFeatures)
             .add(Registries.PLACED_FEATURE, ModDatapackProvider::placedFeatures)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModDatapackProvider::biomeModifiers);
+
     public ModDatapackProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(Guzhenren.MOD_ID));
     }
+
     //region Damage types [伤害类型]
     private static void damageTypes(BootstrapContext<DamageType> context) {
         context.register(ModDamageTypes.LIFESPAN_EXHAUSTED, new DamageType("guzhenren.lifespan_exhausted", 0.0F));
@@ -116,6 +118,7 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
 
     //region Biome [生物群系]
     private static final int TREASURE_YELLOW_HEAVEN_SKY_COLOR = 0xF4D35E;
+
     private static void biomes(BootstrapContext<Biome> context) {
         context.register(ModDimensions.TREASURE_YELLOW_HEAVEN_BIOME, new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
@@ -163,12 +166,14 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
      * underground rate lands far below the surface one.
      */
     private static final int SPIRIT_SPRING_UNDERGROUND_RARITY = 3000;
+
     private static void configuredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         context.register(SPIRIT_SPRING_CONFIGURED,
                 new ConfiguredFeature<>(ModFeatures.SPIRIT_SPRING.get(), NoneFeatureConfiguration.INSTANCE));
         context.register(SPIRIT_SPRING_UNDERGROUND_CONFIGURED, new ConfiguredFeature<>(
                 ModFeatures.SPIRIT_SPRING_UNDERGROUND.get(), NoneFeatureConfiguration.INSTANCE));
     }
+
     private static void placedFeatures(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configured = context.lookup(Registries.CONFIGURED_FEATURE);
         context.register(SPIRIT_SPRING_PLACED, new PlacedFeature(
@@ -237,6 +242,7 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
     private static final int WHITE_TIGER_SPAWN_WEIGHT = 1;
     private static final int BEAST_PACK_MINIMUM = 1;
     private static final int BEAST_PACK_MAXIMUM = 1;
+
     private static void biomeModifiers(BootstrapContext<BiomeModifier> context) {
         HolderGetter<Biome> biomes = context.lookup(Registries.BIOME);
 
@@ -279,15 +285,18 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
                 HolderSet.direct(placedFeatures.getOrThrow(SPIRIT_SPRING_UNDERGROUND_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_DECORATION));
     }
+
     private static MobSpawnSettings.SpawnerData beetleSpawns(EntityType<RhinocerosBeetleGuEntity> type,
                                                              int weight) {
         return new MobSpawnSettings.SpawnerData(type, weight, BEETLE_PACK_MINIMUM, BEETLE_PACK_MAXIMUM);
     }
+
     private static BiomeModifier boarSpawns(HolderGetter<Biome> biomes, EntityType<BoarGuEntity> type) {
         MobSpawnSettings.SpawnerData data = new MobSpawnSettings.SpawnerData(
                 type, BOAR_SPAWN_WEIGHT, BOAR_PACK_MINIMUM, BOAR_PACK_MAXIMUM);
         return new BiomeModifiers.AddSpawnsBiomeModifier(biomes.getOrThrow(ModBiomeTags.BOAR_GU_SPAWNS), List.of(data));
     }
+
     private static BiomeModifier bearSpawns(HolderGetter<Biome> biomes, EntityType<BearEntity> type,
                                             int weight) {
         MobSpawnSettings.SpawnerData data = new MobSpawnSettings.SpawnerData(

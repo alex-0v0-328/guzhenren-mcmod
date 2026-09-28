@@ -57,10 +57,12 @@ import org.joml.Vector3f;
  * @see RingGeometry
  * @since 1.0.0
  */
+
 public final class RingParticle extends TextureSheetParticle {
 
     /** How the ring quad is oriented in the world; per particle type, chosen by the provider. */
-    public enum Orientation {GROUND, FACING_MOTION}
+    public enum Orientation { GROUND, FACING_MOTION }
+
     /**
      * Additive glow sheet: the stroke art is pure white, so SRC_ALPHA/ONE makes it emit instead of
      * blend, and masked depth writes keep the ground-lying quad from z-fighting. 1.21.1 has no
@@ -80,8 +82,9 @@ public final class RingParticle extends TextureSheetParticle {
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
+
         @Override
-        public String toString() {return Guzhenren.MOD_ID + ":additive_glow";}
+        public String toString() { return Guzhenren.MOD_ID + ":additive_glow"; }
     };
     /**
      * One tick per hand-drawn ring. Pinned by the L2 ring-texture test against the datagen'd
@@ -249,5 +252,5 @@ public final class RingParticle extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {return ADDITIVE_GLOW;}
+    public @NotNull ParticleRenderType getRenderType() { return ADDITIVE_GLOW; }
 }

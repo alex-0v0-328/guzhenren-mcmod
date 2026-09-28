@@ -11,6 +11,7 @@ import net.minecraft.world.entity.EntityType;
  * <p>{@link #PREDATOR_PREY} lists the vanilla farm and small animals that hunting beasts (the Asian
  * black bear, tigers) proactively attack. Mod creatures never proactively target each other.
  */
+
 public final class ModEntityTypeTags {
 
     private ModEntityTypeTags() {}

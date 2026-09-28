@@ -44,19 +44,25 @@ public class HopeGuItem extends MortalGuItem {
     private static final int LOWEST_BASE = Talent.LOWEST.getMinPercent();
     private static final int FILLING_COLOR = 0xFFCCCCCC;
     private static final int LOCKED_COLOR = CHARGE_COLOR_DEFAULT;
+
     public HopeGuItem(Properties properties, GuSpec spec) {
         super(properties, spec);
     }
+
     @Override
     protected @Nullable Refusal useGate(Player player, ItemStack stack) {
         return ApertureService.isAwakened(player) ? new Refusal(FAILED_AWAKENED) : null;
     }
+
     @Override
-    protected final @Nullable Refusal gate(Player player, ItemStack stack) {return useGate(player, stack);}
+    protected final @Nullable Refusal gate(Player player, ItemStack stack) { return useGate(player, stack); }
+
     @Override
-    protected final int useDurationTicks(Player player, ItemStack stack) {return RITUAL_TICKS;}
+    protected final int useDurationTicks(Player player, ItemStack stack) { return RITUAL_TICKS; }
+
     @Override
-    protected int cooldownTicks(ItemStack stack) {return REFINE_DONE_COOLDOWN_TICKS;}
+    protected int cooldownTicks(ItemStack stack) { return REFINE_DONE_COOLDOWN_TICKS; }
+
     @Override
     public void onUseTick(@NotNull Level level, @NotNull LivingEntity entity, @NotNull ItemStack stack,
                           int remaining) {
@@ -65,6 +71,7 @@ public class HopeGuItem extends MortalGuItem {
 
         stack.set(ModDataComponents.AWAKEN_BASE.get(), Talent.randomPercent(Talent.randomTalent()));
     }
+
     @Override
     protected final int apply(ServerPlayer player, ItemStack stack) {
         ApertureService.awaken(player, rolledBase(stack));
@@ -73,24 +80,31 @@ public class HopeGuItem extends MortalGuItem {
         ModCommandSupport.refreshCommands(player);
         return 1;
     }
+
     //region the ritual bar
     private static int rolledBase(ItemStack stack) {
         return stack.getOrDefault(ModDataComponents.AWAKEN_BASE.get(), 0);
     }
-    private static int filledTicks(int remaining) {return Math.min(RITUAL_TICKS - remaining, FILLING_TICKS);}
+
+    private static int filledTicks(int remaining) { return Math.min(RITUAL_TICKS - remaining, FILLING_TICKS); }
+
     private static int climbingBase(ItemStack stack, int remainingTicks) {
         int rolled = rolledBase(stack);
         return LOWEST_BASE + (rolled - LOWEST_BASE) * filledTicks(remainingTicks) / FILLING_TICKS;
     }
+
     @Override
     public @Nullable Float chargeFraction(ItemStack stack, int remainingTicks) {
         return rolledBase(stack) <= 0 ? 0.0F : climbingBase(stack, remainingTicks) / 100.0F;
     }
+
     @Override
     public int chargeColor(ItemStack stack, int remainingTicks) {
         return isHeldAtFull(remainingTicks) ? LOCKED_COLOR : FILLING_COLOR;
     }
-    private static boolean isHeldAtFull(int remainingTicks) {return remainingTicks <= HELD_AT_FULL_TICKS;}
+
+    private static boolean isHeldAtFull(int remainingTicks) { return remainingTicks <= HELD_AT_FULL_TICKS; }
+
     @Override
     public @Nullable Component chargeCaption(ItemStack stack, int remainingTicks) {
         if (rolledBase(stack) <= 0) return null;

@@ -32,10 +32,13 @@ public enum SoulTier implements StringRepresentable, EnumTranslatable {
     public static final Codec<SoulTier> CODEC = StringRepresentable.fromEnum(SoulTier::values);
     private static final String KEY_PREFIX = "guzhenren.enum.soul.tier.";
     private final long minSoul;
+
     SoulTier(long minSoul) {
         this.minSoul = minSoul;
     }
-    public long getMinSoul() {return minSoul;}
+
+    public long getMinSoul() { return minSoul; }
+
     public static @NotNull SoulTier fromSoul(long soul) {
         SoulTier[] tiers = values();
         for (int i = tiers.length - 1; i >= 0; i--) {
@@ -43,7 +46,9 @@ public enum SoulTier implements StringRepresentable, EnumTranslatable {
         }
         return ONE;
     }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

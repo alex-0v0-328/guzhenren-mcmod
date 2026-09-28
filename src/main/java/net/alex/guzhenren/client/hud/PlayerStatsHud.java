@@ -37,7 +37,9 @@ import org.jetbrains.annotations.NotNull;
 public final class PlayerStatsHud implements LayeredDraw.Layer {
 
     public static final PlayerStatsHud INSTANCE = new PlayerStatsHud();
+
     private PlayerStatsHud() {}
+
     private static final int LEFT = 8;
     private static final int TOP = 8;
     private static final int BAR_WIDTH = 130;
@@ -45,6 +47,7 @@ public final class PlayerStatsHud implements LayeredDraw.Layer {
     private static final int TEXT_HEIGHT = 9;
     private static final int ROW_GAP = 2;
     private static final int GROUP_GAP = 7;
+
     @Override
     public void render(@NotNull GuiGraphics graphics, @NotNull DeltaTracker delta) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -92,9 +95,11 @@ public final class PlayerStatsHud implements LayeredDraw.Layer {
             line(graphics, font, y, pressure);
         }
     }
+
     private static void line(GuiGraphics graphics, Font font, int y, Component text) {
         graphics.drawString(font, text, LEFT, y, ModPalette.TEXT, true);
     }
+
     private static void bar(GuiGraphics graphics, Font font, int y, long current, long max, int fill) {
         int right = LEFT + BAR_WIDTH;
         graphics.fill(LEFT, y, right, y + BAR_HEIGHT, ModPalette.BAR_BORDER);

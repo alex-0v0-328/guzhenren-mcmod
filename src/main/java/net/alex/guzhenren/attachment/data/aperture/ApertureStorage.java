@@ -34,6 +34,7 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
             ItemStack.OPTIONAL_CODEC.listOf().optionalFieldOf("vital", List.of())
                     .forGetter(ApertureStorage::vital)
     ).apply(instance, ApertureStorage::new));
+
     public ApertureStorage {
         List<List<ItemStack>> kept = new ArrayList<>();
         for (int i = 0; i < Math.min(byAperture.size(), ApertureData.MAX_APERTURES); i++) {
@@ -49,16 +50,20 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         while (!bound.isEmpty() && bound.getLast().isEmpty()) bound.removeLast();
         vital = Collections.unmodifiableList(bound);
     }
+
     public List<ItemStack> get(int aperture) {
         return aperture >= 0 && aperture < byAperture.size()
                 ? Collections.unmodifiableList(copyStacks(byAperture.get(aperture))) : List.of();
     }
+
     public ItemStack getVital(int aperture) {
         return aperture >= 0 && aperture < vital.size() ? vital.get(aperture).copy() : ItemStack.EMPTY;
     }
+
     public int count(int aperture) {
         return aperture >= 0 && aperture < byAperture.size() ? byAperture.get(aperture).size() : 0;
     }
+
     public List<ItemStack> page(int aperture, int from, int size) {
         if (aperture < 0 || aperture >= byAperture.size() || from < 0 || size <= 0) {
             return List.of();
@@ -67,6 +72,7 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         int to = Math.min(stored.size(), from + size);
         return Collections.unmodifiableList(copyStacks(stored.subList(Math.min(from, to), to)));
     }
+
     public boolean matchesPage(int aperture, int from, List<ItemStack> page) {
         if (from < 0) return false;
         if (aperture < 0 || aperture >= byAperture.size()) {
@@ -83,6 +89,7 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         }
         return true;
     }
+
     public ApertureStorage with(int aperture, List<ItemStack> items) {
         if (aperture < 0 || aperture >= ApertureData.MAX_APERTURES) return this;
 
@@ -91,6 +98,7 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         next.set(aperture, items);
         return new ApertureStorage(next, vital);
     }
+
     public ApertureStorage withPage(int aperture, int from, List<ItemStack> page) {
         if (aperture < 0 || aperture >= ApertureData.MAX_APERTURES || from < 0) return this;
 
@@ -102,6 +110,7 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         next.set(aperture, all);
         return new ApertureStorage(next, vital);
     }
+
     public ApertureStorage withVital(int aperture, ItemStack stack) {
         if (aperture < 0 || aperture >= ApertureData.MAX_APERTURES) return this;
 
@@ -110,6 +119,7 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         next.set(aperture, stack);
         return new ApertureStorage(byAperture, next);
     }
+
     /**
      * Makes room for a first aperture inserted ahead of a lone second one: every stored list and the
      * Vital Gu slot moves one position up. A Vital Gu bound by the component default (aperture 0) is
@@ -127,6 +137,7 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         for (ItemStack stack : vital) bound.add(rebound(stack));
         return new ApertureStorage(items, bound);
     }
+
     private static ItemStack rebound(ItemStack stack) {
         if (stack.isEmpty()) return stack;
 
@@ -134,7 +145,9 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         copy.set(ModDataComponents.VITAL_APERTURE.get(), ApertureData.SECONDARY);
         return copy;
     }
-    public ApertureStorage copy() {return new ApertureStorage(byAperture, vital);}
+
+    public ApertureStorage copy() { return new ApertureStorage(byAperture, vital); }
+
     private static List<ItemStack> copyStacks(List<ItemStack> stacks) {
         List<ItemStack> copies = new ArrayList<>(stacks.size());
         for (ItemStack stack : stacks) copies.add(stack.copy());

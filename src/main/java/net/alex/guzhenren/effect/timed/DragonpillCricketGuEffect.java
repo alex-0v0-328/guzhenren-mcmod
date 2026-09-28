@@ -36,13 +36,16 @@ public class DragonpillCricketGuEffect extends MobEffect {
     private static final int LAST_TICK = 1;
     private static final ResourceLocation MODIFIER_ID =
             Guzhenren.id("dragonpill_cricket_jump_strength");
+
     public DragonpillCricketGuEffect(MobEffectCategory category, int color) {
         super(category, color);
         addAttributeModifier(Attributes.JUMP_STRENGTH, MODIFIER_ID, JUMP_BONUS,
                 AttributeModifier.Operation.ADD_VALUE);
     }
+
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {return duration == LAST_TICK;}
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) { return duration == LAST_TICK; }
+
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         entity.addEffect(ModEffects.instance(MobEffects.WEAKNESS, AFTERMATH_TICKS));

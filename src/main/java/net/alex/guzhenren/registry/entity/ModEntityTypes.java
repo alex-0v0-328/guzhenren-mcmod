@@ -35,6 +35,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModEntityTypes {
 
     private ModEntityTypes() {}
+
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(Registries.ENTITY_TYPE, Guzhenren.MOD_ID);
     private static final float MOTE_WIDTH = 0.4F;
@@ -94,6 +95,7 @@ public final class ModEntityTypes {
                     .sized(TIGER_WIDTH, TIGER_HEIGHT)
                     .clientTrackingRange(TRACKING_CHUNKS)
                     .build("white_tiger"));
+
     private static DeferredHolder<EntityType<?>, EntityType<BearEntity>> bear(BearSpecies species) {
         return ENTITY_TYPES.register(species.id(), () -> EntityType.Builder
                 .<BearEntity>of((type, level) -> new BearEntity(type, level, species), MobCategory.CREATURE)
@@ -101,6 +103,7 @@ public final class ModEntityTypes {
                 .clientTrackingRange(TRACKING_CHUNKS)
                 .build(species.id()));
     }
+
     private static DeferredHolder<EntityType<?>, EntityType<BoarGuEntity>> boarGu(String name, Supplier<Item> caughtGu) {
         return ENTITY_TYPES.register(name, () -> EntityType.Builder
                 .<BoarGuEntity>of((type, level) -> new BoarGuEntity(type, level, caughtGu), MobCategory.AMBIENT)
@@ -108,6 +111,7 @@ public final class ModEntityTypes {
                 .clientTrackingRange(TRACKING_CHUNKS)
                 .build(name));
     }
+
     private static DeferredHolder<EntityType<?>, EntityType<RhinocerosBeetleGuEntity>> beetle(
             String name, Supplier<Item> caughtGu) {
         return ENTITY_TYPES.register(name, () -> EntityType.Builder
@@ -117,6 +121,7 @@ public final class ModEntityTypes {
                 .clientTrackingRange(TRACKING_CHUNKS)
                 .build(name));
     }
+
     public static void register(IEventBus modEventBus) {
         ENTITY_TYPES.register(modEventBus);
     }

@@ -34,11 +34,13 @@ interface EffectIconLayout extends IClientMobEffectExtensions {
     int INVENTORY_SLOT_Y = 7;
 
     String textureFor(MobEffectInstance instance);
+
     private void draw(GuiGraphics g, MobEffectInstance instance, int x, int y) {
         ResourceLocation texture = Guzhenren.id(
                 "textures/" + textureFor(instance) + ".png");
         g.blit(texture, x, y, 0, 0.0F, 0.0F, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
     }
+
     @Override
     default boolean renderGuiIcon(@NotNull MobEffectInstance instance, @NotNull Gui gui, GuiGraphics graphics,
                                   int x, int y, float z, float alpha) {
@@ -47,6 +49,7 @@ interface EffectIconLayout extends IClientMobEffectExtensions {
         graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
         return true;
     }
+
     @Override
     default boolean renderInventoryIcon(@NotNull MobEffectInstance instance,
                                         @NotNull EffectRenderingInventoryScreen<?> screen,

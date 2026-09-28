@@ -40,7 +40,9 @@ public class Guzhenren {
 
     public static final String MOD_ID = "guzhenren";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static ResourceLocation id(String path) {return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);}
+
+    public static ResourceLocation id(String path) { return ResourceLocation.fromNamespaceAndPath(MOD_ID, path); }
+
     public Guzhenren(IEventBus modEventBus) {
         ModAttachments.register(modEventBus);
         ModDataComponents.register(modEventBus);

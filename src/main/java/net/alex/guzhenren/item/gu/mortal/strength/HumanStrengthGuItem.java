@@ -32,16 +32,19 @@ public class HumanStrengthGuItem extends TendedGuItem {
     private static final String FAILED_LAYERS_FULL = "guzhenren.item.failed.human_strength_full";
     private static final int LAYERS_PER_GRANT = 1;
     private final HumanStrength kind;
+
     public HumanStrengthGuItem(Properties properties, HumanStrength kind, GuSpec spec) {
         super(properties, spec);
         this.kind = kind;
     }
+
     @Override
     protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {
         return PathStrengthService.humanStrength(player, kind) >= kind.getMaxLayers()
                 ? new Refusal(FAILED_LAYERS_FULL, Component.literal(String.valueOf(kind.getMaxLayers())))
                 : null;
     }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         PathStrengthService.addHumanStrength(player, kind, LAYERS_PER_GRANT);

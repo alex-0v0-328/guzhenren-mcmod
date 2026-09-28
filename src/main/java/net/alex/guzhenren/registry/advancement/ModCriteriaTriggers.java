@@ -22,10 +22,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModCriteriaTriggers {
 
     private ModCriteriaTriggers() {}
+
     public static final DeferredRegister<CriterionTrigger<?>> TRIGGERS =
             DeferredRegister.create(BuiltInRegistries.TRIGGER_TYPES.key(), Guzhenren.MOD_ID);
     public static final Supplier<HopeGuUsedTrigger> USED_HOPE_GU = TRIGGERS.register("used_hope_gu",
             HopeGuUsedTrigger::new);
+
     public static void register(IEventBus modEventBus) {
         TRIGGERS.register(modEventBus);
     }

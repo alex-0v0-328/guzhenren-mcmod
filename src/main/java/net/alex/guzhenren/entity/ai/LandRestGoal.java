@@ -83,7 +83,7 @@ public class LandRestGoal extends Goal {
     }
 
     @Override
-    public boolean requiresUpdateEveryTick() {return true;}
+    public boolean requiresUpdateEveryTick() { return true; }
 
     @Override
     public void tick() {

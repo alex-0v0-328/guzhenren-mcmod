@@ -37,6 +37,7 @@ import software.bernie.geckolib.animatable.GeoEntity;
  * validation, directional hurt poses, the roar-on-first-lock rule, the night-sleep / daytime-rest
  * ambient chain, death timing and persistence.
  */
+
 public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
     public static final int SWIPE_COOLDOWN_TICKS = 20;
@@ -78,38 +79,55 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
     /** Tick at which the swipe's hit frame lands. */
     protected abstract int swipeHitTick();
+
     /** Tick at which the swipe action ends and the pose returns to idle. */
     protected abstract int swipeActionTicks();
+
     /** Length of the first-lock roar. */
     protected abstract int roarActionTicks();
+
     /** Length of the lie-down transition into lie/sleep. */
     protected abstract int lieDownActionTicks();
+
     /** Length of the get-up transition back to idle. */
     protected abstract int getUpActionTicks();
+
     /** Death-tick at which the corpse is removed (covers the full death animation). */
     protected abstract int deathRemoveTick();
+
     /** Flat swipe damage, before armor. */
     protected abstract float swipeDamage();
+
     /** Flat heavy-attack damage, before armor. */
     protected abstract float heavyDamage();
+
     /** Whether this beast seeks targets on its own (true) or only retaliates (false). */
     protected abstract boolean huntsActively();
+
     /** Movement-speed multiplier applied to the pursuit navigation. */
     protected abstract double pursuitSpeed();
+
     /** Selects and starts an attack against the current target; called while idle. */
     protected abstract void chooseAttack(LivingEntity target);
+
     /** Advances the heavy attack; hit frames and movement physics live here. */
     protected abstract void tickHeavyAttack(long ticks);
+
     /** Whether the heavy attack keeps its horizontal momentum at this tick (pounce flight). */
     protected boolean heavyKeepsMomentum(long ticks) {
         return false;
     }
+
     /** Daytime ambient actions this beast may pick, with relative weights. */
     protected abstract Action pickDaytimeAmbient(double roll);
+
     protected abstract SoundEvent roarSound();
+
     protected abstract float roarPitch();
+
     /** Extra height added to the render culling box so rearing poses are not clipped. */
     protected abstract double cullExtraHeight();
+
     /** Symmetric horizontal inflation of the render culling box (tail sweep, rearing width). */
     protected abstract double cullHorizontalInflate();
 
@@ -312,6 +330,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
     /** Horizontal knockback strength of the swipe. */
     protected abstract double swipeKnockback();
+
     /** Upward knockback component of the swipe. */
     protected abstract double swipeUpward();
 
@@ -401,8 +420,8 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
     protected boolean hasGroundAhead(Vec3 position) {
         double radius = this.getBbWidth() * 0.45D;
-        for (double x : new double[]{-radius, radius}) {
-            for (double z : new double[]{-radius, radius}) {
+        for (double x : new double[] { -radius, radius }) {
+            for (double z : new double[] { -radius, radius }) {
                 net.minecraft.core.BlockPos below = net.minecraft.core.BlockPos.containing(
                         position.x + x, position.y - 0.15D, position.z + z);
                 if (!this.level().loadedAndEntityCanStandOn(below, this)) return false;
@@ -597,6 +616,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     }
 
     private static final class CombatGoal extends Goal {
+
         private final BeastEntity beast;
 
         private CombatGoal(BeastEntity beast) {
@@ -631,6 +651,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
     /** Active target search for hunting species: the nearest valid player or prey animal. */
     private static final class HuntGoal extends Goal {
+
         private static final int SCAN_INTERVAL_TICKS = 10;
         private final BeastEntity beast;
 
@@ -676,6 +697,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
     /** Holds navigation still while the beast sits, lies, sleeps, rolls or scratches. */
     private static final class RestGoal extends Goal {
+
         private final BeastEntity beast;
 
         private RestGoal(BeastEntity beast) {
@@ -700,6 +722,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     }
 
     private static final class WanderGoal extends WaterAvoidingRandomStrollGoal {
+
         private final BeastEntity beast;
 
         private WanderGoal(BeastEntity beast) {
@@ -728,6 +751,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
     /** Synchronized poses. The ordinal is the wire id; subclasses map the poses onto their animation set. */
     public enum Action {
+
         IDLE(true, false, false),
         SIT(true, false, true),
         LIE_DOWN(false, false, true),
@@ -754,9 +778,12 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         }
 
         public boolean loops() { return this.loop; }
+
         public boolean isAttack() { return this.attack; }
+
         /** Rest poses (sit/lie/sleep/roll/scratch) that combat engagement interrupts. */
         public boolean isAmbient() { return this.ambient; }
+
         private byte id() { return (byte)this.ordinal(); }
 
         private static Action fromId(byte id) {

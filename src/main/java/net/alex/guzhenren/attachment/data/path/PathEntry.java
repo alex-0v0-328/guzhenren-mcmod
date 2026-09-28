@@ -42,19 +42,27 @@ public record PathEntry(GuAttainment attainment, Map<MarkTag, Long> marks) {
             ModStreamCodecs.ofEnum(GuAttainment.class), PathEntry::attainment,
             ModStreamCodecs.enumMap(MarkTag.class, ByteBufCodecs.VAR_LONG), PathEntry::marks,
             PathEntry::new);
+
     public PathEntry {
         marks = normalized(marks);
     }
-    public long markTotal() {return sum(marks);}
-    public long mark(MarkTag tag) {return marks.getOrDefault(tag, 0L);}
-    public PathEntry withAttainment(GuAttainment v) {return new PathEntry(v, marks);}
-    public PathEntry withMark(MarkTag t, long v) {return new PathEntry(attainment, set(marks, t, v));}
-    public boolean isDefault() {return attainment == GuAttainment.NONE && marks.isEmpty();}
+
+    public long markTotal() { return sum(marks); }
+
+    public long mark(MarkTag tag) { return marks.getOrDefault(tag, 0L); }
+
+    public PathEntry withAttainment(GuAttainment v) { return new PathEntry(v, marks); }
+
+    public PathEntry withMark(MarkTag t, long v) { return new PathEntry(attainment, set(marks, t, v)); }
+
+    public boolean isDefault() { return attainment == GuAttainment.NONE && marks.isEmpty(); }
+
     private static long sum(Map<MarkTag, Long> tags) {
         long total = 0L;
         for (long value : tags.values()) total = LongMath.saturatedAdd(total, value);
         return total;
     }
+
     private static Map<MarkTag, Long> normalized(Map<MarkTag, Long> tags) {
         Map<MarkTag, Long> pruned = new EnumMap<>(MarkTag.class);
         tags.forEach((tag, value) -> {
@@ -62,6 +70,7 @@ public record PathEntry(GuAttainment attainment, Map<MarkTag, Long> marks) {
         });
         return Collections.unmodifiableMap(pruned);
     }
+
     private static Map<MarkTag, Long> set(Map<MarkTag, Long> tags, MarkTag tag, long value) {
         Map<MarkTag, Long> next = new EnumMap<>(MarkTag.class);
         next.putAll(tags);

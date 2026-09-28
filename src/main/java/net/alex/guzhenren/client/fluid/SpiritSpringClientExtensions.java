@@ -19,14 +19,18 @@ import org.joml.Vector3f;
  * @version 1.0.0
  * @since 1.0.0
  */
+
 public class SpiritSpringClientExtensions implements IClientFluidTypeExtensions {
 
     private static final ResourceLocation STILL = Guzhenren.id("block/spirit_spring_still");
     private static final ResourceLocation FLOWING = Guzhenren.id("block/spirit_spring_flow");
+
     @Override
-    public @NotNull ResourceLocation getStillTexture() {return STILL;}
+    public @NotNull ResourceLocation getStillTexture() { return STILL; }
+
     @Override
-    public @NotNull ResourceLocation getFlowingTexture() {return FLOWING;}
+    public @NotNull ResourceLocation getFlowingTexture() { return FLOWING; }
+
     @Override
     public @NotNull Vector3f modifyFogColor(@NotNull Camera camera, float partialTick, @NotNull ClientLevel level,
                                             int renderDistanceChunks, float distance, @NotNull Vector3f fogColor) {

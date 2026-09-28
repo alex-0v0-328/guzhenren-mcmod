@@ -31,13 +31,16 @@ import net.minecraft.server.level.ServerPlayer;
 public final class CmdQi {
 
     private CmdQi() {}
+
     private static final String ARG_KIND = "kind";
+
     public static ArgumentBuilder<CommandSourceStack, ?> node() {
         return Commands.literal("qi").then(ModEnumArgument.arg(ARG_KIND, QiKind.values())
                 .then(countNode("set", PathQiService::set))
                 .then(countNode("add", PathQiService::add))
                 .then(countNode("sub", (player, kind, value) -> PathQiService.add(player, kind, -value))));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> countNode(String literal, QiOperation operation) {
         return Commands.literal(literal).then(ModCommandSupport.withTargets(
                 Commands.argument(ModCommandSupport.ARG_VALUE, LongArgumentType.longArg()),
@@ -47,9 +50,11 @@ public final class CmdQi {
                     return ModCommandSupport.apply(context, player -> operation.apply(player, kind, value));
                 }));
     }
+
     private static QiKind kindOf(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         return ModEnumArgument.get(context, ARG_KIND, QiKind.values());
     }
+
     @FunctionalInterface
     private interface QiOperation {
 

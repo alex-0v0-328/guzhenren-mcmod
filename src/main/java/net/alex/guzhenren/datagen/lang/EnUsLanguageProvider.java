@@ -47,6 +47,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
     public EnUsLanguageProvider(PackOutput output) {
         super(output, Guzhenren.MOD_ID, "en_us");
     }
+
     @Override
     protected void addTranslations() {
         addEnumKeys();
@@ -59,7 +60,8 @@ public class EnUsLanguageProvider extends LanguageProvider {
         addAdvancementKeys();
         addDeathMessages();
     }
-    private void add(EnumTranslatable key, String value) {add(key.getTranslationKey(), value);}
+
+    private void add(EnumTranslatable key, String value) { add(key.getTranslationKey(), value); }
 
     //region DISPLAY
     private void addDisplayKeys() {
@@ -531,28 +533,33 @@ public class EnUsLanguageProvider extends LanguageProvider {
         addStrengthPathBranch();
         addHumanStrength();
     }
+
     private void addBeastStrength() {
         add(BeastStrength.WHITE_BOAR, "White Boar");
         add(BeastStrength.BLACK_BOAR, "Black Boar");
         add(BeastStrength.BEAR, "Bear");
     }
+
     private void addStrengthPathBranch() {
         add(StrengthPathBranch.BEAST_STRENGTH_PHANTOM, "Beast Strength Phantom Branch");
         add(StrengthPathBranch.HUMAN_JUN_STRENGTH, "Human Jun Strength Branch");
         add(StrengthPathBranch.ATMOSPHERIC_HEAVEN_AND_EARTH, "Atmospheric Heaven and Earth Branch");
         add(StrengthPathBranch.NORMAL, "Normal");
     }
+
     private void addHumanStrength() {
         add(HumanStrength.JIN, "Jin");
         add(HumanStrength.TEN_JIN, "Ten Jin");
         add(HumanStrength.JUN, "Jun");
         add(HumanStrength.TEN_JUN, "Ten Jun");
     }
+
     private void addTitle() {
         add(Title.MORTAL, "Mortal");
         add(Title.GU_MASTER, "Gu Master");
         add(Title.GU_IMMORTAL, "Gu Immortal");
     }
+
     private void addRank() {
         add(Rank.NONE, "");
         add(Rank.ONE, "Rank I");
@@ -565,6 +572,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(Rank.EIGHT, "Rank VIII");
         add(Rank.NINE, "Rank IX");
     }
+
     private void addStage() {
         add(Stage.NONE, "");
         add(Stage.INIT, "Initial");
@@ -572,10 +580,12 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(Stage.UPPER, "Upper");
         add(Stage.PEAK, "Peak");
     }
+
     private void addApertureStatus() {
         add(ApertureStatus.NORMAL, "Normal");
         add(ApertureStatus.DEAD, "Dead");
     }
+
     private void addTalent() {
         add(Talent.EXTREME, "Ten-Extremes Aptitude");
         add(Talent.FIRST, "Grade-A Aptitude");
@@ -584,11 +594,13 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(Talent.FOURTH, "Grade-D Aptitude");
         add(Talent.NONE, "Unawakened");
     }
+
     private void addPhysique() {
         add(Physique.ZOMBIE, "Zombie");
         add(Physique.HALF_ZOMBIE, "Half-Zombie");
         add(Physique.EXTREME, "Extreme");
     }
+
     private void addRace() {
         add(Race.HUMAN, "Human");
         add(Race.HAIRY_MEN, "Hairy Men");
@@ -603,6 +615,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(Race.MUSHROOMMEN, "Mushroommen");
         add(Race.SNOWMEN, "Snowmen");
     }
+
     private void addEssenceColor() {
         add(EssenceColor.NONE, "None");
         add(EssenceColor.GREEN_COPPER, "Green Copper");
@@ -615,6 +628,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(EssenceColor.WHITE_LITCHI, "White Litchi");
         add(EssenceColor.YELLOW_APRICOT, "Yellow Apricot");
     }
+
     private void addTenExtreme() {
         add(ExtremePhysique.NONE, "");
         add(ExtremePhysique.VERDANT_GREAT_SUN, "Verdant Great Sun");
@@ -629,15 +643,18 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(ExtremePhysique.UNIVERSE_GREAT_DERIVATION, "Universe Great Derivation");
         add(ExtremePhysique.PURE_DREAM_REALITY_SEEKER, "Pure Dream Reality Seeker");
     }
+
     private void addMarkTag() {
         add(MarkTag.NATURAL, "Natural");
         add(MarkTag.RACE, "Race");
         add(MarkTag.EXTREME_PHYSIQUE, "Ten-Extremes Physique");
     }
+
     private void addBeastStrengthFamily() {
         add(BeastStrengthFamily.BOAR, "Boar");
         add(BeastStrengthFamily.BEAR, "Bear");
     }
+
     private void addQiKind() {
         add(QiKind.SWORD, "Sword Qi");
         add(QiKind.STRENGTH, "Strength Qi");
@@ -648,6 +665,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(QiKind.HEAVEN, "Heaven Qi");
         add(QiKind.EARTH, "Earth Qi");
     }
+
     private void addPath() {
         add(GuPath.HEAVEN, "Heaven Path");
         add(GuPath.RULE, "Rule Path");
@@ -683,6 +701,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(GuPath.PAINTING, "Painting Path");
         add(GuPath.TRANSFORMATION, "Transformation Path");
     }
+
     private void addAttainment() {
         add(GuAttainment.NONE, "None");
         add(GuAttainment.ORDINARY, "Ordinary");
@@ -695,6 +714,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(GuAttainment.QUASI_SUPREME_GRANDMASTER, "Quasi-Supreme Grandmaster");
         add(GuAttainment.SUPREME_GRANDMASTER, "Supreme Grandmaster");
     }
+
     private void addSoulTier() {
         add(SoulTier.ONE, "One-Person Soul");
         add(SoulTier.TEN, "Ten-Person Soul");
@@ -706,11 +726,13 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(SoulTier.TEN_MILLION, "Ten-Million-Person Soul");
         add(SoulTier.HUNDRED_MILLION, "Hundred-Million-Person Soul");
     }
+
     private void addWisdomType() {
         add(WisdomType.THOUGHTS, "Thoughts");
         add(WisdomType.WILLS, "Wills");
         add(WisdomType.EMOTIONS, "Emotions");
     }
+
     private void addBrilliance() {
         add(Brilliance.ORDINARY, "Ordinary Brilliance");
         add(Brilliance.DECENT, "Decent Brilliance");
@@ -718,6 +740,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(Brilliance.OUTSTANDING, "Outstanding Brilliance");
         add(Brilliance.UNRIVALED, "Unrivaled Brilliance");
     }
+
     private void addThoughtTag() {
         add(ThoughtTag.NATURAL, "Natural");
         add(ThoughtTag.EVIL, "Malicious");

@@ -20,15 +20,18 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
  * @version 1.0.0
  * @since 1.0.0
  */
+
 public class ModBlockStateProvider extends BlockStateProvider {
 
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Guzhenren.MOD_ID, existingFileHelper);
     }
+
     @Override
     protected void registerStatesAndModels() {
         fluidBlock(ModBlocks.SPIRIT_SPRING.get(), Guzhenren.id("block/spirit_spring_still"));
     }
+
     private void fluidBlock(Block block, ResourceLocation particle) {
         simpleBlock(block, models().getBuilder(BuiltInRegistries.BLOCK.getKey(block).getPath())
                 .texture("particle", particle));

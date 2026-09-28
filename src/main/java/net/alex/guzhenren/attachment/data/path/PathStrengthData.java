@@ -47,6 +47,7 @@ public record PathStrengthData(Set<BeastStrength> beasts, Map<HumanStrength, Int
             ModStreamCodecs.enumSet(BeastStrength.class), PathStrengthData::beasts,
             ModStreamCodecs.enumMap(HumanStrength.class, ByteBufCodecs.VAR_INT), PathStrengthData::humanStrength,
             PathStrengthData::new);
+
     public PathStrengthData {
         EnumSet<BeastStrength> takenBeasts = EnumSet.noneOf(BeastStrength.class);
         takenBeasts.addAll(beasts);
@@ -58,26 +59,37 @@ public record PathStrengthData(Set<BeastStrength> beasts, Map<HumanStrength, Int
         });
         humanStrength = Collections.unmodifiableMap(pruned);
     }
-    public boolean has(BeastStrength beast) {return beasts.contains(beast);}
-    public int humanStrengthCount(HumanStrength kind) {return humanStrength.getOrDefault(kind, 0);}
-    public boolean isEmpty() {return beasts.isEmpty() && humanStrength.isEmpty();}
-    public PathStrengthData with(BeastStrength beast) {return rebuilt(beast, true);}
-    public PathStrengthData without(BeastStrength beast) {return rebuilt(beast, false);}
+
+    public boolean has(BeastStrength beast) { return beasts.contains(beast); }
+
+    public int humanStrengthCount(HumanStrength kind) { return humanStrength.getOrDefault(kind, 0); }
+
+    public boolean isEmpty() { return beasts.isEmpty() && humanStrength.isEmpty(); }
+
+    public PathStrengthData with(BeastStrength beast) { return rebuilt(beast, true); }
+
+    public PathStrengthData without(BeastStrength beast) { return rebuilt(beast, false); }
+
     public Map<BeastStrengthFamily, Integer> beastReadings() {
         Map<BeastStrengthFamily, Integer> readings = new EnumMap<>(BeastStrengthFamily.class);
         for (BeastStrength beast : beasts) readings.merge(beast.getFamily(), beast.getReading(), Integer::sum);
         return readings;
     }
+
     public int totalJin() {
         int total = 0;
         for (HumanStrength kind : HumanStrength.values()) total += humanStrengthCount(kind) * kind.getJin();
         return total;
     }
-    public int junReading() {return reading(HumanStrength.JUN, HumanStrength.TEN_JUN);}
-    public int jinReading() {return reading(HumanStrength.JIN, HumanStrength.TEN_JIN);}
+
+    public int junReading() { return reading(HumanStrength.JUN, HumanStrength.TEN_JUN); }
+
+    public int jinReading() { return reading(HumanStrength.JIN, HumanStrength.TEN_JIN); }
+
     private int reading(HumanStrength base, HumanStrength ten) {
         return humanStrengthCount(base) + HumanStrength.TEN_FACTOR * humanStrengthCount(ten);
     }
+
     public boolean hasPathBranch(StrengthPathBranch branch) {
         return switch (branch) {
             case BEAST_STRENGTH_PHANTOM -> !beasts.isEmpty();
@@ -85,12 +97,14 @@ public record PathStrengthData(Set<BeastStrength> beasts, Map<HumanStrength, Int
             case ATMOSPHERIC_HEAVEN_AND_EARTH, NORMAL -> false;
         };
     }
+
     public PathStrengthData withHumanStrength(HumanStrength kind, int count) {
         Map<HumanStrength, Integer> next = new EnumMap<>(HumanStrength.class);
         next.putAll(humanStrength);
         next.put(kind, Math.max(0, count));
         return new PathStrengthData(beasts, next);
     }
+
     private PathStrengthData rebuilt(BeastStrength beast, boolean present) {
         EnumSet<BeastStrength> next = EnumSet.noneOf(BeastStrength.class);
         next.addAll(beasts);

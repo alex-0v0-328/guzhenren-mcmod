@@ -32,22 +32,27 @@ import org.jetbrains.annotations.Nullable;
 public final class ModStreamCodecs {
 
     private ModStreamCodecs() {}
+
     public static <E extends Enum<E>> StreamCodec<ByteBuf, E> ofEnum(Class<E> type) {
         E[] values = type.getEnumConstants();
         return ByteBufCodecs.VAR_INT.map(ordinal -> byOrdinal(type, values, ordinal), Enum::ordinal);
     }
+
     public static <E extends Enum<E>> StreamCodec<ByteBuf, @Nullable E> ofNullableEnum(Class<E> type) {
         E[] values = type.getEnumConstants();
         return ByteBufCodecs.VAR_INT.map(i -> i == 0 ? null : byOrdinal(type, values, i - 1),
                 value -> value == null ? 0 : value.ordinal() + 1);
     }
+
     public static <E extends Enum<E>> void writeNullableEnum(ByteBuf buf, @Nullable E value) {
         ByteBufCodecs.VAR_INT.encode(buf, value == null ? 0 : value.ordinal() + 1);
     }
+
     public static <E extends Enum<E>> @Nullable E readNullableEnum(ByteBuf buf, Class<E> type) {
         int i = ByteBufCodecs.VAR_INT.decode(buf);
         return i == 0 ? null : byOrdinal(type, type.getEnumConstants(), i - 1);
     }
+
     // Client-intent payloads decode through here, and a forged packet can carry any VAR_INT. Rejecting it
     // as a malformed packet disconnects the sender with a readable reason instead of a bare AIOOBE.
     private static <E extends Enum<E>> E byOrdinal(Class<E> type, E[] values, int ordinal) {
@@ -57,10 +62,12 @@ public final class ModStreamCodecs {
         }
         return values[ordinal];
     }
+
     public static <K extends Enum<K>, V> StreamCodec<ByteBuf, Map<K, V>> enumMap(
             Class<K> key, StreamCodec<ByteBuf, V> value) {
         return ByteBufCodecs.map(HashMap::new, ofEnum(key), value);
     }
+
     public static <E extends Enum<E>> StreamCodec<ByteBuf, Set<E>> enumSet(Class<E> type) {
         return ByteBufCodecs.collection(HashSet::new, ofEnum(type));
     }

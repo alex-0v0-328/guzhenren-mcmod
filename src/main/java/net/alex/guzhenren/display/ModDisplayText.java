@@ -36,24 +36,30 @@ import org.jetbrains.annotations.Nullable;
 public final class ModDisplayText {
 
     private ModDisplayText() {}
+
     private static final String GAP = "  ";
+
     public static MutableComponent realm(Aperture aperture) {
         return Component.translatable("guzhenren.display.realm",
                 Component.translatable(aperture.rank().getTranslationKey()),
                 Component.translatable(aperture.stage().getTranslationKey()));
     }
+
     public static MutableComponent realmTitle(Aperture aperture) {
         MutableComponent title = Component.translatable(Title.fromRank(aperture.rank()).getTranslationKey());
         if (aperture.rank() == Rank.NONE) return title;
 
         return Component.translatable("guzhenren.display.realm_title", realm(aperture), title);
     }
+
     public static MutableComponent talent(Aperture aperture) {
         return Component.translatable(aperture.talent().getTranslationKey());
     }
+
     public static MutableComponent hudHeader(Aperture aperture, BodyData body) {
         return realmTitle(aperture).append(GAP).append(hudAptitude(aperture, body));
     }
+
     public static MutableComponent hudAptitude(Aperture aperture, BodyData body) {
         if (aperture.talent() == Talent.NONE) return talent(aperture);
 
@@ -62,10 +68,12 @@ public final class ModDisplayText {
                 : baseFraction(aperture.baseEssence());
         return Component.translatable("guzhenren.display.aptitude_line", talent(aperture), detail);
     }
+
     public static MutableComponent physique(@Nullable Physique physique, ExtremePhysique extremePhysique) {
         return Component.translatable("guzhenren.display.physique_line",
                 physiqueValue(physique, extremePhysique));
     }
+
     public static MutableComponent physiqueValue(@Nullable Physique physique, ExtremePhysique extremePhysique) {
         if (physique == null) return Component.translatable("guzhenren.display.none");
 
@@ -76,24 +84,32 @@ public final class ModDisplayText {
         }
         return value;
     }
+
     public static MutableComponent guLine(Rank rank, GuPath path, String kindKey) {
         return Component.translatable("guzhenren.display.gu_line",
                 Component.translatable(rank.getTranslationKey()),
                 Component.translatable(path.getTranslationKey()),
                 Component.translatable(kindKey));
     }
-    public static MutableComponent wild(Component name) {return Component.translatable("guzhenren.display.wild", name);}
+
+    public static MutableComponent wild(Component name) {
+        return Component.translatable("guzhenren.display.wild", name);
+    }
+
     public static MutableComponent vital(Component name) {
         return Component.translatable("guzhenren.display.vital", name);
     }
+
     public static MutableComponent path(@Nullable GuPath path) {
         return path == null
                 ? Component.translatable("guzhenren.display.none")
                 : Component.translatable(path.getTranslationKey());
     }
+
     public static Component apertureName(int number) {
         return Component.translatable("guzhenren.display.aperture_" + number);
     }
+
     public static MutableComponent pathLine(GuPath path, PathEntry entry) {
         MutableComponent line = path(path);
         if (entry.attainment() != GuAttainment.NONE) {
@@ -104,6 +120,7 @@ public final class ModDisplayText {
         }
         return line;
     }
+
     /**
      * ⚠ Two decimals, not one: a hundredth of a year is twelve real seconds at ordinary speed, which is
      * the coarsest step the eye still reads as movement. A tenth stands still for two minutes.
@@ -111,48 +128,61 @@ public final class ModDisplayText {
     public static MutableComponent lifespan(double lifespan, double age) {
         return Component.translatable("guzhenren.display.lifespan", years(lifespan), years(age));
     }
+
     public static MutableComponent lifespan(BodyData body) {
         return lifespan(body.lifespanYears(), body.ageYears());
     }
+
     public static MutableComponent hudLifespan(BodyData body) {
         return Component.translatable("guzhenren.display.lifespan",
                 String.format(Locale.ROOT, "%.1f", body.lifespanYears()),
                 String.format(Locale.ROOT, "%.0f", body.ageYears()));
     }
+
     public static String countdown(long remainingTicks) {
         long seconds = (Math.max(0L, remainingTicks) + 19L) / 20L;
         return String.format(Locale.ROOT, "%02d:%02d", seconds / 60L, seconds % 60L);
     }
-    private static String years(double v) {return String.format(Locale.ROOT, "%.2f", v);}
-    public static String pool(long current, long max) {return current + "/" + max;}
-    public static String attackBonus(double bonus) {return "+" + bonus;}
+
+    private static String years(double v) { return String.format(Locale.ROOT, "%.2f", v); }
+
+    public static String pool(long current, long max) { return current + "/" + max; }
+
+    public static String attackBonus(double bonus) { return "+" + bonus; }
+
     public static MutableComponent timeRateUp(int rate) {
         return Component.translatable("guzhenren.display.time_rate_up", rate);
     }
+
     public static MutableComponent beastStrengthLine(PathStrengthData data) {
         MutableComponent line = Component.empty();
         data.beastReadings().forEach((family, reading) -> line.append(beastReading(family, reading)));
         return line;
     }
+
     private static Component beastReading(BeastStrengthFamily family, int reading) {
         return Component.translatable("guzhenren.display.strength.beast_reading",
                 Component.translatable("guzhenren.display.strength.beast_number." + reading),
                 Component.translatable(family.getTranslationKey()));
     }
+
     public static MutableComponent humanStrengthLine(PathStrengthData data) {
         MutableComponent line = Component.empty();
         appendFamily(line, "guzhenren.display.strength.jun_reading", data.junReading());
         appendFamily(line, "guzhenren.display.strength.jin_reading", data.jinReading());
         return line;
     }
+
     public static MutableComponent strengthLabel(MutableComponent branchName, int totalJin) {
         if (totalJin <= 0) return branchName;
         return branchName.append(Component.translatable("guzhenren.display.strength.jin_total", totalJin));
     }
+
     private static void appendFamily(MutableComponent line, String readingKey, int reading) {
         if (reading <= 0) return;
         line.append(Component.translatable(readingKey, strengthNumber(reading)));
     }
+
     private static Component strengthNumber(int n) {
         if (n < 100) return belowHundred(n, false);
         Component h = Component.translatable("guzhenren.display.strength.num_hundreds." + (n / 100));
@@ -161,6 +191,7 @@ public final class ModDisplayText {
         String join = rest < 10 ? "guzhenren.display.strength.num_join_zero" : "guzhenren.display.strength.num_join";
         return Component.translatable(join, h, belowHundred(rest, true));
     }
+
     private static Component belowHundred(int n, boolean led) {
         int tens = n / 10;
         int units = n % 10;
@@ -171,6 +202,7 @@ public final class ModDisplayText {
         if (t != null && u != null) return Component.translatable("guzhenren.display.strength.num_join", t, u);
         return t != null ? t : u;
     }
+
     public static Component baseFraction(int base) {
         if (base >= 100) return Component.translatable("guzhenren.display.base_full");
         Component tens = Component.translatable("guzhenren.display.base_tens." + (base / 10));

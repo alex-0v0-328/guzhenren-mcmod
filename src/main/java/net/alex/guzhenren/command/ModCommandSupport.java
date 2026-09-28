@@ -39,6 +39,7 @@ import net.minecraft.util.StringRepresentable;
 public final class ModCommandSupport {
 
     private ModCommandSupport() {}
+
     public static final String ARG_TARGETS = "targets";
     public static final String ARG_VALUE = "value";
     public static final String FAILED_AWAKENED = "guzhenren.command.failed.awakened";
@@ -46,22 +47,27 @@ public final class ModCommandSupport {
     public static final String FAILED_EXTREME = "guzhenren.command.failed.extreme_physique_required";
     public static final Predicate<ServerPlayer> ANYONE = player -> true;
     public static final Predicate<ServerPlayer> AWAKENED = ApertureService::isAwakened;
+
     public static boolean sourceAwakened(CommandSourceStack source) {
         return !(source.getEntity() instanceof ServerPlayer player) || ApertureService.isAwakened(player);
     }
+
     public static void refreshCommands(ServerPlayer player) {
         MinecraftServer server = player.getServer();
         if (server != null) server.getCommands().sendCommands(player);
     }
+
     //region node builders
     public static ArgumentBuilder<CommandSourceStack, ?> withTargets(
             ArgumentBuilder<CommandSourceStack, ?> node, Command<CommandSourceStack> executor) {
         return node.executes(executor)
                 .then(Commands.argument(ARG_TARGETS, EntityArgument.players()).executes(executor));
     }
+
     public static ArgumentBuilder<CommandSourceStack, ?> longNode(String literal, LongOperation operation) {
         return longNode(literal, operation, ANYONE, null);
     }
+
     public static ArgumentBuilder<CommandSourceStack, ?> longNode(
             String literal, LongOperation operation, Predicate<ServerPlayer> allowed, String refusedKey) {
         return Commands.literal(literal).then(withTargets(
@@ -71,6 +77,7 @@ public final class ModCommandSupport {
                     return applyIf(context, allowed, refusedKey, player -> operation.apply(player, value));
                 }));
     }
+
     public static ArgumentBuilder<CommandSourceStack, ?> counter(
             String literal, LongOperation set, LongOperation add) {
         return Commands.literal(literal)
@@ -78,6 +85,7 @@ public final class ModCommandSupport {
                 .then(longNode("add", add))
                 .then(longNode("sub", (player, value) -> add.apply(player, LongMath.saturatedSubtract(0L, value))));
     }
+
     public static <E extends Enum<E> & StringRepresentable> ArgumentBuilder<CommandSourceStack, ?> enumSetNode(
             String literal, E[] values, EnumOperation<E> operation,
             Predicate<ServerPlayer> allowed, String refusedKey) {
@@ -88,15 +96,18 @@ public final class ModCommandSupport {
                 })));
     }
     //endregion
+
     //region execution
     public static int apply(CommandContext<CommandSourceStack> context, PlayerOperation operation)
             throws CommandSyntaxException {
         return applyIf(context, ANYONE, null, operation);
     }
+
     public static int applyOnAwakened(CommandContext<CommandSourceStack> context, PlayerOperation operation)
             throws CommandSyntaxException {
         return applyIf(context, AWAKENED, FAILED_UNAWAKENED, operation);
     }
+
     public static int applyIf(CommandContext<CommandSourceStack> context, Predicate<ServerPlayer> allowed,
                               String refusedKey, PlayerOperation operation) throws CommandSyntaxException {
         CommandSourceStack source = context.getSource();
@@ -120,6 +131,7 @@ public final class ModCommandSupport {
         }
         return updated;
     }
+
     public static int applyIfResult(CommandContext<CommandSourceStack> context, Predicate<ServerPlayer> allowed,
                                     String refusedKey, ResultOperation operation) throws CommandSyntaxException {
         CommandSourceStack source = context.getSource();
@@ -139,6 +151,7 @@ public final class ModCommandSupport {
                 Component.translatable("guzhenren.command.updated", updated));
         return updated;
     }
+
     public static Collection<ServerPlayer> targets(CommandContext<CommandSourceStack> context)
             throws CommandSyntaxException {
         boolean explicit = context.getNodes().stream()
@@ -148,6 +161,7 @@ public final class ModCommandSupport {
                 ? EntityArgument.getPlayers(context, ARG_TARGETS)
                 : List.of(context.getSource().getPlayerOrException());
     }
+
     private static Component names(List<ServerPlayer> players) {
         return ComponentUtils.formatList(players, ServerPlayer::getDisplayName);
     }
@@ -158,16 +172,19 @@ public final class ModCommandSupport {
 
         void apply(ServerPlayer player) throws CommandSyntaxException;
     }
+
     @FunctionalInterface
     public interface ResultOperation {
 
         boolean apply(ServerPlayer player);
     }
+
     @FunctionalInterface
     public interface EnumOperation<E extends Enum<E>> {
 
         void apply(ServerPlayer player, E value);
     }
+
     @FunctionalInterface
     public interface LongOperation {
 

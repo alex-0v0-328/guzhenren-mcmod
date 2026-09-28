@@ -25,7 +25,9 @@ import org.jetbrains.annotations.NotNull;
 public final class PathTimeFlowService {
 
     private PathTimeFlowService() {}
+
     public static final int NORMAL_RATE = 1;
+
     public static int rate(@NotNull Player player) {
         int rate = 0;
         // TODO(refactor): restore a contributor interface when a second time-flow effect class exists.
@@ -37,29 +39,35 @@ public final class PathTimeFlowService {
         //   TODO(宙道造诣): a grade term joins HERE, so that no caller has to learn about it.
         return Math.max(NORMAL_RATE, rate);
     }
+
     //region 自身时间 [his own clock] -- three verbs, because it only ever takes three shapes
     /**
      * A stretch he has to sit through: a press held down, a cooldown, a ritual waited out.
      */
-    public static int waited(@NotNull Player p, int ticks) {return waited(rate(p), ticks);}
+    public static int waited(@NotNull Player p, int ticks) { return waited(rate(p), ticks); }
+
     /**
      * What he earns or SPENDS in one step -- essence, thought, and the life it costs him.
      */
-    public static long perStep(@NotNull Player p, long amount) {return perStep(rate(p), amount);}
-    public static double perStep(@NotNull Player p, double amount) {return perStep(rate(p), amount);}
+    public static long perStep(@NotNull Player p, long amount) { return perStep(rate(p), amount); }
+
+    public static double perStep(@NotNull Player p, double amount) { return perStep(rate(p), amount); }
+
     /**
      * How many times a coupled counter must run this beat, for the two that cannot take a bigger step:
      * 温养 and 炼蛊, whose progress and price would round apart if either were scaled on its own.
      */
-    public static int steps(@NotNull Player p) {return rate(p);}
+    public static int steps(@NotNull Player p) { return rate(p); }
     //endregion
 
     //region the arithmetic alone -- a rate rather than a player, so it can be asserted without a world
     /**
      * ⚠ Floored at one tick: a short wait divided by a fast clock is zero, which reads as "no wait".
      */
-    public static int waited(int rate, int ticks) {return ticks <= 0 ? ticks : Math.max(1, ticks / rate);}
-    public static long perStep(int rate, long amount) {return LongMath.saturatedMultiply(amount, rate);}
-    public static double perStep(int rate, double amount) {return amount * rate;}
+    public static int waited(int rate, int ticks) { return ticks <= 0 ? ticks : Math.max(1, ticks / rate); }
+
+    public static long perStep(int rate, long amount) { return LongMath.saturatedMultiply(amount, rate); }
+
+    public static double perStep(int rate, double amount) { return amount * rate; }
     //endregion
 }

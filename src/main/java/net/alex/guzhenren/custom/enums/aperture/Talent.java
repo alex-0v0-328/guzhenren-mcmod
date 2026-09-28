@@ -43,6 +43,7 @@ public enum Talent implements StringRepresentable, EnumTranslatable {
     private final int weight;
     private final int regenRate;
     private final int staminaMaxPercent;
+
     Talent(int minPercent, int maxPercent, int weight, int regenRate, int staminaMaxPercent) {
         this.minPercent = minPercent;
         this.maxPercent = maxPercent;
@@ -50,24 +51,37 @@ public enum Talent implements StringRepresentable, EnumTranslatable {
         this.regenRate = regenRate;
         this.staminaMaxPercent = staminaMaxPercent;
     }
-    public int getMinPercent() {return minPercent;}
-    public int getMaxPercent() {return maxPercent;}
-    public int getWeight() {return weight;}
-    public int getRegenRate() {return regenRate;}
-    public int getStaminaMaxPercent() {return staminaMaxPercent;}
-    public Talent shift(int d) {return values()[Math.clamp(ordinal() - d, HIGHEST.ordinal(), LOWEST.ordinal())];}
-    public static Talent[] settable() {return Arrays.copyOfRange(values(), HIGHEST.ordinal(), LOWEST.ordinal() + 1);}
+
+    public int getMinPercent() { return minPercent; }
+
+    public int getMaxPercent() { return maxPercent; }
+
+    public int getWeight() { return weight; }
+
+    public int getRegenRate() { return regenRate; }
+
+    public int getStaminaMaxPercent() { return staminaMaxPercent; }
+
+    public Talent shift(int d) { return values()[Math.clamp(ordinal() - d, HIGHEST.ordinal(), LOWEST.ordinal())]; }
+
+    public static Talent[] settable() { return Arrays.copyOfRange(values(), HIGHEST.ordinal(), LOWEST.ordinal() + 1); }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
-    public static Talent randomTalent() {return WeightedPick.pick(values(), t -> t.weight);}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
+
+    public static Talent randomTalent() { return WeightedPick.pick(values(), t -> t.weight); }
+
     public static Talent randomNormalTalent() {
         return WeightedPick.pick(values(), t -> t != EXTREME, t -> t.weight);
     }
+
     public static int randomPercent(Talent talent) {
         if (talent.minPercent == talent.maxPercent) return talent.minPercent;
         return ThreadLocalRandom.current().nextInt(talent.minPercent, talent.maxPercent + 1);
     }
+
     public static Talent fromPercent(int percent) {
         for (Talent t : values()) {
             if (percent >= t.minPercent && percent <= t.maxPercent) return t;

@@ -41,11 +41,14 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 public final class ModCommand {
 
     private ModCommand() {}
+
     private static final int PERMISSION_LEVEL = 2;
+
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         register(event.getDispatcher());
     }
+
     private static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         LiteralCommandNode<CommandSourceStack> root = dispatcher.register(
                 Commands.literal("guzhenren")

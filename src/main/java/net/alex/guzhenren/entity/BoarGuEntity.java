@@ -43,13 +43,13 @@ public class BoarGuEntity extends RestingFlyingGuEntity implements GeoEntity {
     }
 
     @Override
-    public boolean seeks(Player player) {return false;}
+    public boolean seeks(Player player) { return false; }
 
     @Override
-    protected void playLandingAnimation() {triggerAnim("main", "land");}
+    protected void playLandingAnimation() { triggerAnim("main", "land"); }
 
     @Override
-    protected void playTakeoffAnimation() {triggerAnim("main", "lift");}
+    protected void playTakeoffAnimation() { triggerAnim("main", "lift"); }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
@@ -60,5 +60,5 @@ public class BoarGuEntity extends RestingFlyingGuEntity implements GeoEntity {
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {return cache;}
+    public AnimatableInstanceCache getAnimatableInstanceCache() { return cache; }
 }

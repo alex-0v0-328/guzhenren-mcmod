@@ -37,6 +37,7 @@ public class ModAdvancementProvider extends AdvancementProvider {
                                   ExistingFileHelper existingFileHelper) {
         super(output, registries, existingFileHelper, List.of(new GuzhenrenAdvancements()));
     }
+
     private static class GuzhenrenAdvancements implements AdvancementGenerator {
 
         @Override

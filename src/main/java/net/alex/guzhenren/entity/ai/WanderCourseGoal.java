@@ -45,7 +45,7 @@ public class WanderCourseGoal extends WaterAvoidingRandomFlyingGoal {
     }
 
     @Override
-    public boolean requiresUpdateEveryTick() {return true;}
+    public boolean requiresUpdateEveryTick() { return true; }
 
     @Override
     public void tick() {

@@ -35,12 +35,15 @@ public record PathQiData(Map<QiKind, PathQiEntry> entries) {
             .xmap(PathQiData::new, PathQiData::entries);
     public static final StreamCodec<ByteBuf, PathQiData> STREAM_CODEC =
             ModStreamCodecs.enumMap(QiKind.class, PathQiEntry.STREAM_CODEC).map(PathQiData::new, PathQiData::entries);
+
     public PathQiData {
         Map<QiKind, PathQiEntry> copy = new EnumMap<>(QiKind.class);
         copy.putAll(entries);
         entries = Collections.unmodifiableMap(copy);
     }
-    public @Nullable PathQiEntry get(QiKind kind) {return entries.get(kind);}
+
+    public @Nullable PathQiEntry get(QiKind kind) { return entries.get(kind); }
+
     public long current(QiKind kind, long now) {
         PathQiEntry entry = entries.get(kind);
         if (entry == null) return 0L;
@@ -53,16 +56,19 @@ public record PathQiData(Map<QiKind, PathQiEntry> entries) {
         if (elapsedSeconds >= decaySeconds) return 0L;
         return entry.amount() - rate * elapsedSeconds;
     }
+
     public boolean holding(QiKind kind, long now) {
         PathQiEntry entry = entries.get(kind);
         return entry != null && kind.isTimed() && now < entry.holdEndTick();
     }
+
     public PathQiData with(QiKind kind, PathQiEntry entry) {
         Map<QiKind, PathQiEntry> next = new EnumMap<>(QiKind.class);
         next.putAll(entries);
         next.put(kind, entry);
         return new PathQiData(next);
     }
+
     public PathQiData without(QiKind kind) {
         if (!entries.containsKey(kind)) return this;
         Map<QiKind, PathQiEntry> next = new EnumMap<>(QiKind.class);

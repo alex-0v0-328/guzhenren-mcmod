@@ -32,6 +32,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModDataComponents {
 
     private ModDataComponents() {}
+
     public static final DeferredRegister.DataComponents DATA_COMPONENTS =
             DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Guzhenren.MOD_ID);
     public static final Supplier<DataComponentType<RefinedGuState>> REFINED_GU_STATE =
@@ -66,6 +67,7 @@ public final class ModDataComponents {
             DATA_COMPONENTS.registerComponentType("heal_bank", builder -> builder
                     .persistent(Codec.INT)
                     .networkSynchronized(ByteBufCodecs.VAR_INT));
+
     public static void register(IEventBus modEventBus) {
         DATA_COMPONENTS.register(modEventBus);
     }

@@ -29,6 +29,7 @@ public record OpenApertureStoragePayload(int aperture) implements CustomPacketPa
             Guzhenren.id("open_aperture_storage"));
     public static final StreamCodec<ByteBuf, OpenApertureStoragePayload> STREAM_CODEC =
             ByteBufCodecs.VAR_INT.map(OpenApertureStoragePayload::new, OpenApertureStoragePayload::aperture);
+
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {return TYPE;}
+    public @NotNull Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

@@ -39,39 +39,49 @@ public class PrimevalElderGuItem extends TendedGuItem {
     private static final int WITHDRAW_STONES = 64;
     private static final long DEPOSIT_IS_FREE = 0L;
     private final long capacity;
+
     public PrimevalElderGuItem(Properties properties, long capacity, GuSpec spec) {
         super(properties, spec);
         this.capacity = capacity;
     }
+
     //region the vault
-    public long capacity() {return capacity;}
+    public long capacity() { return capacity; }
+
     public static long stored(ItemStack stack) {
         return stack.getOrDefault(ModDataComponents.STORED_STONES.get(), 0L);
     }
+
     private void setStored(ItemStack stack, long v) {
         stack.set(ModDataComponents.STORED_STONES.get(), Math.clamp(v, 0L, capacity));
     }
+
     @Override
-    protected int feedUnits(ItemStack food) {return isStone(food) ? 1 : 0;}
+    protected int feedUnits(ItemStack food) { return isStone(food) ? 1 : 0; }
+
     @Override
-    protected boolean holdingFood(Player player, ItemStack stack) {return false;}
-    private static boolean isStone(ItemStack s) {return s.is(ModItems.PRIMEVAL_STONE.get());}
+    protected boolean holdingFood(Player player, ItemStack stack) { return false; }
+
+    private static boolean isStone(ItemStack s) { return s.is(ModItems.PRIMEVAL_STONE.get()); }
     //endregion
 
     //region depositing -- the plain right click, free and instant
     @Override
-    protected long useThreshold(ItemStack stack) {return DEPOSIT_IS_FREE;}
+    protected long useThreshold(ItemStack stack) { return DEPOSIT_IS_FREE; }
+
     @Override
     protected @Nullable Refusal useGate(Player player, ItemStack stack) {
         if (stored(stack) >= capacity) return new Refusal(FAILED_FULL);
         return depositable(player, stack) <= 0 ? new Refusal(FAILED_NO_STONES) : null;
     }
+
     @Override
     protected int useApply(ServerPlayer player, ItemStack stack) {
         deposit(player, stack);
         payOwnUpkeep(player, stack);
         return 0;
     }
+
     private int depositable(Player player, ItemStack stack) {
         long room = capacity - stored(stack);
         if (room <= 0) return 0;
@@ -83,6 +93,7 @@ public class PrimevalElderGuItem extends TendedGuItem {
         }
         return (int) Math.min(carried, room);
     }
+
     private void deposit(ServerPlayer player, ItemStack stack) {
         int wanted = depositable(player, stack);
         Inventory inventory = player.getInventory();
@@ -101,22 +112,27 @@ public class PrimevalElderGuItem extends TendedGuItem {
 
     //region withdrawing -- sneak + right click, which is this Gu's use
     @Override
-    protected boolean hasSneakUse(Player player, ItemStack stack) {return refined(stack);}
+    protected boolean hasSneakUse(Player player, ItemStack stack) { return refined(stack); }
+
     @Override
     protected @Nullable Refusal sneakGate(Player player, ItemStack stack) {
         Refusal poor = essenceGate(player, spec.essencePerRound(), FAILED_ESSENCE);
         return poor != null ? poor : payoutGate(player, stack);
     }
+
     @Override
-    protected int sneakApply(ServerPlayer player, ItemStack stack) {return drive(player, stack);}
+    protected int sneakApply(ServerPlayer player, ItemStack stack) { return drive(player, stack); }
+
     @Override
     protected int useChargeTicks(Player player, ItemStack stack) {
         return isSneakUse(player, stack) ? super.useChargeTicks(player, stack) : 0;
     }
+
     @Override
     protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {
         return stored(stack) <= 0 ? new Refusal(FAILED_EMPTY) : null;
     }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         int taken = (int) Math.min(WITHDRAW_STONES, stored(stack));
@@ -137,11 +153,13 @@ public class PrimevalElderGuItem extends TendedGuItem {
     protected void payOwnUpkeep(ServerPlayer player, ItemStack stack) {
         if (refined(stack)) heal(stack, drawStones(stack, state(stack).damageTaken()));
     }
+
     public int drawStones(ItemStack stack, int wanted) {
         int taken = (int) Math.clamp(wanted, 0, stored(stack));
         if (taken > 0) setStored(stack, stored(stack) - taken);
         return taken;
     }
+
     public int storeStones(ItemStack stack, int amount) {
         int room = (int) Math.clamp(amount, 0, capacity - stored(stack));
         if (room > 0) setStored(stack, stored(stack) + room);

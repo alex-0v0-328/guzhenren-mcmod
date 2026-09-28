@@ -32,14 +32,22 @@ import org.jetbrains.annotations.NotNull;
 public final class PathStrengthService {
 
     private PathStrengthService() {}
+
     public static final int OVERFLOW_JIN = 20;
     public static final int LOCK_MULTIPLE = 10;
-    public static @NotNull PathStrengthData get(@NotNull Player p) {return p.getData(ModAttachments.STRENGTH);}
-    public static boolean has(@NotNull Player p, @NotNull BeastStrength b) {return get(p).has(b);}
-    public static int humanStrength(@NotNull Player p, @NotNull HumanStrength k) {return get(p).humanStrengthCount(k);}
+
+    public static @NotNull PathStrengthData get(@NotNull Player p) { return p.getData(ModAttachments.STRENGTH); }
+
+    public static boolean has(@NotNull Player p, @NotNull BeastStrength b) { return get(p).has(b); }
+
+    public static int humanStrength(@NotNull Player p, @NotNull HumanStrength k) {
+        return get(p).humanStrengthCount(k);
+    }
+
     public static boolean hasPathBranch(@NotNull Player p, @NotNull StrengthPathBranch b) {
         return get(p).hasPathBranch(b);
     }
+
     //region what the body can actually bring to bear [承受上限]
     public static int capacity(@NotNull Player p) {
         int base = BodyService.extremePhysique(p).getStrengthCapacity();
@@ -48,6 +56,7 @@ public final class PathStrengthService {
         double healthFraction = (double) p.getHealth() / p.getMaxHealth();
         return base + hardshipCapacityBonus(healthFraction);
     }
+
     public static int hardshipCapacityBonus(double healthFraction) {
         if (healthFraction > 0.6D) return 0;
         if (healthFraction > 0.5D) return 20;
@@ -57,11 +66,14 @@ public final class PathStrengthService {
         if (healthFraction > 0.1D) return 100;
         return 120;
     }
-    public static boolean isUnleashed(@NotNull Player p) {return p.hasEffect(ModEffects.ALL_OUT_EFFORT);}
+
+    public static boolean isUnleashed(@NotNull Player p) { return p.hasEffect(ModEffects.ALL_OUT_EFFORT); }
+
     public static int usableJin(@NotNull Player p) {
         int total = get(p).totalJin();
         return isUnleashed(p) ? total : usableJin(capacity(p), total);
     }
+
     public static int usableJin(int capacity, int total) {
         if (total <= capacity) return total;
 
@@ -69,16 +81,22 @@ public final class PathStrengthService {
         return capacity + OVERFLOW_JIN * Math.min(total - capacity, span) / span;
     }
     //endregion
-    public static void grant(@NotNull ServerPlayer p, @NotNull BeastStrength b) {store(p, get(p).with(b));}
-    public static void revoke(@NotNull ServerPlayer p, @NotNull BeastStrength b) {store(p, get(p).without(b));}
-    public static void clear(@NotNull ServerPlayer p) {store(p, PathStrengthData.DEFAULT);}
+
+    public static void grant(@NotNull ServerPlayer p, @NotNull BeastStrength b) { store(p, get(p).with(b)); }
+
+    public static void revoke(@NotNull ServerPlayer p, @NotNull BeastStrength b) { store(p, get(p).without(b)); }
+
+    public static void clear(@NotNull ServerPlayer p) { store(p, PathStrengthData.DEFAULT); }
+
     private static void store(ServerPlayer p, PathStrengthData d) {
         p.setData(ModAttachments.STRENGTH, d);
         BodyAttackService.refresh(p);
     }
+
     public static void setHumanStrength(@NotNull ServerPlayer p, @NotNull HumanStrength k, int v) {
         store(p, get(p).withHumanStrength(k, v));
     }
+
     public static void addHumanStrength(@NotNull ServerPlayer p, @NotNull HumanStrength k, int d) {
         setHumanStrength(p, k, humanStrength(p, k) + d);
     }

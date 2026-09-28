@@ -19,11 +19,14 @@ public class TimeRateUpEffect extends MobEffect {
 
     private final int ratePerLayer;
     private final int maxLayers;
+
     public TimeRateUpEffect(MobEffectCategory category, int color, int ratePerLayer, int maxLayers) {
         super(category, color);
         this.ratePerLayer = ratePerLayer;
         this.maxLayers = maxLayers;
     }
-    public int nextAmplifier(int amplifier) {return Math.clamp(amplifier + 1, 0, maxLayers - 1);}
-    public int timeRate(int amplifier) {return ratePerLayer * Math.clamp(amplifier + 1, 1, maxLayers);}
+
+    public int nextAmplifier(int amplifier) { return Math.clamp(amplifier + 1, 0, maxLayers - 1); }
+
+    public int timeRate(int amplifier) { return ratePerLayer * Math.clamp(amplifier + 1, 1, maxLayers); }
 }

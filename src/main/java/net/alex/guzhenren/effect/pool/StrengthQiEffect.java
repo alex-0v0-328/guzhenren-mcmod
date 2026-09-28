@@ -23,10 +23,12 @@ import net.minecraft.world.effect.MobEffectCategory;
 
 public class StrengthQiEffect extends MobEffect implements AttackContributor {
 
-    private static final double[] ATTACK_BONUS = {0.25, 1.0, 4.0, 16.0, 64.0};
+    private static final double[] ATTACK_BONUS = { 0.25, 1.0, 4.0, 16.0, 64.0 };
+
     public StrengthQiEffect(MobEffectCategory category, int color) {
         super(category, color);
     }
+
     @Override
     public double attackBonus(int amplifier) {
         return ATTACK_BONUS[Math.clamp(amplifier, 0, ATTACK_BONUS.length - 1)];

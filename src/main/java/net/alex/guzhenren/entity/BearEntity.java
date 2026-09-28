@@ -24,6 +24,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * back-scratch; nights lie down and sleep. Vanilla polar bear sounds stand in; the first-lock roar
  * reuses the polar bear warning sound.
  */
+
 public final class BearEntity extends BeastEntity {
 
     public static final int SWIPE_HIT_TICK = 9;
@@ -60,33 +61,46 @@ public final class BearEntity extends BeastEntity {
 
     @Override
     protected int swipeHitTick() { return SWIPE_HIT_TICK; }
+
     @Override
     protected int swipeActionTicks() { return SWIPE_END_TICKS; }
+
     @Override
     protected int roarActionTicks() { return ROAR_TICKS; }
+
     @Override
     protected int lieDownActionTicks() { return LIE_DOWN_TICKS; }
+
     @Override
     protected int getUpActionTicks() { return GET_UP_TICKS; }
+
     @Override
     protected int deathRemoveTick() { return DEATH_REMOVE_TICK; }
+
     @Override
     protected float swipeDamage() { return this.species.swipeDamage(); }
+
     @Override
     protected float heavyDamage() { return this.species.rearDamage(); }
+
     @Override
     protected double swipeKnockback() { return 1.0D; }
+
     @Override
     protected double swipeUpward() { return 0.0D; }
+
     @Override
     protected boolean huntsActively() {
         // Null-safe: registerGoals evaluates goals during the Mob constructor, before species is set.
         return this.species != null && this.species.hostile();
     }
+
     @Override
     protected double pursuitSpeed() { return 1.4D; }
+
     @Override
     protected double cullExtraHeight() { return 1.3D; }
+
     @Override
     protected double cullHorizontalInflate() { return 0.3D; }
 
@@ -124,16 +138,21 @@ public final class BearEntity extends BeastEntity {
 
     @Override
     protected SoundEvent roarSound() { return SoundEvents.POLAR_BEAR_WARNING; }
+
     @Override
     protected float roarPitch() { return 1.0F; }
+
     @Override
     protected SoundEvent stepSound() { return SoundEvents.POLAR_BEAR_STEP; }
+
     @Override
     protected SoundEvent getAmbientSound() { return SoundEvents.POLAR_BEAR_AMBIENT; }
+
     @Override
     protected SoundEvent getHurtSound(net.minecraft.world.damagesource.@NotNull DamageSource source) {
         return SoundEvents.POLAR_BEAR_HURT;
     }
+
     @Override
     protected SoundEvent getDeathSound() { return SoundEvents.POLAR_BEAR_DEATH; }
 

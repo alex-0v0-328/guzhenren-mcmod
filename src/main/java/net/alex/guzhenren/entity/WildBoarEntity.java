@@ -40,6 +40,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Server-authoritative wild boar with retaliatory charge and toss attacks. */
+
 public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
 
     public static final int FOLLOW_RANGE_BLOCKS = 16;
@@ -397,8 +398,8 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
 
     private boolean hasGroundAhead(Vec3 position) {
         double radius = this.getBbWidth() * 0.45D;
-        for (double x : new double[]{-radius, radius}) {
-            for (double z : new double[]{-radius, radius}) {
+        for (double x : new double[] { -radius, radius }) {
+            for (double z : new double[] { -radius, radius }) {
                 BlockPos below = BlockPos.containing(position.x + x, position.y - 0.15D, position.z + z);
                 if (!this.level().loadedAndEntityCanStandOn(below, this)) return false;
             }
@@ -574,6 +575,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     public enum Action {
+
         IDLE("idle", true, false),
         GRAZE("graze", true, false),
         ALERT("alert", false, false),
@@ -593,8 +595,11 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
         }
 
         public String animation() { return this.animation; }
+
         public boolean loops() { return this.loop; }
+
         public boolean isAttack() { return this.attack; }
+
         private byte id() { return (byte)this.ordinal(); }
 
         private static Action fromId(byte id) {
@@ -604,6 +609,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     private static final class CombatGoal extends Goal {
+
         private final WildBoarEntity boar;
 
         private CombatGoal(WildBoarEntity boar) {
@@ -617,7 +623,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
         }
 
         @Override
-        public boolean requiresUpdateEveryTick() {return true;}
+        public boolean requiresUpdateEveryTick() { return true; }
 
         @Override
         public void tick() {
@@ -636,6 +642,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     private static final class GrazeGoal extends Goal {
+
         private final WildBoarEntity boar;
 
         private GrazeGoal(WildBoarEntity boar) {
@@ -665,6 +672,7 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
     }
 
     private static final class WanderGoal extends WaterAvoidingRandomStrollGoal {
+
         private final WildBoarEntity boar;
 
         private WanderGoal(WildBoarEntity boar) {

@@ -29,11 +29,14 @@ public enum Title implements StringRepresentable, EnumTranslatable {
 
     public static final Codec<Title> CODEC = StringRepresentable.fromEnum(Title::values);
     private static final String KEY_PREFIX = "guzhenren.enum.aperture.title.";
+
     public static @NotNull Title fromRank(Rank rank) {
         if (rank == Rank.NONE) return MORTAL;
         return rank.ordinal() > Rank.HIGHEST.ordinal() ? GU_IMMORTAL : GU_MASTER;
     }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

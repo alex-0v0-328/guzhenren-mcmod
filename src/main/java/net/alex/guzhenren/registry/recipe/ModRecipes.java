@@ -24,6 +24,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModRecipes {
 
     private ModRecipes() {}
+
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
             DeferredRegister.create(Registries.RECIPE_TYPE, Guzhenren.MOD_ID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
@@ -32,6 +33,7 @@ public final class ModRecipes {
             RECIPE_TYPES.register("refinement", RecipeType::simple);
     public static final DeferredHolder<RecipeSerializer<?>, GuRecipe.Serializer> REFINEMENT_SERIALIZER =
             RECIPE_SERIALIZERS.register("refinement", id -> new GuRecipe.Serializer());
+
     public static void register(IEventBus modEventBus) {
         RECIPE_TYPES.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);

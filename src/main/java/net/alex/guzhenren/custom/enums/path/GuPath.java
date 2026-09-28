@@ -33,7 +33,9 @@ public enum GuPath implements StringRepresentable, EnumTranslatable {
     FOOD, FORMATION, PAINTING, TRANSFORMATION;
     public static final Codec<GuPath> CODEC = StringRepresentable.fromEnum(GuPath::values);
     private static final String KEY_PREFIX = "guzhenren.enum.path.path.";
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

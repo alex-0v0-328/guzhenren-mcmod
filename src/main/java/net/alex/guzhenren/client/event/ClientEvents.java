@@ -75,6 +75,7 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 public final class ClientEvents {
 
     private ClientEvents() {}
+
     private static final ResourceLocation PLAYER_STATS =
             Guzhenren.id("player_stats");
     private static final ResourceLocation CHARGE =
@@ -98,12 +99,14 @@ public final class ClientEvents {
     private static boolean previousLeft;
     private static boolean previousRight;
     private static boolean previousAlt;
+
     @SubscribeEvent
     public static void onRegisterGuiLayers(RegisterGuiLayersEvent event) {
         event.registerAbove(VanillaGuiLayers.HOTBAR, PLAYER_STATS, PlayerStatsHud.INSTANCE);
         event.registerAbove(VanillaGuiLayers.AIR_LEVEL, CHARGE, ChargeHud.INSTANCE);
         event.registerAbove(VanillaGuiLayers.AIR_LEVEL, NOURISH, NourishHud.INSTANCE);
     }
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
@@ -111,20 +114,24 @@ public final class ClientEvents {
             ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_SPIRIT_SPRING.get(), RenderType.translucent());
         });
     }
+
     @SubscribeEvent
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(ModKeyMappings.OPEN_INFO);
     }
+
     @SubscribeEvent
     public static void onRegisterScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.APERTURE_STORAGE_MENU.get(), ApertureStorageScreen::new);
         event.register(ModMenus.REFINEMENT_MENU.get(), RefinementScreen::new);
     }
+
     @SubscribeEvent
     public static void onRegisterParticles(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.SHOCKWAVE_RING.get(), RingParticle::dashTrail);
         event.registerSpriteSet(ModParticles.IMPACT_RING.get(), RingParticle::facingMotion);
     }
+
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntityTypes.HOPE_GU_ENTITY.get(), NoopRenderer::new);
@@ -161,6 +168,7 @@ public final class ClientEvents {
         event.registerEntityRenderer(ModEntityTypes.WHITE_TIGER.get(),
                 context -> new TigerGeoRenderer(context, TIGER_MODEL, TigerGeoRenderer.WHITE_TEXTURE));
     }
+
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -212,18 +220,22 @@ public final class ClientEvents {
         previousRight = right;
         previousAlt = alt;
     }
+
     public static boolean canDash(ItemStack mainHand) {
         return !(mainHand.getItem() instanceof MortalGuItem);
     }
+
     public static boolean canDash(ItemStack mainHand, int vertical, int horizontal,
                                   boolean horizontalCrash, boolean verticalCrash, boolean chargingCrash) {
         if (!canDash(mainHand) || vertical == 0 && horizontal == 0) return false;
         return (horizontal == 0 || horizontalCrash || chargingCrash)
                 && (vertical == 0 || verticalCrash || chargingCrash);
     }
+
     public static boolean shouldSendDash(boolean directionHasEffect) {
         return directionHasEffect;
     }
+
     public static boolean shouldStartDash(boolean alt, boolean previousAlt, boolean directionPressed) {
         return alt && (!previousAlt || directionPressed);
     }

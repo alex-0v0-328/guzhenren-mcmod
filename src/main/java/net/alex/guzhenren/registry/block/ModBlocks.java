@@ -23,9 +23,11 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  * @version 1.0.0
  * @since 1.0.0
  */
+
 public final class ModBlocks {
 
     private ModBlocks() {}
+
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Guzhenren.MOD_ID);
     public static final DeferredBlock<SpiritSpringBlock> SPIRIT_SPRING = BLOCKS.register("spirit_spring",
             // Safe to get() here: vanilla registers FLUID before BLOCK, so the holders are filled.
@@ -39,5 +41,6 @@ public final class ModBlocks {
                     .noLootTable()
                     .liquid()
                     .sound(SoundType.EMPTY)));
-    public static void register(IEventBus modEventBus) {BLOCKS.register(modEventBus);}
+
+    public static void register(IEventBus modEventBus) { BLOCKS.register(modEventBus); }
 }

@@ -40,21 +40,28 @@ public sealed interface GuClock {
     void billHungerForEssence(ItemStack stack, int from, int to);
 
     boolean spendWasForced(ItemStack stack);
-    default boolean spendWasForced(ItemStack stack, int multiplier) {return spendWasForced(stack);}
+
+    default boolean spendWasForced(ItemStack stack, int multiplier) { return spendWasForced(stack); }
+
     boolean barVisible(ItemStack stack);
+
     float barFraction(ItemStack stack);
 
     //region 饱食条 -- the boars, Human Jun [人力钧力流], Flower Boar and All-Out Effort
     record HungerBar(int max, int unitsPerHunger, int essencePerHunger, int perUse) implements GuClock {
 
-        private static RefinedGuState state(ItemStack s) {return TendedGuItem.state(s);}
+        private static RefinedGuState state(ItemStack s) { return TendedGuItem.state(s); }
+
         private void setHunger(ItemStack stack, int value) {
             RefinedGuState s = state(stack);
             stack.set(ModDataComponents.REFINED_GU_STATE.get(), s.withHunger(Math.clamp(value, 0, max)));
         }
-        private int hunger(ItemStack stack) {return state(stack).hunger();}
+
+        private int hunger(ItemStack stack) { return state(stack).hunger(); }
+
         @Override
-        public void bind(ServerPlayer player, ItemStack stack) {setHunger(stack, max);}
+        public void bind(ServerPlayer player, ItemStack stack) { setHunger(stack, max); }
+
         @Override
         public boolean starves(ServerPlayer player, ItemStack stack, long days) {
             if (days <= 0L) return false;
@@ -67,12 +74,15 @@ public sealed interface GuClock {
             setHunger(stack, 0);
             return !player.hasInfiniteMaterials();
         }
+
         @Override
-        public boolean hungry(ServerPlayer player, ItemStack stack) {return hunger(stack) <= HUNGRY_THRESHOLD;}
+        public boolean hungry(ServerPlayer player, ItemStack stack) { return hunger(stack) <= HUNGRY_THRESHOLD; }
+
         @Override
         public void warn(ServerPlayer player, ItemStack stack, long days) {
             if (days > 0L) TendedGuItem.announceHungry(player, stack);
         }
+
         @Override
         public boolean eat(TendedGuItem gu, ServerPlayer player, ItemStack stack, ItemStack food) {
             int units = gu.feedUnits(food);
@@ -91,30 +101,37 @@ public sealed interface GuClock {
             setHunger(stack, hunger(stack) + meal.gained());
             return true;
         }
+
         @Override
         public int essenceAboveHungerFloor(ItemStack stack) {
             return Math.max(0, hunger(stack) - CHANNEL_HUNGER_FLOOR) * essencePerHunger;
         }
+
         @Override
-        public int essencePerHungerPoint() {return essencePerHunger;}
+        public int essencePerHungerPoint() { return essencePerHunger; }
+
         @Override
         public void billHungerForEssence(ItemStack stack, int from, int to) {
             setHunger(stack, hunger(stack) - (to / essencePerHunger - from / essencePerHunger));
         }
+
         @Override
         public boolean spendWasForced(ItemStack stack) {
             return spendWasForced(stack, 1);
         }
+
         @Override
         public boolean spendWasForced(ItemStack stack, int multiplier) {
             boolean forced = hunger(stack) <= 0;
             setHunger(stack, hunger(stack) - perUse * multiplier);
             return forced;
         }
+
         @Override
-        public boolean barVisible(ItemStack stack) {return hunger(stack) < max;}
+        public boolean barVisible(ItemStack stack) { return hunger(stack) < max; }
+
         @Override
-        public float barFraction(ItemStack stack) {return hunger(stack) / (float) max;}
+        public float barFraction(ItemStack stack) { return hunger(stack) / (float) max; }
     }
     //endregion
 
@@ -123,26 +140,36 @@ public sealed interface GuClock {
 
         @Override
         public void bind(ServerPlayer player, ItemStack stack) {}
+
         @Override
-        public boolean starves(ServerPlayer player, ItemStack stack, long days) {return false;}
+        public boolean starves(ServerPlayer player, ItemStack stack, long days) { return false; }
+
         @Override
-        public boolean hungry(ServerPlayer player, ItemStack stack) {return false;}
+        public boolean hungry(ServerPlayer player, ItemStack stack) { return false; }
+
         @Override
         public void warn(ServerPlayer player, ItemStack stack, long days) {}
+
         @Override
-        public int essenceAboveHungerFloor(ItemStack stack) {return Integer.MAX_VALUE;}
+        public int essenceAboveHungerFloor(ItemStack stack) { return Integer.MAX_VALUE; }
+
         @Override
-        public int essencePerHungerPoint() {return Integer.MAX_VALUE;}
+        public int essencePerHungerPoint() { return Integer.MAX_VALUE; }
+
         @Override
         public void billHungerForEssence(ItemStack stack, int from, int to) {}
+
         @Override
-        public boolean spendWasForced(ItemStack stack) {return false;}
+        public boolean spendWasForced(ItemStack stack) { return false; }
+
         @Override
-        public boolean barVisible(ItemStack stack) {return false;}
+        public boolean barVisible(ItemStack stack) { return false; }
+
         @Override
-        public float barFraction(ItemStack stack) {return 0.0F;}
+        public float barFraction(ItemStack stack) { return 0.0F; }
+
         @Override
-        public boolean eat(TendedGuItem gu, ServerPlayer player, ItemStack stack, ItemStack food) {return false;}
+        public boolean eat(TendedGuItem gu, ServerPlayer player, ItemStack stack, ItemStack food) { return false; }
     }
     //endregion
 

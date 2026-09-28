@@ -21,5 +21,6 @@ public enum BeastStrengthFamily implements EnumTranslatable {
     BEAR;
 
     private static final String KEY_PREFIX = "guzhenren.enum.strength.beast_family.";
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

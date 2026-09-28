@@ -48,11 +48,13 @@ public class FlyingGuEntity extends WildGuEntity {
     private static final double MOVEMENT_SPEED = 0.1;
     private static final double WANDER_SPEED = 1.0;
     private static final int TURN_RATE = 20;
+
     public FlyingGuEntity(EntityType<? extends FlyingGuEntity> type, Level level,
                           Supplier<Item> caughtGu) {
         super(type, level, caughtGu);
         this.moveControl = new FlyingMoveControl(this, TURN_RATE, true);
     }
+
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, MAX_HEALTH)
@@ -60,20 +62,25 @@ public class FlyingGuEntity extends WildGuEntity {
                 .add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
                 .add(Attributes.FOLLOW_RANGE, FOLLOW_RANGE);
     }
+
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new HoverNearPlayerGoal(this));
         goalSelector.addGoal(1, new WaterAvoidingRandomFlyingGoal(this, WANDER_SPEED));
     }
+
     //region who it flies toward -- the base wants anyone, a leaf narrows it
-    public boolean seeks(Player player) {return true;}
+    public boolean seeks(Player player) { return true; }
+
     public @Nullable Player seekTarget() {
         return level().getNearestPlayer(getX(), getY(), getZ(), DETECT_RANGE, this::wanted);
     }
+
     /** The same test for starting and for keeping a target, so a player who turns spectator or leaves is let go. */
     public boolean wants(Player player) {
         return player.level() == level() && !player.isSpectator() && seeks(player);
     }
+
     private boolean wanted(Entity entity) {
         return entity instanceof Player player && wants(player);
     }
@@ -86,8 +93,10 @@ public class FlyingGuEntity extends WildGuEntity {
         navigation.setCanFloat(true);
         return navigation;
     }
+
     @Override
-    public boolean isNoGravity() {return true;}
+    public boolean isNoGravity() { return true; }
+
     @Override
     protected void checkFallDamage(double y, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
         // Every descent is self-propelled (hover approach, landing goal, escape cone), so the accrued

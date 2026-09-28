@@ -33,6 +33,7 @@ public record PathQiEntry(long amount, long holdEndTick) {
             ByteBufCodecs.VAR_LONG, PathQiEntry::amount,
             ByteBufCodecs.VAR_LONG, PathQiEntry::holdEndTick,
             PathQiEntry::new);
+
     public PathQiEntry {
         amount = Math.max(0L, amount);
         holdEndTick = Math.max(0L, holdEndTick);

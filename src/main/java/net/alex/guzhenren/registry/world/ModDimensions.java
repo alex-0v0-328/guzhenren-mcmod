@@ -25,6 +25,7 @@ import net.minecraft.world.phys.Vec3;
 public final class ModDimensions {
 
     private ModDimensions() {}
+
     public static final ResourceKey<DimensionType> TREASURE_YELLOW_HEAVEN_TYPE = key(Registries.DIMENSION_TYPE);
     public static final ResourceKey<Biome> TREASURE_YELLOW_HEAVEN_BIOME = key(Registries.BIOME);
     public static final ResourceKey<LevelStem> TREASURE_YELLOW_HEAVEN_STEM = key(Registries.LEVEL_STEM);

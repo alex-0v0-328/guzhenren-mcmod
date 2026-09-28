@@ -40,6 +40,7 @@ import org.jetbrains.annotations.NotNull;
 public final class DimensionTravelService {
 
     private DimensionTravelService() {}
+
     private static final ResourceLocation FLIGHT_MODIFIER_ID = Guzhenren.id("anchored_dimension_flight");
 
     /**

@@ -9,6 +9,7 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 /** Renders the wild boar with its cutout model and nearest-neighbor texture. */
+
 public final class WildBoarGeoRenderer extends GeoEntityRenderer<WildBoarEntity> {
 
     public static final ResourceLocation TEXTURE = Guzhenren.id("textures/entity/wild_boar.png");

@@ -24,7 +24,9 @@ public enum ApertureStatus implements StringRepresentable, EnumTranslatable {
     NORMAL, DEAD;
     public static final Codec<ApertureStatus> CODEC = StringRepresentable.fromEnum(ApertureStatus::values);
     private static final String KEY_PREFIX = "guzhenren.enum.aperture.status.";
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

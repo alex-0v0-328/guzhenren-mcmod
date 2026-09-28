@@ -33,12 +33,15 @@ public class HopeGuEntity extends FlyingGuEntity {
     private static final int MOTES_PER_TICK = 1;
     private static final double MOTE_SPREAD = 0.25;
     private long fadeAtTick = NOT_SIGHTED;
+
     public HopeGuEntity(EntityType<? extends HopeGuEntity> type, Level level,
                         Supplier<Item> caughtGu) {
         super(type, level, caughtGu);
     }
+
     @Override
-    public boolean seeks(Player player) {return !ApertureService.isAwakened(player);}
+    public boolean seeks(Player player) { return !ApertureService.isAwakened(player); }
+
     @Override
     public void tick() {
         super.tick();

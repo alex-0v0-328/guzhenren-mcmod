@@ -31,6 +31,7 @@ abstract class HotbarHud implements LayeredDraw.Layer {
     static final int NAME_GAP = 4;
     static final int MIN_SHIFT = 59;
     static final int CREATIVE_LIFT = 14;
+
     static int barTop(Minecraft minecraft) {
         Gui gui = minecraft.gui;
         int shift = Math.max(Math.max(gui.leftHeight, gui.rightHeight), MIN_SHIFT);
@@ -38,11 +39,13 @@ abstract class HotbarHud implements LayeredDraw.Layer {
         if (minecraft.gameMode != null && !minecraft.gameMode.canHurtPlayer()) baseline += CREATIVE_LIFT;
         return baseline - NAME_GAP - BAR_HEIGHT;
     }
+
     static void drawBar(GuiGraphics g, int x, int y, float fraction, int fill) {
         g.fill(x - 1, y - 1, x + BAR_WIDTH + 1, y + BAR_HEIGHT + 1, ModPalette.BAR_BORDER);
         g.fill(x, y, x + BAR_WIDTH, y + BAR_HEIGHT, ModPalette.BAR_TRACK);
         g.fill(x, y, x + Math.round(BAR_WIDTH * Math.clamp(fraction, 0.0F, 1.0F)), y + BAR_HEIGHT, fill);
     }
+
     static void drawLabel(GuiGraphics g, Minecraft mc, int x, int y, Component label) {
         g.drawString(mc.font, label, x + (BAR_WIDTH - mc.font.width(label)) / 2,
                 y - TEXT_GAP - mc.font.lineHeight, ModPalette.TEXT, true);

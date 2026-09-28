@@ -28,12 +28,14 @@ import org.jetbrains.annotations.NotNull;
 public final class ApertureStorageTick {
 
     private ApertureStorageTick() {}
+
     public static void tickStored(@NotNull ServerPlayer player, long days) {
         for (int aperture = 0; aperture < ApertureData.MAX_APERTURES; aperture++) {
             tickStore(player, aperture, days);
             tickVital(player, aperture, days);
         }
     }
+
     private static void tickStore(ServerPlayer player, int aperture, long days) {
         List<ItemStack> items = ApertureStorageService.items(player, aperture);
         if (items.isEmpty()) return;
@@ -55,6 +57,7 @@ public final class ApertureStorageTick {
         }
         if (changed) ApertureStorageService.set(player, aperture, next);
     }
+
     private static void tickVital(ServerPlayer player, int aperture, long days) {
         ItemStack stack = ApertureStorageService.vital(player, aperture);
         if (!(stack.getItem() instanceof TendedGuItem)) return;
@@ -67,6 +70,7 @@ public final class ApertureStorageTick {
         }
         if (changed(before, stack)) ApertureStorageService.setVital(player, aperture, stack);
     }
+
     private static boolean changed(ItemStack before, ItemStack after) {
         return before.getCount() != after.getCount()
                 || !ItemStack.isSameItemSameComponents(before, after);

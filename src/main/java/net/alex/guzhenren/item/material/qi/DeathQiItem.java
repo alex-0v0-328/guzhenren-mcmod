@@ -27,8 +27,10 @@ public class DeathQiItem extends QiMaterialItem {
     public DeathQiItem(Properties properties, Rank rank) {
         super(properties, rank, QiKind.DEATH);
     }
+
     @Override
-    protected int useDurationTicks(Player player, ItemStack stack) {return 0;}
+    protected int useDurationTicks(Player player, ItemStack stack) { return 0; }
+
     @Override
-    protected long essenceCost() {return 0L;}
+    protected long essenceCost() { return 0L; }
 }

@@ -46,7 +46,9 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 public final class PlayerTickEvents {
 
     private PlayerTickEvents() {}
+
     private static final int FULL_HUNGER = 20;
+
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
@@ -75,6 +77,7 @@ public final class PlayerTickEvents {
         ApertureService.tickPressure(player);
         checkLethalState(player);
     }
+
     private static void tickDeathQi(ServerPlayer player) {
         if (!player.hasEffect(ModEffects.DEATH_QI) || BodyService.isZombie(player)) return;
 
@@ -86,6 +89,7 @@ public final class PlayerTickEvents {
                     player.getHealth() - DeathQiEffect.HEALTH_PER_HEARTBEAT));
         }
     }
+
     private static void pinUndeadHunger(ServerPlayer player) {
         if (!BodyService.isUndead(player)) return;
 
@@ -94,6 +98,7 @@ public final class PlayerTickEvents {
         food.setSaturation(FULL_HUNGER);
         food.setExhaustion(0.0F);
     }
+
     private static void tickHalfZombie(ServerPlayer player) {
         if (BodyService.isHalfZombie(player)) {
             if (PathQiService.current(player, QiKind.DEATH) > 0L) {
@@ -104,6 +109,7 @@ public final class PlayerTickEvents {
         }
         projectHalfZombie(player);
     }
+
     private static void projectHalfZombie(ServerPlayer player) {
         if (!BodyService.isHalfZombie(player)) {
             if (player.hasEffect(ModEffects.HALF_ZOMBIE)) player.removeEffect(ModEffects.HALF_ZOMBIE);
@@ -112,11 +118,13 @@ public final class PlayerTickEvents {
         player.addEffect(ModEffects.instance(ModEffects.HALF_ZOMBIE,
                 Math.max(1, (int) BodyService.halfZombieTicksLeft(player))));
     }
+
     private static void closeDistilling(ServerPlayer player) {
         if (ApertureEssenceService.totalDistilled(player) > 0L && !ApertureEssenceService.isDistilling(player)) {
             ApertureEssenceService.endDistilling(player);
         }
     }
+
     private static void checkLethalState(ServerPlayer player) {
         if (player.isCreative() || player.isSpectator()) return;
 

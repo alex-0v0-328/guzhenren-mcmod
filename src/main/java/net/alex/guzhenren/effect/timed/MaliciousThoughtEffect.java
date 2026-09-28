@@ -29,14 +29,17 @@ public class MaliciousThoughtEffect extends MobEffect {
 
     public static final int DURATION_TICKS = 12 * Ticks.SECOND;
     private final long[] evilPerSecond;
+
     public MaliciousThoughtEffect(MobEffectCategory category, int color, long[] evilPerSecond) {
         super(category, color);
         this.evilPerSecond = evilPerSecond;
     }
+
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         return duration % Ticks.SECOND == 0;
     }
+
     @Override
     public boolean applyEffectTick(@NotNull LivingEntity entity, int amplifier) {
         if (entity instanceof ServerPlayer player) {

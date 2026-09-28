@@ -27,6 +27,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * is a swept-body test over the flight window. Vanilla has no tiger sounds, so the ocelot family
  * stands in at a lowered pitch; the roar reuses the polar bear warning slightly deepened.
  */
+
 public final class TigerEntity extends BeastEntity {
 
     public static final int SWIPE_HIT_TICK = 8;
@@ -68,30 +69,43 @@ public final class TigerEntity extends BeastEntity {
 
     @Override
     protected int swipeHitTick() { return SWIPE_HIT_TICK; }
+
     @Override
     protected int swipeActionTicks() { return SWIPE_END_TICKS; }
+
     @Override
     protected int roarActionTicks() { return ROAR_TICKS; }
+
     @Override
     protected int lieDownActionTicks() { return LIE_DOWN_TICKS; }
+
     @Override
     protected int getUpActionTicks() { return GET_UP_TICKS; }
+
     @Override
     protected int deathRemoveTick() { return DEATH_REMOVE_TICK; }
+
     @Override
     protected float swipeDamage() { return SWIPE_DAMAGE; }
+
     @Override
     protected float heavyDamage() { return POUNCE_DAMAGE; }
+
     @Override
     protected double swipeKnockback() { return 0.6D; }
+
     @Override
     protected double swipeUpward() { return 0.0D; }
+
     @Override
     protected boolean huntsActively() { return true; }
+
     @Override
     protected double pursuitSpeed() { return 1.5D; }
+
     @Override
     protected double cullExtraHeight() { return 0.2D; }
+
     @Override
     protected double cullHorizontalInflate() { return 0.8D; }
 
@@ -176,18 +190,24 @@ public final class TigerEntity extends BeastEntity {
 
     @Override
     protected SoundEvent roarSound() { return SoundEvents.POLAR_BEAR_WARNING; }
+
     @Override
     protected float roarPitch() { return 0.9F; }
+
     @Override
     protected SoundEvent stepSound() { return SoundEvents.WOLF_STEP; }
+
     @Override
     protected SoundEvent getAmbientSound() { return SoundEvents.OCELOT_AMBIENT; }
+
     @Override
     protected SoundEvent getHurtSound(net.minecraft.world.damagesource.@NotNull DamageSource source) {
         return SoundEvents.OCELOT_HURT;
     }
+
     @Override
     protected SoundEvent getDeathSound() { return SoundEvents.OCELOT_DEATH; }
+
     @Override
     public float getVoicePitch() { return 0.8F; }
 

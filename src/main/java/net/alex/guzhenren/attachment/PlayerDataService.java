@@ -59,7 +59,9 @@ public final class PlayerDataService {
 
     private static final String VITAL_LOST = "guzhenren.item.gu.vital_lost";
     public static final int OFFLINE_VITAL_SETTLE_AFTER_TICKS = 60;
+
     private PlayerDataService() {}
+
     public static void onJoin(@NotNull ServerPlayer player) {
         if (!player.getData(ModAttachments.BORN)) onBirth(player);
         migratePhysique(player);
@@ -68,6 +70,7 @@ public final class PlayerDataService {
         BodyAttackService.refresh(player);
         EpicFightIntegration.refresh(player);
     }
+
     private static void migratePhysique(@NotNull ServerPlayer player) {
         Aperture aperture = ApertureService.aperture(player);
         ExtremePhysique legacy = aperture.legacyExtremePhysique();
@@ -82,15 +85,18 @@ public final class PlayerDataService {
             ApertureService.set(player, ApertureData.PRIMARY, aperture.clearLegacyExtremePhysique());
         }
     }
+
     public static void onBirth(@NotNull Player player) {
         player.setData(ModAttachments.MIND, MindData.newborn());
         player.setData(ModAttachments.BORN, true);
     }
+
     public static void onSleepComplete(@NotNull ServerPlayer player) {
         SoulService.refill(player);
         ApertureEssenceService.refill(player);
         MindService.onSleepComplete(player);
     }
+
     public static void onClone(@NotNull Player from, @NotNull Player to, boolean wasDeath, boolean keepInventory) {
         if (wasDeath) {
             if (!keepInventory) {
@@ -109,6 +115,7 @@ public final class PlayerDataService {
             EpicFightIntegration.refresh(server);
         }
     }
+
     /**
      * A death that wipes the apertures shakes one Human Aperture [人窍] loose per aperture, each at its
      * own rank, at the corpse. keepInventory deaths keep the apertures and drop nothing.
@@ -122,6 +129,7 @@ public final class PlayerDataService {
                     new ItemStack(drop)));
         }
     }
+
     public static void onRespawn(@NotNull ServerPlayer player) {
         BodyService.revive(player);
         if (ApertureService.pressureFull(player)) ApertureService.setPressure(player, ApertureService.PRIMARY, 0);
@@ -137,6 +145,7 @@ public final class PlayerDataService {
         BodyService.clearDeathQiDebt(player);
         PathQiService.set(player, QiKind.DEATH, 0L);
     }
+
     public static void onVitalGuLost(@NotNull ServerPlayer owner, @NotNull ItemStack stack) {
         owner.sendSystemMessage(Component.translatable(VITAL_LOST, stack.getHoverName()));
 
@@ -149,10 +158,12 @@ public final class PlayerDataService {
         int bound = stack.getOrDefault(ModDataComponents.VITAL_APERTURE.get(), ApertureData.PRIMARY);
         ApertureService.setPrimaryPath(owner, bound, null);
     }
+
     public static void recordOfflineVitalLoss(@NotNull MinecraftServer server, @NotNull UUID owner,
             @NotNull ItemStack stack) {
         PendingVitalPenalties.get(server).record(owner, stack);
     }
+
     // Waits out vanilla's 60-tick spawn invulnerability, which would swallow the 80% hurt, and settles one
     // lost Gu per heartbeat so the next hurt clears the 10-tick hurt cooldown.
     public static void settleOfflineVitalLoss(@NotNull ServerPlayer player) {
@@ -161,6 +172,7 @@ public final class PlayerDataService {
         ItemStack lost = PendingVitalPenalties.get(player.server).poll(player.getUUID());
         if (lost != null) onVitalGuLost(player, lost);
     }
+
     private static void copy(@NotNull Player from, @NotNull Player to) {
         to.setData(ModAttachments.APERTURE, from.getData(ModAttachments.APERTURE));
         to.setData(ModAttachments.APERTURE_STORAGE, from.getData(ModAttachments.APERTURE_STORAGE).copy());
@@ -174,6 +186,7 @@ public final class PlayerDataService {
         to.setData(ModAttachments.DIMENSION_RETURN, from.getData(ModAttachments.DIMENSION_RETURN));
         to.setData(ModAttachments.BORN, from.getData(ModAttachments.BORN));
     }
+
     public static void resetAll(@NotNull Player player) {
         player.setData(ModAttachments.APERTURE, ApertureData.DEFAULT);
         player.setData(ModAttachments.APERTURE_STORAGE, ApertureStorage.DEFAULT);

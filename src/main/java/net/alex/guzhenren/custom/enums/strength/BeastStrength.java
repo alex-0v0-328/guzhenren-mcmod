@@ -31,15 +31,21 @@ public enum BeastStrength implements StringRepresentable, EnumTranslatable {
     private final BeastStrengthFamily family;
     private final int reading;
     private final double attackBonus;
+
     BeastStrength(BeastStrengthFamily family, int reading, double attackBonus) {
         this.family = family;
         this.reading = reading;
         this.attackBonus = attackBonus;
     }
-    public BeastStrengthFamily getFamily() {return family;}
-    public int getReading() {return reading;}
-    public double getAttackBonus() {return attackBonus;}
+
+    public BeastStrengthFamily getFamily() { return family; }
+
+    public int getReading() { return reading; }
+
+    public double getAttackBonus() { return attackBonus; }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

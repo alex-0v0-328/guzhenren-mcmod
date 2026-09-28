@@ -23,17 +23,20 @@ import net.minecraft.commands.Commands;
 public final class CmdMind {
 
     private CmdMind() {}
+
     public static ArgumentBuilder<CommandSourceStack, ?> node() {
         return Commands.literal("mind")
                 .then(brilliance())
                 .then(CmdWisdom.node());
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> brilliance() {
         return ModCommandSupport.enumSetNode("brilliance", Brilliance.values(), MindService::setBrilliance,
                         ModCommandSupport.ANYONE, null)
                 .then(shift("up", 1))
                 .then(shift("down", -1));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> shift(String literal, int delta) {
         return ModCommandSupport.withTargets(Commands.literal(literal),
                 context -> ModCommandSupport.apply(context, player -> MindService.shiftBrilliance(player, delta)));

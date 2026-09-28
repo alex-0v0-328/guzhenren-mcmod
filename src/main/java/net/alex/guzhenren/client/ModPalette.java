@@ -31,5 +31,6 @@ public final class ModPalette {
     public static final int BAR_TRACK = 0xB0202020;
     public static final int BAR_BORDER = 0xC0000000;
     public static final int DISTILLED_FILL = 0xFF1565C0;
+
     private ModPalette() {}
 }

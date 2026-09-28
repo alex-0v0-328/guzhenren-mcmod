@@ -49,10 +49,14 @@ public enum Race implements StringRepresentable, EnumTranslatable {
     private static final String KEY_PREFIX = "guzhenren.enum.body.race.";
     private final @Nullable GuPath talentPath;
 
-    Race(@Nullable GuPath talentPath) {this.talentPath = talentPath;}
-    public @Nullable GuPath talentPath() {return talentPath;}
-    public boolean isVariant() {return talentPath != null;}
+    Race(@Nullable GuPath talentPath) { this.talentPath = talentPath; }
+
+    public @Nullable GuPath talentPath() { return talentPath; }
+
+    public boolean isVariant() { return talentPath != null; }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

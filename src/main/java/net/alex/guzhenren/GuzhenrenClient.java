@@ -33,9 +33,11 @@ public class GuzhenrenClient {
         modEventBus.addListener(GuzhenrenClient::onRegisterClientExtensions);
         modEventBus.addListener(GuzhenrenClient::onRegisterDimensionSpecialEffects);
     }
+
     private static void onRegisterDimensionSpecialEffects(RegisterDimensionSpecialEffectsEvent event) {
         event.register(Guzhenren.id("treasure_yellow_heaven"), new TreasureYellowHeavenEffects());
     }
+
     private static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerMobEffect(GradedEffectIcon.mobEffect("essence_qi", 1, 5), ModEffects.ESSENCE_QI);
         event.registerMobEffect(GradedEffectIcon.mobEffect("life_qi", 1, 5), ModEffects.LIFE_QI);

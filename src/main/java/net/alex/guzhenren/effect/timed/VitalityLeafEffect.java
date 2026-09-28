@@ -24,13 +24,16 @@ public class VitalityLeafEffect extends MobEffect {
 
     public static final int HEAL_INTERVAL_TICKS = Ticks.HALF_SECOND;
     public static final int DURATION_TICKS = 64 * HEAL_INTERVAL_TICKS;
+
     public VitalityLeafEffect(MobEffectCategory category, int color) {
         super(category, color);
     }
+
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         return duration % HEAL_INTERVAL_TICKS == 0;
     }
+
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         entity.heal(1.0F);

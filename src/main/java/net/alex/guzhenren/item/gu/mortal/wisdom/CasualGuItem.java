@@ -28,12 +28,15 @@ import org.jetbrains.annotations.Nullable;
 public class CasualGuItem extends ConsumedGuItem {
 
     private final Holder<MobEffect> effect;
+
     public CasualGuItem(Properties properties, Holder<MobEffect> effect, GuSpec spec) {
         super(properties, spec);
         this.effect = effect;
     }
+
     @Override
-    protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {return null;}
+    protected @Nullable Refusal payoutGate(Player player, ItemStack stack) { return null; }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         int amplifier = tier();

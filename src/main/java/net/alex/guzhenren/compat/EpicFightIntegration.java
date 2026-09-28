@@ -53,12 +53,15 @@ public final class EpicFightIntegration {
     private static final ResourceLocation STAMINA_MODIFIER = Guzhenren.id("epic_fight_stamina");
     private static AnimationManager.AnimationAccessor<DodgeAnimation> DASH_FORWARD;
     private static AnimationManager.AnimationAccessor<DodgeAnimation> DASH_BACKWARD;
+
     private EpicFightIntegration() {}
+
     public static void initialize() {
         EpicFightEventHooks.Player.CONSUME_SKILL.registerEvent(EpicFightIntegration::onSkillConsume, Guzhenren.MOD_ID);
         EpicFightEventHooks.Player.COMBO_ATTACK.registerEvent(EpicFightIntegration::onComboAttack, Guzhenren.MOD_ID);
         EpicFightEventHooks.Player.SET_TARGET.registerEvent(EpicFightIntegration::onSetTarget, Guzhenren.MOD_ID);
     }
+
     public static void onAnimationRegistry(AnimationManager.AnimationRegistryEvent event) {
         event.newBuilder(Guzhenren.MOD_ID, builder -> {
             DASH_FORWARD = builder.nextAccessor("biped/skill/dash_forward", accessor ->
@@ -69,6 +72,7 @@ public final class EpicFightIntegration {
                             .setResourceLocation("epicfight", "biped/skill/step_backward"));
         });
     }
+
     public static void dash(ServerPlayer player, int vertical, float yRot) {
         ServerPlayerPatch patch = EpicFightCapabilities.getServerPlayerPatch(player);
         if (patch == null) return;
@@ -81,6 +85,7 @@ public final class EpicFightIntegration {
         patch.setModelYRot(yRot, true);
         RingConeEmitter.dashCone(player, dashDirection(vertical, yRot));
     }
+
     public static void refresh(ServerPlayer player) {
         AttributeInstance instance = player.getAttribute(EpicFightAttributes.MAX_STAMINA);
         if (instance == null) return;
@@ -97,12 +102,14 @@ public final class EpicFightIntegration {
         }
         Objects.requireNonNull(EpicFightCapabilities.getServerPlayerPatch(player)).clampMaxAttributes();
     }
+
     private static int staminaMaxPercent(ServerPlayer player) {
         ExtremePhysique physique = BodyService.extremePhysique(player);
         return physique == ExtremePhysique.NONE
                 ? ApertureService.talent(player).getStaminaMaxPercent()
                 : physique.getStaminaMaxPercent();
     }
+
     private static void onSkillConsume(SkillConsumeEvent event) {
         if (event.getResourceType() != Skill.Resource.STAMINA) return;
         if (event.getEntityPatch().getOriginal() instanceof Player player
@@ -110,13 +117,16 @@ public final class EpicFightIntegration {
             event.setAmount(0.0F);
         }
     }
+
     private static void onComboAttack(ComboAttackEvent event) {
         ServerPlayer player = event.getPlayerPatch().getOriginal();
         if (player.hasEffect(ModEffects.HARDSHIP_STRENGTH_GU)) BodyAttackService.refresh(player);
     }
+
     private static void onSetTarget(SetTargetEvent event) {
         if (event.getTarget() instanceof WildGuEntity) event.cancel();
     }
+
     /**
      * The dash motion direction as a unit vector: the payload's yRot is the Epic Fight MODEL facing
      * (a backward dodge still faces the enemy), so {@link #ringYawOffset(int)} recovers the actual
@@ -130,10 +140,12 @@ public final class EpicFightIntegration {
         float radians = (yRot + ringYawOffset(vertical)) * ((float) Math.PI / 180.0F);
         return new Vec3(-Mth.sin(radians), 0.0D, Mth.cos(radians));
     }
+
     /** Motion-direction correction from model yaw to motion yaw; pinned by {@code DashRingYawTest}. */
     static float ringYawOffset(int vertical) {
         return vertical < 0 ? 180.0F : 0.0F;
     }
+
     private static final class DashAnimation extends DodgeAnimation {
 
         private DashAnimation(float transitionTime, AnimationManager.AnimationAccessor<DodgeAnimation> accessor,

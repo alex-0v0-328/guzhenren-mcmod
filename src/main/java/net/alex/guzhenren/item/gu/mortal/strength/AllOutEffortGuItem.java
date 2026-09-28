@@ -31,14 +31,17 @@ public class AllOutEffortGuItem extends TendedGuItem {
 
     private static final String FAILED_ALREADY_UNLEASHED = "guzhenren.item.failed.all_out_active";
     private final int effectSeconds;
+
     public AllOutEffortGuItem(Properties properties, int effectSeconds, GuSpec spec) {
         super(properties, spec);
         this.effectSeconds = effectSeconds;
     }
+
     @Override
     protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {
         return player.hasEffect(ModEffects.ALL_OUT_EFFORT) ? new Refusal(FAILED_ALREADY_UNLEASHED) : null;
     }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         player.addEffect(ModEffects.instance(ModEffects.ALL_OUT_EFFORT, effectSeconds * Ticks.SECOND, tier()));

@@ -34,13 +34,19 @@ public enum Stage implements StringRepresentable, EnumTranslatable {
     public static final Stage LOWEST = INIT;
     public static final Stage HIGHEST = PEAK;
     private final int essenceMultiplier;
+
     Stage(int essenceMultiplier) {
         this.essenceMultiplier = essenceMultiplier;
     }
-    public int getEssenceMultiplier() {return essenceMultiplier;}
-    public Stage shift(int d) {return values()[Math.clamp(ordinal() + d, LOWEST.ordinal(), HIGHEST.ordinal())];}
-    public static Stage[] settable() {return Arrays.copyOfRange(values(), LOWEST.ordinal(), HIGHEST.ordinal() + 1);}
+
+    public int getEssenceMultiplier() { return essenceMultiplier; }
+
+    public Stage shift(int d) { return values()[Math.clamp(ordinal() + d, LOWEST.ordinal(), HIGHEST.ordinal())]; }
+
+    public static Stage[] settable() { return Arrays.copyOfRange(values(), LOWEST.ordinal(), HIGHEST.ordinal() + 1); }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

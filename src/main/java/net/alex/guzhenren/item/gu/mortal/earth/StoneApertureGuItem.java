@@ -37,9 +37,11 @@ public class StoneApertureGuItem extends ConsumedGuItem {
     private static final String FAILED_RANK_MISMATCH = "guzhenren.item.failed.rank_mismatch";
     private static final String FAILED_UNAVAILABLE = "guzhenren.item.failed.aperture_unavailable";
     private static final String FAILED_STAGE_PEAK = "guzhenren.item.failed.stage_peak";
+
     public StoneApertureGuItem(Properties properties, GuSpec spec) {
         super(properties, spec);
     }
+
     /**
      * The pure seam the unit tests pin: PRIMARY wins while it is NORMAL, the second aperture answers
      * only when the primary is DEAD, and nobody usable answers {@code NO_TARGET}.
@@ -49,6 +51,7 @@ public class StoneApertureGuItem extends ConsumedGuItem {
         if (secondary == ApertureStatus.NORMAL) return ApertureData.SECONDARY;
         return NO_TARGET;
     }
+
     /**
      * Maps the seam's semantic slots onto real list positions: a lone second aperture lives at
      * position 0, and a missing slot counts as DEAD -- a lost aperture is exactly what the
@@ -64,6 +67,7 @@ public class StoneApertureGuItem extends ConsumedGuItem {
         if (target == NO_TARGET) return NO_TARGET;
         return target == ApertureData.SECONDARY ? Math.max(secondary, 0) : Math.max(primary, 0);
     }
+
     @Override
     protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {
         int target = targetOf(player);
@@ -74,6 +78,7 @@ public class StoneApertureGuItem extends ConsumedGuItem {
         return ApertureService.aperture(player, target).stage() == Stage.HIGHEST
                 ? new Refusal(FAILED_STAGE_PEAK) : null;
     }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         int target = targetOf(player);

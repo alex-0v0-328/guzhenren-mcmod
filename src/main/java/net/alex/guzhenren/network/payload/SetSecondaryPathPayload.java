@@ -34,6 +34,7 @@ public record SetSecondaryPathPayload(int aperture, @Nullable GuPath path) imple
             net.minecraft.network.codec.ByteBufCodecs.VAR_INT, SetSecondaryPathPayload::aperture,
             ModStreamCodecs.ofNullableEnum(GuPath.class), SetSecondaryPathPayload::path,
             SetSecondaryPathPayload::new);
+
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {return TYPE;}
+    public @NotNull Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

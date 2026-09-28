@@ -44,12 +44,16 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public final class ModPayloads {
 
     private ModPayloads() {}
+
     private static final String VERSION = "1";
+
     private static boolean inTyh(ServerPlayer player) {
         return player.level().dimension().equals(ModDimensions.TREASURE_YELLOW_HEAVEN);
     }
+
     private static final String STORAGE_TITLE = "guzhenren.menu.aperture_storage";
     private static final String REFINEMENT_TITLE = "guzhenren.menu.refinement";
+
     @SubscribeEvent
     public static void onRegister(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(VERSION);
@@ -66,6 +70,7 @@ public final class ModPayloads {
         registrar.playToServer(DashPayload.TYPE, DashPayload.STREAM_CODEC,
                 ModPayloads::dash);
     }
+
     private static void nourishAperture(NourishAperturePayload payload, IPayloadContext context) {
         if (!(context.player() instanceof ServerPlayer player)) return;
         if (inTyh(player)) return;
@@ -76,11 +81,13 @@ public final class ModPayloads {
             case CANCEL -> ApertureNourishService.cancel(player);
         }
     }
+
     private static void impactApertureWall(ImpactApertureWallPayload payload, IPayloadContext context) {
         if (!(context.player() instanceof ServerPlayer player)) return;
         if (inTyh(player)) return;
         ApertureNourishService.impactWall(player);
     }
+
     private static void dash(DashPayload payload, IPayloadContext context) {
         if (!(context.player() instanceof ServerPlayer player)) return;
         if (inTyh(player)) return;
@@ -98,6 +105,7 @@ public final class ModPayloads {
 
         EpicFightIntegration.dash(player, vertical, payload.yRot());
     }
+
     private static void openRefinement(OpenRefinementPayload payload, IPayloadContext context) {
         if (!(context.player() instanceof ServerPlayer player)) return;
         if (inTyh(player)) return;
@@ -107,6 +115,7 @@ public final class ModPayloads {
                 (id, inventory, p) -> new RefinementMenu(id, inventory),
                 Component.translatable(REFINEMENT_TITLE)));
     }
+
     private static void setSecondaryPath(SetSecondaryPathPayload payload, IPayloadContext context) {
         if (!(context.player() instanceof ServerPlayer player)) return;
         if (inTyh(player)) return;
@@ -116,6 +125,7 @@ public final class ModPayloads {
 
         ApertureService.setSecondaryPath(player, aperture, payload.path());
     }
+
     private static void openStorage(OpenApertureStoragePayload payload, IPayloadContext context) {
         if (!(context.player() instanceof ServerPlayer player)) return;
         if (inTyh(player)) return;

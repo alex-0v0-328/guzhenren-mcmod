@@ -46,6 +46,7 @@ public record MindData(Brilliance brilliance, Map<WisdomType, MindPool> pools, M
             ModStreamCodecs.enumMap(WisdomType.class, MindPool.STREAM_CODEC), MindData::pools,
             ModStreamCodecs.enumMap(ThoughtTag.class, ByteBufCodecs.VAR_LONG), MindData::taggedThoughts,
             MindData::new);
+
     public MindData {
         Map<WisdomType, MindPool> dense = new EnumMap<>(WisdomType.class);
         for (WisdomType type : WisdomType.values()) {
@@ -75,16 +76,22 @@ public record MindData(Brilliance brilliance, Map<WisdomType, MindPool> pools, M
         }
         taggedThoughts = tagDense.isEmpty() ? Map.of() : Collections.unmodifiableMap(tagDense);
     }
-    public static MindData newborn() {return new MindData(Brilliance.randomBrilliance(), Map.of(), Map.of());}
-    public MindPool pool(WisdomType type) {return pools.get(type);}
-    public boolean isOverflowing() {return pools.values().stream().anyMatch(MindPool::isOverflowing);}
-    public MindData withBrilliance(Brilliance v) {return new MindData(v, pools, taggedThoughts);}
+
+    public static MindData newborn() { return new MindData(Brilliance.randomBrilliance(), Map.of(), Map.of()); }
+
+    public MindPool pool(WisdomType type) { return pools.get(type); }
+
+    public boolean isOverflowing() { return pools.values().stream().anyMatch(MindPool::isOverflowing); }
+
+    public MindData withBrilliance(Brilliance v) { return new MindData(v, pools, taggedThoughts); }
+
     public MindData with(WisdomType type, MindPool pool) {
         Map<WisdomType, MindPool> next = new EnumMap<>(WisdomType.class);
         next.putAll(pools);
         next.put(type, pool);
         return new MindData(brilliance, next, taggedThoughts);
     }
+
     public MindData withTagged(ThoughtTag tag, long amount) {
         Map<ThoughtTag, Long> next = new EnumMap<>(ThoughtTag.class);
         next.putAll(taggedThoughts);
@@ -92,6 +99,7 @@ public record MindData(Brilliance brilliance, Map<WisdomType, MindPool> pools, M
         else next.put(tag, amount);
         return new MindData(brilliance, pools, next);
     }
+
     public MindData emptied() {
         Map<WisdomType, MindPool> next = new EnumMap<>(WisdomType.class);
         pools.forEach((type, pool) -> next.put(type, pool.emptied()));

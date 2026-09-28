@@ -27,6 +27,7 @@ public record DashPayload(int vertical, int horizontal, float yRot) implements C
             ByteBufCodecs.INT, DashPayload::horizontal,
             ByteBufCodecs.FLOAT, DashPayload::yRot,
             DashPayload::new);
+
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {return TYPE;}
+    public @NotNull Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

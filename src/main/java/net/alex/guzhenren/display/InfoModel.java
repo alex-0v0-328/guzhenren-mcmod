@@ -52,108 +52,78 @@ import org.jetbrains.annotations.Nullable;
 public final class InfoModel {
 
     private InfoModel() {}
+
     public static final int INDENT = 10;
-    public record Row(int indent, Entry entry) {
 
-    }
-    public sealed interface Entry {
+    public record Row(int indent, Entry entry) {}
 
-    }
+    public sealed interface Entry {}
+
     //region Aperture
     /**
      * ⚠ {@code number} is the display ordinal (1 = first aperture, 2 = second), while {@code index} is
      * the real list position -- a lone second aperture shows number 2 but lives at index 0.
      */
-    public record ApertureIndex(int number, int index) implements Entry {
+    public record ApertureIndex(int number, int index) implements Entry {}
 
-    }
-    public record Blank() implements Entry {
+    public record Blank() implements Entry {}
 
-    }
-    public record Realm(Aperture aperture) implements Entry {
+    public record Realm(Aperture aperture) implements Entry {}
 
-    }
-    public record Status(ApertureStatus status) implements Entry {
+    public record Status(ApertureStatus status) implements Entry {}
 
-    }
-    public record Talent(Aperture aperture, boolean awakened) implements Entry {
+    public record Talent(Aperture aperture, boolean awakened) implements Entry {}
 
-    }
-    public record Essence(Aperture aperture) implements Entry {
+    public record Essence(Aperture aperture) implements Entry {}
 
-    }
-    public record Distilled(Aperture aperture) implements Entry {
+    public record Distilled(Aperture aperture) implements Entry {}
 
-    }
-    public record Pressure(Aperture aperture) implements Entry {
+    public record Pressure(Aperture aperture) implements Entry {}
 
-    }
-    public record PathChoice(boolean primary, int aperture, @Nullable GuPath path) implements Entry {
-
-    }
+    public record PathChoice(boolean primary, int aperture, @Nullable GuPath path) implements Entry {}
     //endregion
 
     //region Body
-    public record PhysiqueRow(@Nullable Physique physique, ExtremePhysique extremePhysique) implements Entry {
+    public record PhysiqueRow(@Nullable Physique physique, ExtremePhysique extremePhysique) implements Entry {}
 
-    }
-    public record RaceRow(Race race) implements Entry {
+    public record RaceRow(Race race) implements Entry {}
 
-    }
-    public record Soul(SoulData soul) implements Entry {
+    public record Soul(SoulData soul) implements Entry {}
 
-    }
-    public record Lifespan(double lifespan, double age) implements Entry {
+    public record Lifespan(double lifespan, double age) implements Entry {}
 
-    }
-    public record PathsHeader(boolean empty) implements Entry {
+    public record PathsHeader(boolean empty) implements Entry {}
 
-    }
-    public record PathRow(GuPath path, PathEntry entry) implements Entry {
+    public record PathRow(GuPath path, PathEntry entry) implements Entry {}
 
-    }
-    public record QiPathAchieveHeader() implements Entry {
+    public record QiPathAchieveHeader() implements Entry {}
 
-    }
-    public record QiKindRow(QiKind kind, long amount) implements Entry {
+    public record QiKindRow(QiKind kind, long amount) implements Entry {}
 
-    }
-    public record StrengthPathAchieveHeader() implements Entry {
+    public record StrengthPathAchieveHeader() implements Entry {}
 
-    }
     public record StrengthPathBranchRow(StrengthPathBranch branch, int totalJin,
-                                        Component reading) implements Entry {
-    }
-    public record TimePathAchieveHeader() implements Entry {
+                                        Component reading) implements Entry {}
 
-    }
-    public record TimeRateUpRow(int rate) implements Entry {
+    public record TimePathAchieveHeader() implements Entry {}
 
-    }
-    public record CapacityRow(int usable, int total) implements Entry {
+    public record TimeRateUpRow(int rate) implements Entry {}
 
-    }
-    public record AttackRow(double bonus) implements Entry {
+    public record CapacityRow(int usable, int total) implements Entry {}
 
-    }
-    public record WisdomPathAchieveHeader() implements Entry {
+    public record AttackRow(double bonus) implements Entry {}
 
-    }
-    public record ThoughtTagRow(ThoughtTag tag, long amount) implements Entry {
+    public record WisdomPathAchieveHeader() implements Entry {}
 
-    }
+    public record ThoughtTagRow(ThoughtTag tag, long amount) implements Entry {}
     //endregion
 
     //region Mind
-    public record BrillianceRow(Brilliance brilliance) implements Entry {
+    public record BrillianceRow(Brilliance brilliance) implements Entry {}
 
-    }
-    public record MindHeader() implements Entry {
+    public record MindHeader() implements Entry {}
 
-    }
-    public record MindRow(WisdomType type, MindPool pool) implements Entry {
-
-    }
+    public record MindRow(WisdomType type, MindPool pool) implements Entry {}
     //endregion
 
     public static List<Row> aperture(Player player) {
@@ -176,6 +146,7 @@ public final class InfoModel {
         }
         return rows;
     }
+
     private static void apertureBlock(List<Row> rows, Aperture aperture, boolean awakened, int indent,
                                       int index, boolean pressure, boolean extreme, ApertureStatus status) {
         rows.add(new Row(indent, new Realm(aperture)));
@@ -189,6 +160,7 @@ public final class InfoModel {
             rows.add(new Row(indent, new PathChoice(false, index, aperture.secondaryPath())));
         }
     }
+
     public static List<Row> body(Player player) {
         BodyData body = BodyService.get(player);
         PathStrengthData strength = PathStrengthService.get(player);
@@ -211,12 +183,15 @@ public final class InfoModel {
         }
         return rows;
     }
+
     static boolean shouldShowAttackRow(boolean strengthEmpty, double attackBonus) {
         return !strengthEmpty || attackBonus != 0.0D;
     }
+
     public static List<Row> soul(Player player) {
         return List.of(new Row(0, new Soul(SoulService.get(player))));
     }
+
     public static List<Row> pathAchieve(Player player) {
         List<Row> rows = new ArrayList<>();
         strengthPathAchieve(rows, player);
@@ -226,6 +201,7 @@ public final class InfoModel {
         paths(rows, player);
         return rows;
     }
+
     private static void timePathAchieve(List<Row> rows, Player player) {
         int rate = PathTimeFlowService.rate(player);
         if (rate <= PathTimeFlowService.NORMAL_RATE) return;
@@ -233,12 +209,14 @@ public final class InfoModel {
         rows.add(new Row(0, new TimePathAchieveHeader()));
         rows.add(new Row(INDENT, new TimeRateUpRow(rate)));
     }
+
     private static void paths(List<Row> rows, Player player) {
         Map<GuPath, PathEntry> paths = PathService.visibleEntries(player);
 
         rows.add(new Row(0, new PathsHeader(paths.isEmpty())));
         paths.forEach((path, entry) -> rows.add(new Row(INDENT, new PathRow(path, entry))));
     }
+
     private static void qiPathAchieve(List<Row> rows, Player player) {
         List<Row> held = new ArrayList<>();
         for (QiKind kind : QiKind.values()) {
@@ -250,6 +228,7 @@ public final class InfoModel {
         rows.add(new Row(0, new QiPathAchieveHeader()));
         rows.addAll(held);
     }
+
     private static void strengthPathAchieve(List<Row> rows, Player player) {
         PathStrengthData data = PathStrengthService.get(player);
         if (data.isEmpty()) return;
@@ -265,6 +244,7 @@ public final class InfoModel {
                     data.totalJin(), ModDisplayText.humanStrengthLine(data))));
         }
     }
+
     private static void wisdomPathAchieve(List<Row> rows, Player player) {
         List<Row> held = new ArrayList<>();
         long natural = MindService.naturalThoughts(player);
@@ -277,6 +257,7 @@ public final class InfoModel {
         rows.add(new Row(0, new WisdomPathAchieveHeader()));
         rows.addAll(held);
     }
+
     public static List<Row> mind(Player player) {
         MindData mind = MindService.get(player);
         List<Row> rows = new ArrayList<>();

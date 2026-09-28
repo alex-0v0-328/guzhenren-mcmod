@@ -28,6 +28,7 @@ public class ModCuriosProvider extends CuriosDataProvider {
                              CompletableFuture<HolderLookup.Provider> registries) {
         super(Guzhenren.MOD_ID, output, fileHelper, registries);
     }
+
     @Override
     public void generate(HolderLookup.Provider registries, ExistingFileHelper fileHelper) {
         createSlot("hands").size(2);

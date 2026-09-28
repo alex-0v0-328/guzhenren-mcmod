@@ -30,6 +30,7 @@ import net.minecraft.util.StringRepresentable;
 public final class CmdBody {
 
     private CmdBody() {}
+
     public static ArgumentBuilder<CommandSourceStack, ?> node() {
         return Commands.literal("body")
                 .then(physique())
@@ -38,6 +39,7 @@ public final class CmdBody {
                 .then(ModCommandSupport.counter("lifespan", BodyService::setLifespan, BodyService::addLifespan))
                 .then(ModCommandSupport.counter("age", BodyService::setAge, BodyService::addAge));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> physique() {
         return Commands.literal("physique")
                 .then(enumAction("add", Physique.values(), BodyService::addPhysique,
@@ -50,6 +52,7 @@ public final class CmdBody {
                                 value -> true, ModCommandSupport.AWAKENED,
                                 ModCommandSupport.FAILED_UNAWAKENED)));
     }
+
     private static <E extends Enum<E> & StringRepresentable> ArgumentBuilder<CommandSourceStack, ?> enumAction(
             String literal, E[] values, ModCommandSupport.EnumOperation<E> operation,
             Predicate<E> valueAllowed, Predicate<ServerPlayer> allowed, String refusedKey) {

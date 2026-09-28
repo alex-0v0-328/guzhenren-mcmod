@@ -38,19 +38,23 @@ public final class PendingVitalPenalties extends SavedData {
     private static final SavedData.Factory<PendingVitalPenalties> FACTORY =
             new SavedData.Factory<>(PendingVitalPenalties::new, PendingVitalPenalties::load);
     private final Map<UUID, Deque<ItemStack>> pending = new HashMap<>();
+
     public static @NotNull PendingVitalPenalties get(@NotNull MinecraftServer server) {
         return server.overworld().getDataStorage().computeIfAbsent(FACTORY, NAME);
     }
+
     public void record(@NotNull UUID owner, @NotNull ItemStack stack) {
         if (stack.isEmpty()) return;
 
         pending.computeIfAbsent(owner, key -> new ArrayDeque<>()).addLast(stack.copy());
         setDirty();
     }
+
     public int count(@NotNull UUID owner) {
         Deque<ItemStack> queue = pending.get(owner);
         return queue == null ? 0 : queue.size();
     }
+
     public @Nullable ItemStack poll(@NotNull UUID owner) {
         Deque<ItemStack> queue = pending.get(owner);
         if (queue == null) return null;
@@ -60,6 +64,7 @@ public final class PendingVitalPenalties extends SavedData {
         setDirty();
         return next;
     }
+
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         ListTag entries = new ListTag();
@@ -74,6 +79,7 @@ public final class PendingVitalPenalties extends SavedData {
         tag.put("pending", entries);
         return tag;
     }
+
     public static @NotNull PendingVitalPenalties load(@NotNull CompoundTag tag,
             HolderLookup.@NotNull Provider registries) {
         PendingVitalPenalties data = new PendingVitalPenalties();

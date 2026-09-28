@@ -27,9 +27,11 @@ public class RelicsGuItem extends OneShotGuItem {
 
     private static final String FAILED_RANK_MISMATCH = "guzhenren.item.failed.rank_mismatch";
     private static final String FAILED_STAGE_PEAK = "guzhenren.item.failed.stage_peak";
+
     public RelicsGuItem(Properties properties, GuSpec spec) {
         super(properties, spec);
     }
+
     @Override
     protected @Nullable Refusal useGate(Player player, ItemStack stack) {
         if (ApertureService.rank(player) != rank()) {
@@ -37,6 +39,7 @@ public class RelicsGuItem extends OneShotGuItem {
         }
         return ApertureService.stage(player) == Stage.HIGHEST ? new Refusal(FAILED_STAGE_PEAK) : null;
     }
+
     @Override
     protected int useApply(ServerPlayer player, ItemStack stack) {
         ApertureService.shiftStage(player, 1);

@@ -31,9 +31,11 @@ import org.jetbrains.annotations.NotNull;
 public final class BodyHealthService {
 
     private BodyHealthService() {}
+
     public static final double VANILLA_MAX_HEALTH = 20.0D;
     private static final ResourceLocation MODIFIER_ID =
             Guzhenren.id("rank_max_health");
+
     public static void refresh(@NotNull ServerPlayer player) {
         AttributeInstance instance = player.getAttribute(Attributes.MAX_HEALTH);
         if (instance == null) return;

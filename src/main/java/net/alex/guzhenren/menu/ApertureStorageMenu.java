@@ -61,6 +61,7 @@ public class ApertureStorageMenu extends AbstractContainerMenu {
     private final SimpleContainer vital = new SimpleContainer(1);
     private final ContainerData pageData = new SimpleContainerData(3);
     private boolean loading;
+
     public ApertureStorageMenu(int id, Inventory inventory, int aperture, int pageIndex) {
         super(ModMenus.APERTURE_STORAGE_MENU.get(), id);
         this.player = inventory.player;
@@ -89,14 +90,20 @@ public class ApertureStorageMenu extends AbstractContainerMenu {
         addDataSlots(pageData);
         load(pageIndex);
     }
-    public int pageIndex() {return pageData.get(DATA_PAGE);}
-    public int pageCount() {return Math.max(1, pageData.get(DATA_PAGES));}
-    public int load() {return pageData.get(DATA_LOAD);}
-    public int aperture() {return aperture;}
+
+    public int pageIndex() { return pageData.get(DATA_PAGE); }
+
+    public int pageCount() { return Math.max(1, pageData.get(DATA_PAGES)); }
+
+    public int load() { return pageData.get(DATA_LOAD); }
+
+    public int aperture() { return aperture; }
+
     private int countPages() {
         int count = ApertureStorageService.count(player, aperture);
         return count / PAGE_SIZE + 1;
     }
+
     //region paging
     @Override
     public boolean clickMenuButton(@NotNull Player who, int id) {
@@ -113,10 +120,12 @@ public class ApertureStorageMenu extends AbstractContainerMenu {
         broadcastChanges();
         return true;
     }
+
     public void reload() {
         load(pageIndex());
         broadcastChanges();
     }
+
     private void load(int index) {
         loading = true;
         int at = Math.clamp(index, 0, countPages() - 1);
@@ -132,6 +141,7 @@ public class ApertureStorageMenu extends AbstractContainerMenu {
         vital.setItem(0, ApertureStorageService.vital(player, aperture).copy());
         loading = false;
     }
+
     private void save() {
         if (loading || !(player instanceof ServerPlayer server)) return;
 
@@ -161,6 +171,7 @@ public class ApertureStorageMenu extends AbstractContainerMenu {
         pageData.set(DATA_PAGES, countPages());
         pageData.set(DATA_LOAD, ApertureStorageService.load(server, aperture));
     }
+
     private static boolean same(ItemStack first, ItemStack second) {
         return first.getCount() == second.getCount()
                 && ItemStack.isSameItemSameComponents(first, second);
@@ -172,6 +183,7 @@ public class ApertureStorageMenu extends AbstractContainerMenu {
         save();
         super.removed(who);
     }
+
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player who, int index) {
         Slot slot = slots.get(index);
@@ -193,32 +205,39 @@ public class ApertureStorageMenu extends AbstractContainerMenu {
         }
         return original;
     }
+
     @Override
-    public boolean stillValid(@NotNull Player who) {return who == player && who.isAlive();}
+    public boolean stillValid(@NotNull Player who) { return who == player && who.isAlive(); }
+
     private class GuSlot extends Slot {
 
-        GuSlot(Container container, int index, int x, int y) {super(container, index, x, y);}
+        GuSlot(Container container, int index, int x, int y) { super(container, index, x, y); }
+
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {
             return stack.getItem() instanceof MortalGuItem
                     && (hasItem()
                     || ApertureStorageService.maxStackSize(player, aperture, load(), getItem(), stack) > 0);
         }
+
         @Override
         public int getMaxStackSize(@NotNull ItemStack stack) {
             return ApertureStorageService.maxStackSize(player, aperture, load(), getItem(), stack);
         }
     }
+
     private class VitalSlot extends Slot {
 
-        VitalSlot(int x, int y) {super(vital, 0, x, y);}
+        VitalSlot(int x, int y) { super(vital, 0, x, y); }
+
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {
             if (!(stack.getItem() instanceof TendedGuItem gu) || !gu.refined(stack)) return false;
             if (!gu.canBeVital()) return false;
             return !GuItem.isVital(stack) || GuItem.isVitalOf(stack, player);
         }
+
         @Override
-        public int getMaxStackSize() {return 1;}
+        public int getMaxStackSize() { return 1; }
     }
 }

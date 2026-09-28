@@ -38,14 +38,20 @@ public enum GuAttainment implements StringRepresentable, EnumTranslatable {
     private static final String KEY_PREFIX = "guzhenren.enum.path.attainment.";
     private final int level;
     private final int refinementBonus;
+
     GuAttainment(int level, int refinementBonus) {
         this.level = level;
         this.refinementBonus = refinementBonus;
     }
-    public int getLevel() {return level;}
-    public int getRefinementBonus() {return refinementBonus;}
-    public GuAttainment shift(int d) {return values()[Math.clamp(ordinal() + d, 0, values().length - 1)];}
+
+    public int getLevel() { return level; }
+
+    public int getRefinementBonus() { return refinementBonus; }
+
+    public GuAttainment shift(int d) { return values()[Math.clamp(ordinal() + d, 0, values().length - 1)]; }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

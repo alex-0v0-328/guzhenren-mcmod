@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.0.0
  * @since 1.0.0
  */
+
 public class SpiritSpringBlock extends LiquidBlock {
 
     public static final int PRODUCTION_INTERVAL_TICKS = 100;
@@ -47,12 +48,14 @@ public class SpiritSpringBlock extends LiquidBlock {
     public SpiritSpringBlock(FlowingFluid fluid, Properties properties) {
         super(fluid, properties);
     }
+
     @Override
     protected void onPlace(@NotNull BlockState state, @NotNull Level level,
                            @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
         scheduleProduction(level, pos);
     }
+
     @Override
     protected void neighborChanged(@NotNull BlockState state, @NotNull Level level,
                                    @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos,
@@ -60,6 +63,7 @@ public class SpiritSpringBlock extends LiquidBlock {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
         scheduleProduction(level, pos);
     }
+
     @Override
     protected void tick(@NotNull BlockState state, ServerLevel level,
                         @NotNull BlockPos pos, @NotNull RandomSource random) {
@@ -71,15 +75,18 @@ public class SpiritSpringBlock extends LiquidBlock {
         }
         scheduleProduction(level, pos);
     }
+
     static boolean shouldProduce(boolean playerNear, int nearbyStones) {
         return playerNear && nearbyStones < NEARBY_STONES_CAP;
     }
+
     private void scheduleProduction(Level level, BlockPos pos) {
         if (level.isClientSide() || !level.getFluidState(pos).isSource()) return;
         if (!level.getBlockTicks().hasScheduledTick(pos, this)) {
             level.scheduleTick(pos, this, PRODUCTION_INTERVAL_TICKS);
         }
     }
+
     private void produceStones(ServerLevel level, BlockPos pos, RandomSource random) {
         int maxStack = new ItemStack(ModItems.PRIMEVAL_STONE.get()).getMaxStackSize();
         int remaining = STONES_PER_PRODUCTION;
@@ -93,6 +100,7 @@ public class SpiritSpringBlock extends LiquidBlock {
             remaining -= batch;
         }
     }
+
     public static int nearbyStones(ServerLevel level, BlockPos pos) {
         List<ItemEntity> drops = level.getEntitiesOfClass(ItemEntity.class,
                 new AABB(pos).inflate(NEARBY_STONES_CAP_RADIUS));

@@ -45,6 +45,7 @@ public final class AperturePressureExplosionTask {
         this.seed = level.random.nextLong();
         this.physique = physique;
     }
+
     private static final List<AperturePressureExplosionTask> ACTIVE = new ArrayList<>();
     private static final int BLOCK_BUDGET = 65_536;
     private static final double NOISE_FLOOR = 0.9D;
@@ -71,13 +72,18 @@ public final class AperturePressureExplosionTask {
     private int ringCursor;
     private int rimIndex;
     private Phase phase = Phase.CLEAR;
-    private enum Phase {CLEAR, FLOOR, RING, RIM}
+
+    private enum Phase { CLEAR, FLOOR, RING, RIM }
+
     public static void start(@NotNull ServerLevel level, double x, double y, double z, int radius,
                              @NotNull ExtremePhysique physique) {
         ACTIVE.add(new AperturePressureExplosionTask(level, x, y, z, radius, physique));
     }
-    public static void tickAll() {ACTIVE.removeIf(AperturePressureExplosionTask::tick);}
-    public static void clear() {ACTIVE.clear();}
+
+    public static void tickAll() { ACTIVE.removeIf(AperturePressureExplosionTask::tick); }
+
+    public static void clear() { ACTIVE.clear(); }
+
     static double columnJitter(int bx, int bz, long seed) {
         long h = bx * 0x9E3779B97F4A7C15L ^ bz * 0xC2B2AE3D27D4EB4FL ^ seed;
         h ^= h >>> 30;
@@ -87,33 +93,42 @@ public final class AperturePressureExplosionTask {
         h ^= h >>> 31;
         return (h & 0xFFFFFL) * (NOISE_RANGE / 0x10_0000L);
     }
+
     static double columnRadius(int radius, int bx, int bz, long seed) {
         return radius * (NOISE_FLOOR + columnJitter(bx, bz, seed));
     }
+
     static int columnFloorY(double centerY, double columnRadius, double horizontalSquared) {
         return (int) Math.ceil(centerY - Math.sqrt(columnRadius * columnRadius - horizontalSquared) - 0.5D) - 1;
     }
+
     static int iceTier(int floorY) {
         if (floorY < BLUE_ICE_THRESHOLD) return 2;
         return floorY < 0 ? 1 : 0;
     }
+
     static int goldTier(int floorY) {
         if (floorY < 0) return 0;
         return floorY < GOLD_ORE_THRESHOLD ? 1 : 2;
     }
+
     static boolean isLavaColumn(int bx, int bz, long seed) {
         return columnJitter(bx, bz, seed ^ 0x5DEECE66DL) < LAVA_SHARE;
     }
+
     static boolean isGoldColumn(int bx, int bz, long seed) {
         return columnJitter(bx, bz, seed ^ 0x2545F4914F6CDD1DL) < GOLD_SHARE;
     }
+
     static boolean isPowderSnowColumn(int bx, int bz, long seed) {
         return columnJitter(bx, bz, seed ^ 0x9E3779B9L) >= POWDER_SNOW_SHARE;
     }
+
     static double ringOuterRadius(int radius, int bx, int bz, long seed) {
         return radius + RING_MIN
                 + columnJitter(bx, bz, seed ^ 0xC2B2AE3DL) / NOISE_RANGE * RING_NOISE_RANGE;
     }
+
     private boolean tick() {
         if (phase == Phase.CLEAR && tickClear()) {
             phase = hasFloor() ? Phase.FLOOR : nextAfterFloor();
@@ -122,15 +137,18 @@ public final class AperturePressureExplosionTask {
         if (phase == Phase.RING && tickRing()) phase = Phase.RIM;
         return phase == Phase.RIM && tickRim();
     }
+
     private Phase nextAfterFloor() {
         return physique == ExtremePhysique.NORTHERN_DARK_ICE_SOUL ? Phase.RING : Phase.RIM;
     }
+
     private boolean hasFloor() {
         return switch (physique) {
             case NORTHERN_DARK_ICE_SOUL, BLAZING_GLORY_LIGHTNING_BRILLIANCE, MYRIAD_GOLD_WONDROUS_ESSENCE -> true;
             default -> false;
         };
     }
+
     private boolean tickClear() {
         int budget = BLOCK_BUDGET;
         while (budget > 0) {
@@ -145,6 +163,7 @@ public final class AperturePressureExplosionTask {
         }
         return false;
     }
+
     private boolean tickFloor() {
         int budget = BLOCK_BUDGET;
         int side = 2 * radius + 1;
@@ -171,6 +190,7 @@ public final class AperturePressureExplosionTask {
         }
         return floorCursor >= side * side;
     }
+
     private boolean tickRing() {
         int budget = BLOCK_BUDGET;
         int outer = radius + RING_MIN + (int) Math.ceil(RING_NOISE_RANGE);
@@ -199,6 +219,7 @@ public final class AperturePressureExplosionTask {
         }
         return ringCursor >= side * side;
     }
+
     private boolean tickRim() {
         int budget = BLOCK_BUDGET;
         while (budget > 0 && rimIndex < rim.size()) {
@@ -207,6 +228,7 @@ public final class AperturePressureExplosionTask {
         }
         return rimIndex >= rim.size();
     }
+
     private @Nullable Block floorBlockAt(int bx, int floorY, int bz) {
         return switch (physique) {
             case NORTHERN_DARK_ICE_SOUL -> switch (iceTier(floorY)) {
@@ -227,10 +249,12 @@ public final class AperturePressureExplosionTask {
             default -> null;
         };
     }
+
     private boolean isSoilSurface(BlockState state) {
         return state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT) || state.is(Blocks.MYCELIUM)
                 || state.is(Blocks.PODZOL) || state.is(Blocks.COARSE_DIRT);
     }
+
     private void fillShell() {
         shell.clear();
         int d = shellDistance++;
@@ -260,10 +284,12 @@ public final class AperturePressureExplosionTask {
             }
         }
     }
+
     private void addInside(int bx, int by, int bz) {
         if (by < level.getMinBuildHeight() || by >= level.getMaxBuildHeight()) return;
         if (!outsideSphere(bx, by, bz)) shell.add(BlockPos.asLong(bx, by, bz));
     }
+
     private void clearOne(BlockPos pos) {
         if (!level.getChunkSource().hasChunk(SectionPos.blockToSectionCoord(pos.getX()),
                 SectionPos.blockToSectionCoord(pos.getZ()))) return;
@@ -272,6 +298,7 @@ public final class AperturePressureExplosionTask {
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
         if (isRim(pos)) rim.add(pos.asLong());
     }
+
     private boolean isRim(BlockPos pos) {
         for (Direction direction : Direction.values()) {
             BlockPos neighbor = pos.relative(direction);
@@ -280,6 +307,7 @@ public final class AperturePressureExplosionTask {
         }
         return false;
     }
+
     private boolean outsideSphere(int bx, int by, int bz) {
         double dx = bx + 0.5D - x;
         double dy = by + 0.5D - y;

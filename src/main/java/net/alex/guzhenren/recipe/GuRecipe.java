@@ -49,6 +49,7 @@ public record GuRecipe(List<SizedIngredient> ingredients, List<Integer> slots, L
 
     public static final int WINDOW_TICKS = 5 * Ticks.SECOND;
     public static final int GAP_TICKS = 2 * Ticks.SECOND;
+
     public GuRecipe {
         if (essencePerSecond < 0L) throw new IllegalArgumentException("essencePerSecond must be non-negative");
         if (soulPerSecond < 0L) throw new IllegalArgumentException("soulPerSecond must be non-negative");
@@ -71,14 +72,20 @@ public record GuRecipe(List<SizedIngredient> ingredients, List<Integer> slots, L
             throw new IllegalArgumentException("recipe runtime exceeds supported range", e);
         }
     }
+
     //region the ritual's own clock -- the window list IS the stage count
-    public int windowCount() {return windows.size();}
-    public int stonesFor(int window) {return windows.get(window);}
-    public int totalSeconds() {return totalTicks() / Ticks.SECOND;}
-    public long essenceToFinish() {return Math.multiplyExact(essencePerSecond, totalSeconds());}
+    public int windowCount() { return windows.size(); }
+
+    public int stonesFor(int window) { return windows.get(window); }
+
+    public int totalSeconds() { return totalTicks() / Ticks.SECOND; }
+
+    public long essenceToFinish() { return Math.multiplyExact(essencePerSecond, totalSeconds()); }
+
     public int totalTicks() {
         return exactTotalTicks(windowCount());
     }
+
     private static int exactTotalTicks(int windows) {
         return Math.addExact(Math.multiplyExact(windows, WINDOW_TICKS),
                 Math.multiplyExact(Math.max(0, windows - 1), GAP_TICKS));
@@ -111,6 +118,7 @@ public record GuRecipe(List<SizedIngredient> ingredients, List<Integer> slots, L
         }
         return taken;
     }
+
     public int[] shortfall(GuRecipeInput input) {
         int[] missing = new int[ingredients.size()];
 
@@ -122,6 +130,7 @@ public record GuRecipe(List<SizedIngredient> ingredients, List<Integer> slots, L
         }
         return missing;
     }
+
     private static ItemStack held(GuRecipeInput input, int slot) {
         return slot < 0 || slot >= input.size() ? ItemStack.EMPTY : input.getItem(slot);
     }
@@ -140,20 +149,27 @@ public record GuRecipe(List<SizedIngredient> ingredients, List<Integer> slots, L
 
     //region what the recipe manager reads
     @Override
-    public boolean matches(@NotNull GuRecipeInput input, @NotNull Level level) {return claim(input) != null;}
+    public boolean matches(@NotNull GuRecipeInput input, @NotNull Level level) { return claim(input) != null; }
+
     @Override
-    public boolean canCraftInDimensions(int width, int height) {return true;}
+    public boolean canCraftInDimensions(int width, int height) { return true; }
+
     @Override
-    public @NotNull RecipeSerializer<?> getSerializer() {return ModRecipes.REFINEMENT_SERIALIZER.get();}
+    public @NotNull RecipeSerializer<?> getSerializer() { return ModRecipes.REFINEMENT_SERIALIZER.get(); }
+
     @Override
-    public @NotNull RecipeType<?> getType() {return ModRecipes.REFINEMENT.get();}
+    public @NotNull RecipeType<?> getType() { return ModRecipes.REFINEMENT.get(); }
+
     @Override
     public @NotNull ItemStack assemble(@NotNull GuRecipeInput in, HolderLookup.@NotNull Provider r) {
         return first().copy();
     }
+
     @Override
-    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) {return first();}
-    private ItemStack first() {return results.isEmpty() ? ItemStack.EMPTY : results.getFirst();}
+    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) { return first(); }
+
+    private ItemStack first() { return results.isEmpty() ? ItemStack.EMPTY : results.getFirst(); }
+
     @Override
     public @NotNull NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> list = NonNullList.create();
@@ -208,8 +224,9 @@ public record GuRecipe(List<SizedIngredient> ingredients, List<Integer> slots, L
                 };
 
         @Override
-        public @NotNull MapCodec<GuRecipe> codec() {return CODEC;}
+        public @NotNull MapCodec<GuRecipe> codec() { return CODEC; }
+
         @Override
-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, GuRecipe> streamCodec() {return STREAM_CODEC;}
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, GuRecipe> streamCodec() { return STREAM_CODEC; }
     }
 }

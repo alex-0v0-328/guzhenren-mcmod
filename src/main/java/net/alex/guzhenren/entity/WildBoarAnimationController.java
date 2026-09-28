@@ -12,6 +12,7 @@ import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 
 /** Maps synchronized boar actions onto GeckoLib 4's transition and playback clocks. */
+
 final class WildBoarAnimationController<T extends GeoAnimatable> extends AnimationController<T> {
 
     private final Supplier<WildBoarEntity.Action> action;

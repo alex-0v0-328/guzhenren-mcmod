@@ -27,8 +27,10 @@ public record GuRecipeInput(List<ItemStack> slots) implements RecipeInput {
         for (int i = 0; i < container.getContainerSize(); i++) slots.add(container.getItem(i));
         return new GuRecipeInput(List.copyOf(slots));
     }
+
     @Override
-    public @NotNull ItemStack getItem(int index) {return slots.get(index);}
+    public @NotNull ItemStack getItem(int index) { return slots.get(index); }
+
     @Override
-    public int size() {return slots.size();}
+    public int size() { return slots.size(); }
 }

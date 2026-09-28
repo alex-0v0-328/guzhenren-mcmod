@@ -12,6 +12,7 @@ import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 
 /** Maps synchronized beast actions onto GeckoLib 4's transition and playback clocks. */
+
 final class BeastAnimationController<T extends GeoAnimatable> extends AnimationController<T> {
 
     private final Supplier<BeastEntity.Action> action;

@@ -32,9 +32,11 @@ public class BuffGuItem extends TendedGuItem {
     private final Holder<MobEffect> buff;
     private final int durationTicks;
     private final int amplifier;
+
     public BuffGuItem(Properties properties, Holder<MobEffect> buff, int durationTicks, GuSpec spec) {
         this(properties, buff, durationTicks, 0, spec);
     }
+
     public BuffGuItem(Properties properties, Holder<MobEffect> buff, int durationTicks, int amplifier,
                       GuSpec spec) {
         super(properties, spec);
@@ -42,8 +44,10 @@ public class BuffGuItem extends TendedGuItem {
         this.durationTicks = durationTicks;
         this.amplifier = amplifier;
     }
+
     @Override
-    protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {return null;}
+    protected @Nullable Refusal payoutGate(Player player, ItemStack stack) { return null; }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         MobEffectInstance current = player.getEffect(buff);
@@ -54,6 +58,7 @@ public class BuffGuItem extends TendedGuItem {
         if (current != null) player.removeEffect(buff);
         player.addEffect(ModEffects.instance(buff, duration, amplifier));
     }
+
     static int nextDuration(int currentDuration, int currentAmplifier, int addedDuration, int addedAmplifier,
                             boolean accumulates) {
         if (addedAmplifier < currentAmplifier) return currentDuration;
@@ -61,8 +66,10 @@ public class BuffGuItem extends TendedGuItem {
         if (!accumulates) return Math.max(currentDuration, addedDuration);
         return (int) Math.min(Integer.MAX_VALUE, (long) currentDuration + addedDuration);
     }
+
     @Override
-    protected boolean allowsUseDuringEffectCooldown() {return true;}
+    protected boolean allowsUseDuringEffectCooldown() { return true; }
+
     @Override
     protected int hungerCostMultiplier(Player player, ItemStack stack) {
         return effectCooldownLeft(player, stack) > 0 ? COOLDOWN_HUNGER_MULTIPLIER : 1;

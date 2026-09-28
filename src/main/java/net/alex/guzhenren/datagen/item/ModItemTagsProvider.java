@@ -32,6 +32,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         super(output, lookupProvider, CompletableFuture.completedFuture(TagsProvider.TagLookup.empty()),
                 Guzhenren.MOD_ID, existingFileHelper);
     }
+
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(ModItemTags.BOAR_FEED).add(Items.PORKCHOP);

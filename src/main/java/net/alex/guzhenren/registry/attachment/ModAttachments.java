@@ -41,6 +41,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 public final class ModAttachments {
 
     private ModAttachments() {}
+
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
             DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Guzhenren.MOD_ID);
     private static final BiPredicate<IAttachmentHolder, ServerPlayer> OWNER_ONLY =
@@ -113,6 +114,7 @@ public final class ModAttachments {
             "born_flag", () -> AttachmentType.builder(() -> Boolean.FALSE)
                     .serialize(Codec.BOOL)
                     .build());
+
     public static void register(IEventBus modEventBus) {
         ATTACHMENT_TYPES.register(modEventBus);
     }

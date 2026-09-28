@@ -30,15 +30,19 @@ public class ZombieGuItem extends TendedGuItem {
 
     private static final String FAILED_ALREADY_ZOMBIE = "guzhenren.item.failed.zombie_already";
     private final int halfZombieTicks;
+
     public ZombieGuItem(Properties properties, int halfZombieTicks, GuSpec spec) {
         super(properties, spec);
         this.halfZombieTicks = halfZombieTicks;
     }
-    private int rung() {return rank().ordinal() - Rank.TWO.ordinal();}
+
+    private int rung() { return rank().ordinal() - Rank.TWO.ordinal(); }
+
     @Override
     protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {
         return BodyService.isZombie(player) ? new Refusal(FAILED_ALREADY_ZOMBIE) : null;
     }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         if (BodyService.wouldRelapse(player)) {

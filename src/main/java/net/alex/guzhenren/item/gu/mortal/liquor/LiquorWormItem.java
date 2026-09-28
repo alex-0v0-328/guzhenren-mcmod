@@ -33,9 +33,11 @@ public class LiquorWormItem extends TendedGuItem {
 
     private static final String FAILED_RANK = "guzhenren.item.failed.liquor_rank";
     private static final String FAILED_DISTILLING = "guzhenren.item.failed.liquor_distilling";
+
     public LiquorWormItem(Properties properties, GuSpec spec) {
         super(properties, spec);
     }
+
     @Override
     protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {
         if (ApertureService.rank(player) != rank()) {
@@ -43,6 +45,7 @@ public class LiquorWormItem extends TendedGuItem {
         }
         return ApertureEssenceService.canDistill(player) ? null : new Refusal(FAILED_DISTILLING);
     }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         ApertureEssenceService.beginDistilling(player);

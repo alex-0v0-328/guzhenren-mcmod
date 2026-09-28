@@ -44,17 +44,25 @@ public enum Rank implements StringRepresentable, EnumTranslatable {
     private final long rankBase;
     private final int maxHealth;
     private final EssenceColor essenceColor;
+
     Rank(long rankBase, int maxHealth, EssenceColor essenceColor) {
         this.rankBase = rankBase;
         this.maxHealth = maxHealth;
         this.essenceColor = essenceColor;
     }
-    public long getRankBase() {return rankBase;}
-    public int getMaxHealth() {return maxHealth;}
-    public EssenceColor getEssenceColor() {return essenceColor;}
-    public Rank shift(int d) {return values()[Math.clamp(ordinal() + d, LOWEST.ordinal(), HIGHEST.ordinal())];}
-    public static Rank[] settable() {return Arrays.copyOfRange(values(), LOWEST.ordinal(), HIGHEST.ordinal() + 1);}
+
+    public long getRankBase() { return rankBase; }
+
+    public int getMaxHealth() { return maxHealth; }
+
+    public EssenceColor getEssenceColor() { return essenceColor; }
+
+    public Rank shift(int d) { return values()[Math.clamp(ordinal() + d, LOWEST.ordinal(), HIGHEST.ordinal())]; }
+
+    public static Rank[] settable() { return Arrays.copyOfRange(values(), LOWEST.ordinal(), HIGHEST.ordinal() + 1); }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

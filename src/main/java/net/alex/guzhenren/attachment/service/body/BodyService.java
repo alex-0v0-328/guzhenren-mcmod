@@ -41,36 +41,52 @@ import org.jetbrains.annotations.NotNull;
 public final class BodyService {
 
     private BodyService() {}
+
     public static long dayIndex(@NotNull MinecraftServer server) {
         return server.overworld().getDayTime() / Ticks.DAY;
     }
-    public static @NotNull BodyData get(@NotNull Player p) {return p.getData(ModAttachments.BODY);}
-    public static boolean isZombie(@NotNull Player p) {return get(p).isZombie();}
-    public static boolean isHalfZombie(@NotNull Player p) {return get(p).isHalfZombie();}
-    public static boolean isZombieOrHalfZombie(@NotNull Player p) {return get(p).isZombieOrHalfZombie();}
-    public static boolean isUndead(@NotNull Player p) {return isZombieOrHalfZombie(p);}
-    public static boolean isExtreme(@NotNull Player p) {return get(p).isExtreme();}
-    public static @NotNull ExtremePhysique extremePhysique(@NotNull Player p) {return get(p).extremePhysique();}
-    public static @NotNull Race race(@NotNull Player p) {return get(p).race();}
-    public static long now(@NotNull Player p) {return p.level().getGameTime();}
-    private static void store(ServerPlayer p, BodyData data) {p.setData(ModAttachments.BODY, data);}
+
+    public static @NotNull BodyData get(@NotNull Player p) { return p.getData(ModAttachments.BODY); }
+
+    public static boolean isZombie(@NotNull Player p) { return get(p).isZombie(); }
+
+    public static boolean isHalfZombie(@NotNull Player p) { return get(p).isHalfZombie(); }
+
+    public static boolean isZombieOrHalfZombie(@NotNull Player p) { return get(p).isZombieOrHalfZombie(); }
+
+    public static boolean isUndead(@NotNull Player p) { return isZombieOrHalfZombie(p); }
+
+    public static boolean isExtreme(@NotNull Player p) { return get(p).isExtreme(); }
+
+    public static @NotNull ExtremePhysique extremePhysique(@NotNull Player p) { return get(p).extremePhysique(); }
+
+    public static @NotNull Race race(@NotNull Player p) { return get(p).race(); }
+
+    public static long now(@NotNull Player p) { return p.level().getGameTime(); }
+
+    private static void store(ServerPlayer p, BodyData data) { p.setData(ModAttachments.BODY, data); }
 
     //region 寿元与年龄 [lifespan and age] -- ⚠ every caller speaks YEARS; only this file knows parts
     public static void setAge(@NotNull ServerPlayer p, long years) {
         store(p, get(p).withAgeParts(BodyData.parts(years)));
     }
+
     public static void setLifespan(@NotNull ServerPlayer p, long years) {
         store(p, get(p).withLifespanParts(BodyData.parts(years)));
     }
+
     public static void addAge(@NotNull ServerPlayer p, long years) {
         store(p, get(p).withAgeParts(clampParts(BigInteger.valueOf(get(p).ageParts()).add(yearParts(years)))));
     }
+
     public static void addLifespan(@NotNull ServerPlayer p, long years) {
         store(p, get(p).withLifespanParts(clampParts(BigInteger.valueOf(get(p).lifespanParts()).add(yearParts(years)))));
     }
+
     private static BigInteger yearParts(long years) {
         return BigInteger.valueOf(years).multiply(BigInteger.valueOf(BodyData.PARTS_PER_YEAR));
     }
+
     private static long clampParts(BigInteger parts) {
         // Keep intermediate products exact: a later signed addition or fraction can bring them back into range.
         return parts.max(BigInteger.valueOf(Long.MIN_VALUE)).min(BigInteger.valueOf(Long.MAX_VALUE)).longValue();
@@ -83,6 +99,7 @@ public final class BodyService {
         next.addAll(body.physiques());
         return next;
     }
+
     public static void addPhysique(@NotNull ServerPlayer player, @NotNull Physique physique) {
         if (physique == Physique.EXTREME) return;
 
@@ -97,6 +114,7 @@ public final class BodyService {
         store(player, updated);
         BodyAttackService.refresh(player);
     }
+
     public static void removePhysique(@NotNull ServerPlayer player, @NotNull Physique physique) {
         if (physique == Physique.EXTREME) {
             setExtremePhysique(player, ExtremePhysique.NONE);
@@ -115,6 +133,7 @@ public final class BodyService {
         store(player, updated);
         BodyAttackService.refresh(player);
     }
+
     public static void setExtremePhysique(@NotNull ServerPlayer player, @NotNull ExtremePhysique physique) {
         if (physique != ExtremePhysique.NONE && !ApertureService.isAwakened(player)) return;
 
@@ -133,10 +152,12 @@ public final class BodyService {
             ApertureService.set(player, ApertureData.PRIMARY, updated);
         }
     }
+
     public static void revive(@NotNull ServerPlayer player) {
         store(player, get(player).revived());
         BodyAttackService.refresh(player);
     }
+
     public static void enterHalfZombie(@NotNull ServerPlayer player, int tier, int durationTicks) {
         BodyData body = get(player);
         EnumSet<Physique> next = copyPhysiques(body);
@@ -147,6 +168,7 @@ public final class BodyService {
                 .withZombieTier(tier));
         BodyAttackService.refresh(player);
     }
+
     public static void turnZombie(@NotNull ServerPlayer player, int tier) {
         BodyData body = get(player);
         EnumSet<Physique> next = copyPhysiques(body);
@@ -157,9 +179,12 @@ public final class BodyService {
                 .withZombieTier(tier));
         BodyAttackService.refresh(player);
     }
-    public static boolean wouldRelapse(@NotNull Player p) {return get(p).withinRelapseWindow(now(p));}
-    public static long halfZombieTicksLeft(@NotNull Player p) {return get(p).halfZombieTicksLeft(now(p));}
-    public static boolean halfZombieRanOut(@NotNull Player p) {return get(p).halfZombieRanOut(now(p));}
+
+    public static boolean wouldRelapse(@NotNull Player p) { return get(p).withinRelapseWindow(now(p)); }
+
+    public static long halfZombieTicksLeft(@NotNull Player p) { return get(p).halfZombieTicksLeft(now(p)); }
+
+    public static boolean halfZombieRanOut(@NotNull Player p) { return get(p).halfZombieRanOut(now(p)); }
     //endregion
 
     //region Race [种族]
@@ -171,6 +196,7 @@ public final class BodyService {
         store(player, get(player).withRace(race));
         grantTalent(player, race);
     }
+
     private static void grantTalent(ServerPlayer player, Race race) {
         GuPath path = race.talentPath();
         if (path == null) return;
@@ -178,6 +204,7 @@ public final class BodyService {
         PathService.setMark(player, path, MarkTag.RACE, Race.TALENT_MARKS);
         PathService.shiftAttainment(player, path, Race.TALENT_SHIFT);
     }
+
     private static void revokeTalent(ServerPlayer player, Race race) {
         GuPath path = race.talentPath();
         if (path == null) return;
@@ -193,6 +220,7 @@ public final class BodyService {
         store(player, body.withLifespanParts(clampParts(BigInteger.valueOf(body.lifespanParts()).subtract(yearParts(years))))
                 .withDeathQiLifespanLost(LongMath.saturatedAdd(body.deathQiLifespanLost(), years)));
     }
+
     public static double refundDeathQiDebt(@NotNull ServerPlayer player, int numerator, int denominator) {
         BodyData body = get(player);
         BigInteger refundParts = yearParts(body.deathQiLifespanLost()).multiply(BigInteger.valueOf(numerator))
@@ -201,7 +229,8 @@ public final class BodyService {
                 .withDeathQiLifespanLost(0L));
         return refundParts.doubleValue() / BodyData.PARTS_PER_YEAR;
     }
-    public static void clearDeathQiDebt(@NotNull ServerPlayer p) {store(p, get(p).withDeathQiLifespanLost(0L));}
+
+    public static void clearDeathQiDebt(@NotNull ServerPlayer p) { store(p, get(p).withDeathQiLifespanLost(0L)); }
     //endregion
 
     /**
@@ -226,6 +255,7 @@ public final class BodyService {
         store(player, body.withLastDayIndex(today));
         return elapsed;
     }
+
     //region 寿元的钟 -- billed on the heartbeat, because 宙道 changes how fast he spends it
     /**
      * ⚠ The anchor is the world's {@code dayTime}, not {@code gameTime}, so {@code /time add} still ages
@@ -251,6 +281,7 @@ public final class BodyService {
 
         store(player, body.lived(lived, now));
     }
+
     /**
      * ☠ 寿元 is SPENT, so it goes through {@code perStep} like every other thing he spends -- hastened
      * means FASTER. Hand-rolling the rate here once made it run backwards, into a pure longevity buff.

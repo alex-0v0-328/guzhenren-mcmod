@@ -42,25 +42,35 @@ public record ApertureData(List<Aperture> apertures) {
     public static final StreamCodec<ByteBuf, ApertureData> STREAM_CODEC =
             Aperture.STREAM_CODEC.apply(ByteBufCodecs.list(MAX_APERTURES))
                     .map(ApertureData::new, ApertureData::apertures);
+
     public ApertureData {
         apertures = apertures.size() <= MAX_APERTURES
                 ? List.copyOf(apertures)
                 : List.copyOf(apertures.subList(0, MAX_APERTURES));
     }
-    public Aperture get(int i) {return i >= 0 && i < apertures.size() ? apertures.get(i) : Aperture.NONE;}
-    public Aperture primary() {return get(PRIMARY);}
-    public int count() {return apertures.size();}
-    public boolean hasAperture() {return !apertures.isEmpty();}
-    public boolean isAwakened() {return firstIndex() >= 0;}
-    public boolean isFull() {return apertures.size() >= MAX_APERTURES;}
+
+    public Aperture get(int i) { return i >= 0 && i < apertures.size() ? apertures.get(i) : Aperture.NONE; }
+
+    public Aperture primary() { return get(PRIMARY); }
+
+    public int count() { return apertures.size(); }
+
+    public boolean hasAperture() { return !apertures.isEmpty(); }
+
+    public boolean isAwakened() { return firstIndex() >= 0; }
+
+    public boolean isFull() { return apertures.size() >= MAX_APERTURES; }
+
     public int firstIndex() {
         for (int i = 0; i < apertures.size(); i++) if (!apertures.get(i).second()) return i;
         return -1;
     }
+
     public int secondIndex() {
         for (int i = 0; i < apertures.size(); i++) if (apertures.get(i).second()) return i;
         return -1;
     }
+
     public ApertureData opened(Aperture aperture) {
         if (isFull()) return this;
 
@@ -68,6 +78,7 @@ public record ApertureData(List<Aperture> apertures) {
         next.add(aperture);
         return new ApertureData(next);
     }
+
     public ApertureData insertFirst(Aperture aperture) {
         if (isFull() || firstIndex() >= 0) return opened(aperture);
 
@@ -75,6 +86,7 @@ public record ApertureData(List<Aperture> apertures) {
         next.addFirst(aperture);
         return new ApertureData(next);
     }
+
     public ApertureData with(int index, Aperture aperture) {
         if (index < 0 || index >= apertures.size()) return this;
 
@@ -82,6 +94,7 @@ public record ApertureData(List<Aperture> apertures) {
         next.set(index, aperture);
         return new ApertureData(next);
     }
+
     private static ApertureData healed(List<Aperture> list) {
         List<Aperture> fixed = new ArrayList<>(list.size());
         for (int i = 0; i < list.size(); i++) {

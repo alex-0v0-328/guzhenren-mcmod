@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 public final class BodyAttackService {
 
     private BodyAttackService() {}
+
     public static final double VANILLA_ATTACK_DAMAGE = 1.0D;
     private static final ResourceLocation MODIFIER_ID =
             Guzhenren.id("strength_attack_damage");
@@ -46,9 +47,11 @@ public final class BodyAttackService {
      * damage ever rides along with the strength bonus.
      */
     public static final double IMPACT_RING_ATTACK_THRESHOLD = 16.0D;
+
     public static boolean showsImpactRing(double attackDamage) {
         return attackDamage >= IMPACT_RING_ATTACK_THRESHOLD;
     }
+
     public static double bonus(@NotNull Player player) {
         PathStrengthData data = PathStrengthService.get(player);
         double total = 0.0D;
@@ -59,6 +62,7 @@ public final class BodyAttackService {
         return total + PathStrengthService.usableJin(player) * HumanStrength.ATTACK_PER_JIN
                 + zombieBonus(player) + effectBonus(player);
     }
+
     public static double effectBonus(@NotNull Player player) {
         double total = 0.0D;
         for (MobEffectInstance instance : player.getActiveEffects()) {
@@ -68,12 +72,14 @@ public final class BodyAttackService {
         }
         return total;
     }
+
     public static double zombieBonus(@NotNull Player player) {
         BodyData body = BodyService.get(player);
         if (!body.isZombieOrHalfZombie() || body.zombieTier() < 0) return 0.0D;
 
         return ZOMBIE_ATTACK_BASE * (1 << body.zombieTier());
     }
+
     static void swapTransientModifier(@NotNull AttributeInstance instance, @NotNull ResourceLocation id, double bonus) {
         AttributeModifier held = instance.getModifier(id);
         if (held == null ? bonus == 0.0D : held.amount() == bonus) return;
@@ -83,6 +89,7 @@ public final class BodyAttackService {
             instance.addTransientModifier(new AttributeModifier(id, bonus, AttributeModifier.Operation.ADD_VALUE));
         }
     }
+
     public static void refresh(@NotNull ServerPlayer player) {
         AttributeInstance instance = player.getAttribute(Attributes.ATTACK_DAMAGE);
         if (instance == null) return;

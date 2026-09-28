@@ -41,9 +41,16 @@ public record ApertureNourishData(boolean cultivating, int target, long starvedS
             ByteBufCodecs.VAR_INT, ApertureNourishData::target,
             ByteBufCodecs.VAR_LONG, ApertureNourishData::starvedSinceTick,
             ApertureNourishData::new);
-    public boolean isStarving() {return starvedSinceTick != NOT_STARVED;}
-    public boolean starvedOut(long now) {return isStarving() && now - starvedSinceTick >= STARVE_GRACE_TICKS;}
-    public ApertureNourishData withCultivating(boolean v) {return new ApertureNourishData(v, target, starvedSinceTick);}
-    public ApertureNourishData withTarget(int v) {return new ApertureNourishData(cultivating, v, starvedSinceTick);}
-    public ApertureNourishData withStarvedSinceTick(long v) {return new ApertureNourishData(cultivating, target, v);}
+
+    public boolean isStarving() { return starvedSinceTick != NOT_STARVED; }
+
+    public boolean starvedOut(long now) { return isStarving() && now - starvedSinceTick >= STARVE_GRACE_TICKS; }
+
+    public ApertureNourishData withCultivating(boolean v) {
+        return new ApertureNourishData(v, target, starvedSinceTick);
+    }
+
+    public ApertureNourishData withTarget(int v) { return new ApertureNourishData(cultivating, v, starvedSinceTick); }
+
+    public ApertureNourishData withStarvedSinceTick(long v) { return new ApertureNourishData(cultivating, target, v); }
 }

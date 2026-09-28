@@ -26,12 +26,15 @@ public record GradedEffectIcon(String name, String directory, int lowestRank,
     public static GradedEffectIcon mobEffect(String name, int lowestRank, int highestRank) {
         return new GradedEffectIcon(name, "mob_effect", lowestRank, highestRank, 1);
     }
+
     public static GradedEffectIcon item(String name, int lowestRank, int highestRank) {
         return new GradedEffectIcon(name, "item", lowestRank, highestRank, 1);
     }
+
     public static GradedEffectIcon item(String name, int lowestRank, int highestRank, int amplifierOffset) {
         return new GradedEffectIcon(name, "item", lowestRank, highestRank, amplifierOffset);
     }
+
     @Override
     public String textureFor(MobEffectInstance instance) {
         int rank = Mth.clamp(instance.getAmplifier() + amplifierOffset, lowestRank, highestRank);

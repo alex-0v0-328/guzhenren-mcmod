@@ -34,7 +34,9 @@ import net.minecraft.server.level.ServerPlayer;
 public final class CmdPath {
 
     private CmdPath() {}
+
     private static final String ARG_PATH = "path";
+
     public static ArgumentBuilder<CommandSourceStack, ?> node() {
         return Commands.literal("path")
                 .then(marks(PathService::setMark, PathService::addMark))
@@ -42,6 +44,7 @@ public final class CmdPath {
                 .then(CmdQi.node())
                 .then(CmdStrength.node());
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> marks(TallyOperation set, TallyOperation add) {
         return Commands.literal("marks")
                 .then(ModEnumArgument.arg(ARG_PATH, GuPath.values())
@@ -49,6 +52,7 @@ public final class CmdPath {
                         .then(countNode("add", add))
                         .then(countNode("sub", (player, path, tag, value) -> add.apply(player, path, tag, -value))));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> attainment() {
         return Commands.literal("attainment")
                 .then(ModEnumArgument.arg(ARG_PATH, GuPath.values())
@@ -65,6 +69,7 @@ public final class CmdPath {
                         .then(attainmentShift("up", 1))
                         .then(attainmentShift("down", -1)));
     }
+
     //region builders
     private static ArgumentBuilder<CommandSourceStack, ?> countNode(String literal, TallyOperation operation) {
         return Commands.literal(literal).then(ModCommandSupport.withTargets(
@@ -76,12 +81,14 @@ public final class CmdPath {
                             player -> operation.apply(player, path, MarkTag.NATURAL, value));
                 }));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> attainmentShift(String literal, int delta) {
         return ModCommandSupport.withTargets(Commands.literal(literal), context -> {
             GuPath path = pathOf(context);
             return ModCommandSupport.apply(context, player -> PathService.shiftAttainment(player, path, delta));
         });
     }
+
     private static GuPath pathOf(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         return ModEnumArgument.get(context, ARG_PATH, GuPath.values());
     }

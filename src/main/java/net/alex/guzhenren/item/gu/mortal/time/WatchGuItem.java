@@ -32,14 +32,17 @@ public class WatchGuItem extends ConsumedGuItem {
 
     private final Holder<MobEffect> form;
     private final int effectTicks;
+
     public WatchGuItem(Properties properties, Holder<MobEffect> form, int effectTicks, GuSpec spec) {
         super(properties, spec);
         if (!(form.value() instanceof TimeRateUpEffect)) throw new IllegalArgumentException("watch gu needs a TimeRateUpEffect");
         this.form = form;
         this.effectTicks = effectTicks;
     }
+
     @Override
-    protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {return null;}
+    protected @Nullable Refusal payoutGate(Player player, ItemStack stack) { return null; }
+
     @Override
     protected void payout(ServerPlayer player, ItemStack stack) {
         MobEffectInstance current = player.getEffect(form);

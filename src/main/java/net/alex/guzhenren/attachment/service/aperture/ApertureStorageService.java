@@ -31,18 +31,27 @@ import org.jetbrains.annotations.NotNull;
 public final class ApertureStorageService {
 
     private ApertureStorageService() {}
+
     public static final int MAX_LOAD = 256;
-    public static @NotNull ApertureStorage get(@NotNull Player p) {return p.getData(ModAttachments.APERTURE_STORAGE);}
-    public static @NotNull List<ItemStack> items(@NotNull Player p, int aperture) {return get(p).get(aperture);}
+
+    public static @NotNull ApertureStorage get(@NotNull Player p) { return p.getData(ModAttachments.APERTURE_STORAGE); }
+
+    public static @NotNull List<ItemStack> items(@NotNull Player p, int aperture) { return get(p).get(aperture); }
+
     public static @NotNull List<ItemStack> page(@NotNull Player p, int aperture, int from, int size) {
         return get(p).page(aperture, from, size);
     }
+
     public static boolean pageMatches(@NotNull Player p, int aperture, int from, @NotNull List<ItemStack> page) {
         return get(p).matchesPage(aperture, from, page);
     }
-    public static int count(@NotNull Player p, int aperture) {return get(p).count(aperture);}
-    public static @NotNull ItemStack vital(@NotNull Player p, int aperture) {return get(p).getVital(aperture);}
-    public static int load(@NotNull Player p, int aperture) {return load(p, get(p), aperture);}
+
+    public static int count(@NotNull Player p, int aperture) { return get(p).count(aperture); }
+
+    public static @NotNull ItemStack vital(@NotNull Player p, int aperture) { return get(p).getVital(aperture); }
+
+    public static int load(@NotNull Player p, int aperture) { return load(p, get(p), aperture); }
+
     public static int maxStackSize(@NotNull Player p, int aperture, int currentLoad,
             @NotNull ItemStack current, @NotNull ItemStack incoming) {
         if (!(incoming.getItem() instanceof MortalGuItem gu)) return 0;
@@ -57,6 +66,7 @@ public final class ApertureStorageService {
         int freeLoad = Math.max(0, limit - currentLoad);
         return Math.min(incoming.getMaxStackSize(), existingCount + freeLoad / costPerItem(holder, gu));
     }
+
     public static void set(@NotNull ServerPlayer p, int aperture, @NotNull List<ItemStack> items) {
         ApertureStorage current = get(p);
         ApertureStorage next = current.with(aperture, items);
@@ -64,6 +74,7 @@ public final class ApertureStorageService {
 
         p.setData(ModAttachments.APERTURE_STORAGE, next);
     }
+
     public static boolean setVital(@NotNull ServerPlayer p, int aperture, @NotNull ItemStack stack) {
         ApertureStorage current = get(p);
         ApertureStorage next = current.withVital(aperture, stack);
@@ -73,6 +84,7 @@ public final class ApertureStorageService {
         if (stack.getItem() instanceof GuItem gu) ApertureService.setPrimaryPath(p, aperture, gu.path());
         return true;
     }
+
     public static boolean setPage(@NotNull ServerPlayer p, int aperture, int from, @NotNull List<ItemStack> page) {
         ApertureStorage current = get(p);
         ApertureStorage next = current.withPage(aperture, from, page);
@@ -81,6 +93,7 @@ public final class ApertureStorageService {
         p.setData(ModAttachments.APERTURE_STORAGE, next);
         return true;
     }
+
     private static int load(Player p, ApertureStorage storage, int aperture) {
         Rank holder = ApertureService.aperture(p, aperture).rank();
         int total = 0;
@@ -92,6 +105,7 @@ public final class ApertureStorageService {
         }
         return total;
     }
+
     /**
      * The storage-side twin of {@link net.alex.guzhenren.attachment.data.aperture.ApertureData
      * #insertFirst}: when Hope Gu opens the first aperture ahead of a lone second one, every stored
@@ -100,17 +114,21 @@ public final class ApertureStorageService {
     public static void shiftForFirstAperture(@NotNull ServerPlayer p) {
         p.setData(ModAttachments.APERTURE_STORAGE, get(p).shiftRight());
     }
+
     private static int load(Rank holder, List<ItemStack> stacks) {
         int total = 0;
         for (ItemStack stack : stacks) total += cost(holder, stack);
         return total;
     }
-    private static boolean exceedsLoad(int current, int next) {return next > Math.max(MAX_LOAD, current);}
+
+    private static boolean exceedsLoad(int current, int next) { return next > Math.max(MAX_LOAD, current); }
+
     private static int cost(Rank holder, ItemStack stack) {
         if (stack.isEmpty() || !(stack.getItem() instanceof MortalGuItem gu)) return 0;
 
         return costPerItem(holder, gu) * stack.getCount();
     }
+
     private static int costPerItem(Rank holder, MortalGuItem gu) {
         int gap = gu.rank().ordinal() - holder.ordinal();
         return gap < 0 ? 1 : gap == 0 ? 2 : 2 << gap;

@@ -12,6 +12,7 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
  * Shared GeckoLib renderer for the four bear species; geometry and animations come from the shared
  * {@code bear} model, each species' renderer instance injects its fixed texture.
  */
+
 public final class BearGeoRenderer extends GeoEntityRenderer<BearEntity> {
 
     public static final ResourceLocation BROWN_TEXTURE =

@@ -37,6 +37,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
  * @see net.alex.guzhenren.client.particle.RingParticle
  * @since 1.0.0
  */
+
 @EventBusSubscriber(modid = Guzhenren.MOD_ID)
 public final class RingConeEmitter {
 

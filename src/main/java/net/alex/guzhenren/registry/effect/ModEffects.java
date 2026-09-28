@@ -45,6 +45,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModEffects {
 
     private ModEffects() {}
+
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
             DeferredRegister.create(Registries.MOB_EFFECT, Guzhenren.MOD_ID);
     static final int EFFECT_COLOR = 0xFFFFFF;
@@ -105,15 +106,18 @@ public final class ModEffects {
 
     public static final DeferredHolder<MobEffect, MaliciousThoughtEffect> MALICIOUS_THOUGHT_GU = MOB_EFFECTS.register(
             "malicious_thought_gu", () -> new MaliciousThoughtEffect(
-                    MobEffectCategory.BENEFICIAL, EFFECT_COLOR, new long[]{2L, 20L, 200L, 2_000L}));
+                    MobEffectCategory.BENEFICIAL, EFFECT_COLOR, new long[] { 2L, 20L, 200L, 2_000L }));
     public static final DeferredHolder<MobEffect, CasualThoughtEffect> CASUAL_GU = MOB_EFFECTS.register(
             "casual_gu", () -> new CasualThoughtEffect(MobEffectCategory.BENEFICIAL, EFFECT_COLOR));
+
     public static MobEffectInstance instance(Holder<MobEffect> effect, int duration) {
         return new MobEffectInstance(effect, duration, 0, false, false, true);
     }
+
     public static MobEffectInstance instance(Holder<MobEffect> effect, int duration, int amplifier) {
         return new MobEffectInstance(effect, duration, amplifier, false, false, true);
     }
+
     public static void register(IEventBus modEventBus) {
         MOB_EFFECTS.register(modEventBus);
     }

@@ -32,9 +32,11 @@ public class LiquorItem extends GuMaterialItem {
     private static final float SATURATION = 0.1F;
     private static final float NAUSEA_CHANCE = 0.6F;
     private static final int NAUSEA_TICKS = 300;
+
     public LiquorItem(Properties properties) {
         super(properties.food(liquor()), Rank.ONE, GuPath.FOOD);
     }
+
     private static FoodProperties liquor() {
         return new FoodProperties.Builder()
                 .nutrition(NUTRITION)
@@ -43,6 +45,7 @@ public class LiquorItem extends GuMaterialItem {
                 .effect(() -> ModEffects.instance(MobEffects.CONFUSION, NAUSEA_TICKS), NAUSEA_CHANCE)
                 .build();
     }
+
     @Override
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {return UseAnim.DRINK;}
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) { return UseAnim.DRINK; }
 }

@@ -36,23 +36,32 @@ import org.jetbrains.annotations.NotNull;
 public final class ApertureEssenceService {
 
     private ApertureEssenceService() {}
+
     public static final long BASE_REGEN_PER_DAY = 100L;
     public static final int REGEN_INTERVAL_TICKS = Ticks.SECOND;
+
     public static long regenPerDay(@NotNull Aperture a) {
         return BASE_REGEN_PER_DAY * a.talent().getRegenRate() * a.rank().getRankBase()
                 * a.stage().getEssenceMultiplier();
     }
-    public static double regenPerTick(@NotNull Aperture a) {return regenPerDay(a) / (double) Ticks.DAY;}
+
+    public static double regenPerTick(@NotNull Aperture a) { return regenPerDay(a) / (double) Ticks.DAY; }
+
     public static final long DISTILLED_RATE = 2L;
-    public static long currentEssence(@NotNull Player p) {return ApertureService.aperture(p).currentEssence();}
-    public static long maxEssence(@NotNull Player p) {return ApertureService.aperture(p).maxEssence();}
-    public static long distilledEssence(@NotNull Player p) {return ApertureService.aperture(p).distilledEssence();}
+
+    public static long currentEssence(@NotNull Player p) { return ApertureService.aperture(p).currentEssence(); }
+
+    public static long maxEssence(@NotNull Player p) { return ApertureService.aperture(p).maxEssence(); }
+
+    public static long distilledEssence(@NotNull Player p) { return ApertureService.aperture(p).distilledEssence(); }
+
     public static long totalDistilled(@NotNull Player p) {
         long total = 0L;
         ApertureData data = ApertureService.get(p);
         for (int i = 0; i < data.count(); i++) total += data.get(i).distilledEssence();
         return total;
     }
+
     public static long spendable(@NotNull Player p) {
         ApertureData data = ApertureService.get(p);
         long total = 0L;
@@ -61,12 +70,16 @@ public final class ApertureEssenceService {
         }
         return total;
     }
-    public static boolean isDistilling(@NotNull Player p) {return p.hasEffect(ModEffects.LIQUOR_WORM);}
-    public static boolean isChoked(@NotNull Player p) {return p.hasEffect(ModEffects.DEATH_QI);}
+
+    public static boolean isDistilling(@NotNull Player p) { return p.hasEffect(ModEffects.LIQUOR_WORM); }
+
+    public static boolean isChoked(@NotNull Player p) { return p.hasEffect(ModEffects.DEATH_QI); }
+
     public static double essenceQiBonus(@NotNull Player player) {
         MobEffectInstance effect = player.getEffect(ModEffects.ESSENCE_QI);
         return effect == null ? 0.0 : EssenceQiEffect.bonus(effect.getAmplifier());
     }
+
     public static void add(@NotNull ServerPlayer p, long d) {
         long left = d;
         ApertureData data = ApertureService.get(p);
@@ -78,24 +91,31 @@ public final class ApertureEssenceService {
             left -= given;
         }
     }
-    public static void set(@NotNull ServerPlayer p, long v) {set(p, ApertureService.PRIMARY, v);}
+
+    public static void set(@NotNull ServerPlayer p, long v) { set(p, ApertureService.PRIMARY, v); }
+
     public static void set(@NotNull ServerPlayer player, int index, long value) {
         ApertureService.set(player, index, ApertureService.aperture(player, index).withCurrentEssence(value));
     }
+
     public static void refill(@NotNull ServerPlayer player) {
         ApertureData data = ApertureService.get(player);
         for (int i = 0; i < data.count(); i++) {
             ApertureService.set(player, i, data.get(i).refilled());
         }
     }
+
     public static void addDistilled(@NotNull ServerPlayer p, long d) {
         setDistilled(p, LongMath.saturatedAdd(distilledEssence(p), d));
     }
-    public static void setDistilled(@NotNull ServerPlayer p, long v) {setDistilled(p, ApertureService.PRIMARY, v);}
+
+    public static void setDistilled(@NotNull ServerPlayer p, long v) { setDistilled(p, ApertureService.PRIMARY, v); }
+
     public static void setDistilled(@NotNull ServerPlayer player, int index, long value) {
         ApertureService.set(player, index,
                 ApertureService.aperture(player, index).withDistilledEssence(value));
     }
+
     //region the three phases of a Liquor Worm [酒虫]
     public static boolean canDistill(@NotNull Player p) {
         ApertureData data = ApertureService.get(p);
@@ -104,6 +124,7 @@ public final class ApertureEssenceService {
         }
         return false;
     }
+
     public static void beginDistilling(@NotNull ServerPlayer player) {
         ApertureData data = ApertureService.get(player);
         for (int i = 0; i < data.count(); i++) {
@@ -113,6 +134,7 @@ public final class ApertureEssenceService {
             return;
         }
     }
+
     public static void endDistilling(@NotNull ServerPlayer player) {
         ApertureData data = ApertureService.get(player);
         for (int i = 0; i < data.count(); i++) {
@@ -127,6 +149,7 @@ public final class ApertureEssenceService {
         }
     }
     //endregion
+
     public static boolean consume(@NotNull ServerPlayer player, long amount) {
         if (amount <= 0L) return true;
         if (spendable(player) < amount) return false;
@@ -139,6 +162,7 @@ public final class ApertureEssenceService {
         }
         return true;
     }
+
     /**
      * The pure seam the unit tests pin: how one amount is paid across the apertures, PRIMARY first.
      * Each aperture pays with its distilled reserve first at the 1:2 rate (rounded up), then with its
@@ -163,6 +187,7 @@ public final class ApertureEssenceService {
         }
         return takes;
     }
+
     public static void regenStep(@NotNull ServerPlayer player) {
         ApertureData data = ApertureService.get(player);
         float[] carry = player.getData(ModAttachments.ESSENCE_CARRY);

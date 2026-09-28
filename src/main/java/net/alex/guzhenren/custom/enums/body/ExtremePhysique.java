@@ -45,15 +45,21 @@ public enum ExtremePhysique implements StringRepresentable, EnumTranslatable {
     private final int strengthCapacity;
     private final int staminaMaxPercent;
     private final List<GuPath> talentPaths;
+
     ExtremePhysique(int strengthCapacity, int staminaMaxPercent, GuPath... talentPaths) {
         this.strengthCapacity = strengthCapacity;
         this.staminaMaxPercent = staminaMaxPercent;
         this.talentPaths = List.of(talentPaths);
     }
-    public int getStrengthCapacity() {return strengthCapacity;}
-    public int getStaminaMaxPercent() {return staminaMaxPercent;}
-    public List<GuPath> getTalentPaths() {return talentPaths;}
-    public static ExtremePhysique[] settable() {return Arrays.copyOfRange(values(), 1, values().length);}
+
+    public int getStrengthCapacity() { return strengthCapacity; }
+
+    public int getStaminaMaxPercent() { return staminaMaxPercent; }
+
+    public List<GuPath> getTalentPaths() { return talentPaths; }
+
+    public static ExtremePhysique[] settable() { return Arrays.copyOfRange(values(), 1, values().length); }
+
     public static ExtremePhysique randomTenExtreme() {
         List<ExtremePhysique> pool = new ArrayList<>();
         for (ExtremePhysique p : values()) {
@@ -61,7 +67,9 @@ public enum ExtremePhysique implements StringRepresentable, EnumTranslatable {
         }
         return pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
     }
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

@@ -32,28 +32,41 @@ import org.jetbrains.annotations.NotNull;
 public final class PathService {
 
     private PathService() {}
-    public static @NotNull PathData get(@NotNull Player player) {return player.getData(ModAttachments.PATH);}
-    public static @NotNull PathEntry entry(@NotNull Player p, @NotNull GuPath path) {return get(p).get(path);}
+
+    public static @NotNull PathData get(@NotNull Player player) { return player.getData(ModAttachments.PATH); }
+
+    public static @NotNull PathEntry entry(@NotNull Player p, @NotNull GuPath path) { return get(p).get(path); }
+
     public static @NotNull GuAttainment attainment(@NotNull Player p, @NotNull GuPath path) {
         return entry(p, path).attainment();
     }
+
     public static long mark(@NotNull Player p, @NotNull GuPath path, @NotNull MarkTag t) {
         return entry(p, path).mark(t);
     }
-    public static @NotNull Map<GuPath, PathEntry> visibleEntries(@NotNull Player player) {return get(player).entries();}
-    private static void store(ServerPlayer p, PathData data) {p.setData(ModAttachments.PATH, data);}
+
+    public static @NotNull Map<GuPath, PathEntry> visibleEntries(@NotNull Player player) {
+        return get(player).entries();
+    }
+
+    private static void store(ServerPlayer p, PathData data) { p.setData(ModAttachments.PATH, data); }
+
     public static void setMark(@NotNull ServerPlayer p, @NotNull GuPath path, @NotNull MarkTag tag, long v) {
         store(p, get(p).with(path, entry(p, path).withMark(tag, v)));
     }
+
     public static void addMark(@NotNull ServerPlayer p, @NotNull GuPath path, @NotNull MarkTag tag, long delta) {
         setMark(p, path, tag, LongMath.saturatedAdd(mark(p, path, tag), delta));
     }
+
     public static void shiftAttainment(@NotNull ServerPlayer p, @NotNull GuPath path, int delta) {
         setAttainment(p, path, attainment(p, path).shift(delta));
     }
+
     public static void setAttainment(@NotNull ServerPlayer p, @NotNull GuPath path, @NotNull GuAttainment attainment) {
         store(p, get(p).with(path, entry(p, path).withAttainment(attainment)));
     }
+
     public static boolean consume(@NotNull ServerPlayer player, @NotNull GuPath path, @NotNull MarkTag tag,
             long amount) {
         if (amount <= 0L) return true;

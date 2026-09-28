@@ -28,7 +28,9 @@ public enum StrengthPathBranch implements StringRepresentable, EnumTranslatable 
 
     public static final Codec<StrengthPathBranch> CODEC = StringRepresentable.fromEnum(StrengthPathBranch::values);
     private static final String KEY_PREFIX = "guzhenren.enum.strength.strength_path_branch.";
+
     @Override
-    public @NotNull String getSerializedName() {return name().toLowerCase();}
-    public String getTranslationKey() {return KEY_PREFIX + name().toLowerCase();}
+    public @NotNull String getSerializedName() { return name().toLowerCase(); }
+
+    public String getTranslationKey() { return KEY_PREFIX + name().toLowerCase(); }
 }

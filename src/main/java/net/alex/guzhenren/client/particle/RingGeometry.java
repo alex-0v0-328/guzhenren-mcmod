@@ -18,6 +18,7 @@ import org.joml.Vector3f;
 final class RingGeometry {
 
     private RingGeometry() {}
+
     /** Canvas width of the largest hand-drawn ring; every frame's world size scales off it. */
     static final int LARGEST_CANVAS = 23;
     /** World span of the largest ring, in blocks (总表 TODO acceptance: max ~2.2 blocks across). */
@@ -91,6 +92,6 @@ final class RingGeometry {
     private static Vector3f[] corners(Vector3f u, Vector3f v) {
         return new Vector3f[] {
                 new Vector3f(u).negate().sub(v), new Vector3f(u).negate().add(v),
-                new Vector3f(u).add(v), new Vector3f(u).sub(v)};
+                new Vector3f(u).add(v), new Vector3f(u).sub(v) };
     }
 }

@@ -34,12 +34,17 @@ import org.jetbrains.annotations.NotNull;
 public final class PathQiService {
 
     private PathQiService() {}
+
     private static final int EFFECT_REFRESH_TICKS = 2 * Ticks.SECOND;
-    public static @NotNull PathQiData get(@NotNull Player p) {return p.getData(ModAttachments.QI);}
-    public static long current(@NotNull Player p, @NotNull QiKind kind) {return get(p).current(kind, now(p));}
+
+    public static @NotNull PathQiData get(@NotNull Player p) { return p.getData(ModAttachments.QI); }
+
+    public static long current(@NotNull Player p, @NotNull QiKind kind) { return get(p).current(kind, now(p)); }
+
     public static void add(@NotNull ServerPlayer p, @NotNull QiKind kind, long delta) {
         set(p, kind, LongMath.saturatedAdd(current(p, kind), delta));
     }
+
     public static void set(@NotNull ServerPlayer p, @NotNull QiKind kind, long value) {
         long amount = Math.max(0L, value);
         long holdEnd = 0L;
@@ -48,7 +53,9 @@ public final class PathQiService {
         }
         store(p, get(p).with(kind, new PathQiEntry(amount, holdEnd)));
     }
-    private static long now(Player p) {return p.level().getGameTime();}
+
+    private static long now(Player p) { return p.level().getGameTime(); }
+
     private static void store(ServerPlayer p, PathQiData data) {
         long now = now(p);
         PathQiData pruned = data;
@@ -59,6 +66,7 @@ public final class PathQiService {
         p.setData(ModAttachments.QI, pruned);
         syncEffects(p);
     }
+
     //region effect projection -- the store is the truth, the MobEffect is its display
     public static void syncEffects(@NotNull ServerPlayer player) {
         long now = now(player);
@@ -67,6 +75,7 @@ public final class PathQiService {
         syncGraded(player, QiKind.ESSENCE, ModEffects.ESSENCE_QI, now);
         syncDeath(player, now);
     }
+
     private static void syncGraded(ServerPlayer player, QiKind kind, Holder<MobEffect> effect, long now) {
         PathQiData data = get(player);
         int tier = data.holding(kind, now) ? QiKind.tierOf(data.current(kind, now)) : -1;
@@ -85,6 +94,7 @@ public final class PathQiService {
             player.addEffect(ModEffects.instance(effect, duration, tier));
         }
     }
+
     private static void syncDeath(ServerPlayer player, long now) {
         boolean present = get(player).current(QiKind.DEATH, now) > 0L;
         MobEffectInstance current = player.getEffect(ModEffects.DEATH_QI);

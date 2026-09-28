@@ -44,13 +44,13 @@ public class RhinocerosBeetleGuEntity extends RestingFlyingGuEntity implements G
     }
 
     @Override
-    public boolean seeks(Player player) {return false;}
+    public boolean seeks(Player player) { return false; }
 
     @Override
-    protected void playLandingAnimation() {triggerAnim("main", "land");}
+    protected void playLandingAnimation() { triggerAnim("main", "land"); }
 
     @Override
-    protected void playTakeoffAnimation() {triggerAnim("main", "lift");}
+    protected void playTakeoffAnimation() { triggerAnim("main", "lift"); }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
@@ -61,5 +61,5 @@ public class RhinocerosBeetleGuEntity extends RestingFlyingGuEntity implements G
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {return cache;}
+    public AnimatableInstanceCache getAnimatableInstanceCache() { return cache; }
 }

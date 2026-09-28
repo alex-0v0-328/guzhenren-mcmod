@@ -30,7 +30,9 @@ import net.minecraft.server.level.ServerPlayer;
 public final class CmdStrength {
 
     private CmdStrength() {}
+
     private static final String ARG_KIND = "kind";
+
     public static ArgumentBuilder<CommandSourceStack, ?> node() {
         return Commands.literal("strength")
                 .then(beastNode("grant", PathStrengthService::grant))
@@ -39,6 +41,7 @@ public final class CmdStrength {
                 .then(ModCommandSupport.withTargets(Commands.literal("clear"),
                         context -> ModCommandSupport.apply(context, PathStrengthService::clear)));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> beastNode(
             String literal, ModCommandSupport.EnumOperation<BeastStrength> operation) {
         return Commands.literal(literal).then(ModCommandSupport.withTargets(
@@ -49,6 +52,7 @@ public final class CmdStrength {
                     return ModCommandSupport.apply(context, player -> operation.apply(player, beast));
                 }));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> humanStrength() {
         return Commands.literal("human")
                 .then(ModEnumArgument.arg(ARG_KIND, HumanStrength.values())
@@ -56,6 +60,7 @@ public final class CmdStrength {
                         .then(countNode("add", PathStrengthService::addHumanStrength))
                         .then(countNode("sub", (p, k, v) -> PathStrengthService.addHumanStrength(p, k, -v))));
     }
+
     private static ArgumentBuilder<CommandSourceStack, ?> countNode(String literal, HumanStrengthOperation operation) {
         return Commands.literal(literal).then(ModCommandSupport.withTargets(
                 Commands.argument(ModCommandSupport.ARG_VALUE, IntegerArgumentType.integer()),
@@ -65,9 +70,11 @@ public final class CmdStrength {
                     return ModCommandSupport.apply(context, player -> operation.apply(player, kind, value));
                 }));
     }
+
     private static HumanStrength kindOf(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         return ModEnumArgument.get(context, ARG_KIND, HumanStrength.values());
     }
+
     @FunctionalInterface
     private interface HumanStrengthOperation {
 

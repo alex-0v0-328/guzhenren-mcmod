@@ -22,9 +22,11 @@ import net.minecraft.world.item.ItemStack;
 public class GutsGuItem extends OneShotGuItem {
 
     private static final int SOUL_BONUS = 10;
+
     public GutsGuItem(Properties properties, GuSpec spec) {
         super(properties, spec);
     }
+
     @Override
     protected int useApply(ServerPlayer player, ItemStack stack) {
         SoulService.addMax(player, SOUL_BONUS);

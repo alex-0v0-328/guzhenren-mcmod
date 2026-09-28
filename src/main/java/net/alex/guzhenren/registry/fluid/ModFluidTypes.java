@@ -21,9 +21,11 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
  * @version 1.0.0
  * @since 1.0.0
  */
+
 public final class ModFluidTypes {
 
     private ModFluidTypes() {}
+
     public static final DeferredRegister<FluidType> FLUID_TYPES =
             DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Guzhenren.MOD_ID);
     public static final Supplier<FluidType> SPIRIT_SPRING = FLUID_TYPES.register("spirit_spring",
@@ -38,5 +40,6 @@ public final class ModFluidTypes {
                     .canConvertToSource(false)
                     .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                     .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)));
-    public static void register(IEventBus modEventBus) {FLUID_TYPES.register(modEventBus);}
+
+    public static void register(IEventBus modEventBus) { FLUID_TYPES.register(modEventBus); }
 }

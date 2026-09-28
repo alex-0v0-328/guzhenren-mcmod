@@ -24,13 +24,15 @@ import org.jetbrains.annotations.NotNull;
 public class HopeGuUsedTrigger extends SimpleCriterionTrigger<HopeGuUsedTrigger.Instance> {
 
     @Override
-    public @NotNull Codec<Instance> codec() {return Instance.CODEC;}
-    public Criterion<Instance> criterion() {return new Criterion<>(this, new Instance(Optional.empty()));}
-    public void trigger(ServerPlayer player) {this.trigger(player, instance -> true);}
+    public @NotNull Codec<Instance> codec() { return Instance.CODEC; }
+
+    public Criterion<Instance> criterion() { return new Criterion<>(this, new Instance(Optional.empty())); }
+
+    public void trigger(ServerPlayer player) { this.trigger(player, instance -> true); }
+
     public record Instance(Optional<ContextAwarePredicate> player) implements SimpleCriterionTrigger.SimpleInstance {
 
         public static final Codec<Instance> CODEC = EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player")
-                .xmap(Instance::new, Instance::player)
-                .codec();
+                .xmap(Instance::new, Instance::player).codec();
     }
 }

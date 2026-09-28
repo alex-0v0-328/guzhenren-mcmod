@@ -27,6 +27,7 @@ public record ImpactApertureWallPayload() implements CustomPacketPayload {
             Guzhenren.id("impact_aperture_wall"));
     public static final StreamCodec<ByteBuf, ImpactApertureWallPayload> STREAM_CODEC =
             StreamCodec.unit(INSTANCE);
+
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {return TYPE;}
+    public @NotNull Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

@@ -30,16 +30,19 @@ public class BeastStrengthGuItem extends TendedGuItem {
 
     private static final String FAILED_STRENGTH_HELD = "guzhenren.item.failed.beast_strength_held";
     private final BeastStrength beast;
+
     public BeastStrengthGuItem(Properties properties, BeastStrength beast, GuSpec spec) {
         super(properties, spec);
         this.beast = beast;
     }
+
     @Override
     protected @Nullable Refusal payoutGate(Player player, ItemStack stack) {
         return PathStrengthService.has(player, beast)
                 ? new Refusal(FAILED_STRENGTH_HELD, Component.translatable(beast.getTranslationKey()))
                 : null;
     }
+
     @Override
-    protected void payout(ServerPlayer player, ItemStack stack) {PathStrengthService.grant(player, beast);}
+    protected void payout(ServerPlayer player, ItemStack stack) { PathStrengthService.grant(player, beast); }
 }

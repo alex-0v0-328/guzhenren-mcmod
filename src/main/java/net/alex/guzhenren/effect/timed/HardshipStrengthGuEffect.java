@@ -21,6 +21,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 public final class HardshipStrengthGuEffect extends MobEffect {
 
     public static final int DURATION_TICKS = 120 * Ticks.SECOND;
+
     public HardshipStrengthGuEffect(MobEffectCategory category, int color) {
         super(category, color);
     }

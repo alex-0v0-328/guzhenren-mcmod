@@ -25,6 +25,7 @@ import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 public final class ItemTossEvents {
 
     private ItemTossEvents() {}
+
     @SubscribeEvent
     public static void onItemToss(ItemTossEvent event) {
         ItemStack stack = event.getEntity().getItem();

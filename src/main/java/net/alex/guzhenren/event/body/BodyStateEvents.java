@@ -33,6 +33,7 @@ import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 public final class BodyStateEvents {
 
     private BodyStateEvents() {}
+
     @SubscribeEvent
     public static void onBreathe(LivingBreatheEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
@@ -40,17 +41,22 @@ public final class BodyStateEvents {
 
         event.setCanBreathe(true);
     }
+
     @SubscribeEvent
-    public static void onEffectAdded(MobEffectEvent.Added event) {refreshAttack(event.getEntity());}
+    public static void onEffectAdded(MobEffectEvent.Added event) { refreshAttack(event.getEntity()); }
+
     @SubscribeEvent
-    public static void onEffectRemoved(MobEffectEvent.Remove event) {refreshAttack(event.getEntity());}
+    public static void onEffectRemoved(MobEffectEvent.Remove event) { refreshAttack(event.getEntity()); }
+
     @SubscribeEvent
-    public static void onEffectExpired(MobEffectEvent.Expired event) {refreshAttack(event.getEntity());}
+    public static void onEffectExpired(MobEffectEvent.Expired event) { refreshAttack(event.getEntity()); }
+
     @SubscribeEvent
     public static void onAttack(AttackEntityEvent event) {
         if (event.getEntity() instanceof ServerPlayer player
                 && player.hasEffect(ModEffects.HARDSHIP_STRENGTH_GU)) BodyAttackService.refresh(player);
     }
+
     private static void refreshAttack(LivingEntity entity) {
         if (entity instanceof ServerPlayer player) BodyAttackService.refresh(player);
     }

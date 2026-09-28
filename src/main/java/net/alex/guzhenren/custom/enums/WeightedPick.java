@@ -20,12 +20,15 @@ import java.util.random.RandomGenerator;
 public final class WeightedPick {
 
     private WeightedPick() {}
+
     public static <T> T pick(T[] values, ToIntFunction<T> weight) {
         return pick(values, ThreadLocalRandom.current(), v -> true, weight);
     }
+
     public static <T> T pick(T[] values, Predicate<T> filter, ToIntFunction<T> weight) {
         return pick(values, ThreadLocalRandom.current(), filter, weight);
     }
+
     public static <T> T pick(T[] values, RandomGenerator random, Predicate<T> filter, ToIntFunction<T> weight) {
         int total = 0;
         for (T v : values) {

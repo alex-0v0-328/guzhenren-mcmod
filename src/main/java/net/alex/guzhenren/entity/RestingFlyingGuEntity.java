@@ -113,6 +113,7 @@ public abstract class RestingFlyingGuEntity extends FlyingGuEntity {
     protected abstract void playTakeoffAnimation();
 
     public enum FlightPhase {
+
         FLYING,
         LANDING,
         RESTING;

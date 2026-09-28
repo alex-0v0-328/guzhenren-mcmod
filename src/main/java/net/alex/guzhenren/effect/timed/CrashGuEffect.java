@@ -29,11 +29,15 @@ public final class CrashGuEffect extends MobEffect {
      */
     public static final double DASH_COORD_SCALE = 4.5D;
     private final int axes;
+
     public CrashGuEffect(MobEffectCategory category, int color, int axes) {
         super(category, color);
         this.axes = axes;
     }
-    public static int duration(int seconds) {return seconds * Ticks.SECOND;}
-    public boolean horizontal() {return (axes & HORIZONTAL) != 0;}
-    public boolean vertical() {return (axes & VERTICAL) != 0;}
+
+    public static int duration(int seconds) { return seconds * Ticks.SECOND; }
+
+    public boolean horizontal() { return (axes & HORIZONTAL) != 0; }
+
+    public boolean vertical() { return (axes & VERTICAL) != 0; }
 }

@@ -32,6 +32,7 @@ public final class BoarGuGeoRenderer extends GeoEntityRenderer<BoarGuEntity> {
             Guzhenren.id("textures/entity/flower_boar_gu.png");
     private static final float MODEL_SCALE = 2.0F;
     private final ResourceLocation texture;
+
     public BoarGuGeoRenderer(EntityRendererProvider.Context context, GeoModel<BoarGuEntity> model,
                              ResourceLocation texture) {
         super(context, model);
@@ -39,6 +40,7 @@ public final class BoarGuGeoRenderer extends GeoEntityRenderer<BoarGuEntity> {
         this.shadowRadius = 0.2F;
         this.texture = texture;
     }
+
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull BoarGuEntity entity) {
         return texture;

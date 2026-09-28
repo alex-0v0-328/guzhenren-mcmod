@@ -37,21 +37,29 @@ public record MindPool(long current, long max, boolean bufferUsed) {
             ByteBufCodecs.VAR_LONG, MindPool::max,
             ByteBufCodecs.BOOL, MindPool::bufferUsed,
             MindPool::new);
+
     public MindPool {
         current = Math.max(0L, current);
         max = Math.max(0L, max);
         bufferUsed = bufferUsed || current > max;
     }
-    public static MindPool of(WisdomType type) {return new MindPool(0L, type.getDefaultCapacity(), false);}
+
+    public static MindPool of(WisdomType type) { return new MindPool(0L, type.getDefaultCapacity(), false); }
+
     public long burstAt() {
         return LongMath.saturatedMultiply(max / WisdomType.BURST_DENOMINATOR, WisdomType.BURST_NUMERATOR);
     }
-    public boolean isOverflowing() {return current > burstAt();}
-    public MindPool withCurrent(long v) {return new MindPool(v, max, bufferUsed);}
-    public MindPool withMax(long v) {return new MindPool(current, v, bufferUsed);}
+
+    public boolean isOverflowing() { return current > burstAt(); }
+
+    public MindPool withCurrent(long v) { return new MindPool(v, max, bufferUsed); }
+
+    public MindPool withMax(long v) { return new MindPool(current, v, bufferUsed); }
+
     public MindPool slept() {
         long restored = bufferUsed && current < max ? current + (max - current) / 2 : Math.max(current, max);
         return new MindPool(restored, max, false);
     }
-    public MindPool emptied() {return new MindPool(0L, max, false);}
+
+    public MindPool emptied() { return new MindPool(0L, max, false); }
 }

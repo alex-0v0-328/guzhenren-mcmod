@@ -64,14 +64,19 @@ public class RefinementMenu extends AbstractContainerMenu {
     public static final int CORE_ROWS = 3;
     public static final int CORE_SIZE = CORE_COLS * CORE_ROWS;
     public static final int INPUT_SIZE = RING_SIZE + CORE_SIZE;
-    private static final int[] RING_COLS = {1, 2, 3, 0, 4, 0, 4, 0, 4, 1, 2, 3};
-    private static final int[] RING_ROWS = {0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4};
+    private static final int[] RING_COLS = { 1, 2, 3, 0, 4, 0, 4, 0, 4, 1, 2, 3 };
+    private static final int[] RING_ROWS = { 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4 };
     public static final int INPUT_X = 18;
     public static final int INPUT_Y = 28;
-    public static int ringX(int index) {return INPUT_X + RING_COLS[index] * GRID_SLOT;}
-    public static int ringY(int index) {return INPUT_Y + RING_ROWS[index] * GRID_SLOT;}
-    public static int coreX(int col) {return INPUT_X + (col + 1) * GRID_SLOT;}
-    public static int coreY(int row) {return INPUT_Y + (row + 1) * GRID_SLOT;}
+
+    public static int ringX(int index) { return INPUT_X + RING_COLS[index] * GRID_SLOT; }
+
+    public static int ringY(int index) { return INPUT_Y + RING_ROWS[index] * GRID_SLOT; }
+
+    public static int coreX(int col) { return INPUT_X + (col + 1) * GRID_SLOT; }
+
+    public static int coreY(int row) { return INPUT_Y + (row + 1) * GRID_SLOT; }
+
     public static int slotAt(int row, int col) {
         for (int i = 0; i < RING_SIZE; i++) {
             if (RING_ROWS[i] == row && RING_COLS[i] == col) return i;
@@ -136,6 +141,7 @@ public class RefinementMenu extends AbstractContainerMenu {
     private boolean inWindow;
     private int stonesThisWindow;
     private int secondCounter;
+
     public RefinementMenu(int id, Inventory inventory) {
         super(ModMenus.REFINEMENT_MENU.get(), id);
         this.player = inventory.player;
@@ -167,18 +173,29 @@ public class RefinementMenu extends AbstractContainerMenu {
         addDataSlots(craftData);
         input.addListener(container -> refresh());
     }
+
     //region what the screen reads
-    public boolean ready() {return craftData.get(DATA_READY) != 0;}
-    public boolean affords() {return craftData.get(DATA_AFFORD) != 0;}
-    public boolean running() {return craftData.get(DATA_RUNNING) != 0;}
-    public boolean inWindow() {return craftData.get(DATA_IN_WINDOW) != 0;}
-    public int stage() {return craftData.get(DATA_STAGE);}
-    public int stages() {return craftData.get(DATA_STAGES);}
-    public int phaseLeft() {return craftData.get(DATA_PHASE_LEFT);}
-    public int stonesIn() {return craftData.get(DATA_STONES_IN);}
-    public int stonesNeeded() {return craftData.get(DATA_STONES_NEEDED);}
-    public int selected() {return craftData.get(DATA_SELECTED) - 1;}
-    public GuRecipeInput grid() {return GuRecipeInput.of(input);}
+    public boolean ready() { return craftData.get(DATA_READY) != 0; }
+
+    public boolean affords() { return craftData.get(DATA_AFFORD) != 0; }
+
+    public boolean running() { return craftData.get(DATA_RUNNING) != 0; }
+
+    public boolean inWindow() { return craftData.get(DATA_IN_WINDOW) != 0; }
+
+    public int stage() { return craftData.get(DATA_STAGE); }
+
+    public int stages() { return craftData.get(DATA_STAGES); }
+
+    public int phaseLeft() { return craftData.get(DATA_PHASE_LEFT); }
+
+    public int stonesIn() { return craftData.get(DATA_STONES_IN); }
+
+    public int stonesNeeded() { return craftData.get(DATA_STONES_NEEDED); }
+
+    public int selected() { return craftData.get(DATA_SELECTED) - 1; }
+
+    public GuRecipeInput grid() { return GuRecipeInput.of(input); }
     //endregion
 
     //region the 蛊方 [Gu Recipe] behind the button -- a selected one is the only one match() will consider
@@ -199,6 +216,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         }
         return null;
     }
+
     private boolean select(int index) {
         MinecraftServer server = player.getServer();
         if (server == null || running != null) return false;
@@ -210,15 +228,18 @@ public class RefinementMenu extends AbstractContainerMenu {
         refresh();
         return true;
     }
+
     private void refresh() {
         if (!(player instanceof ServerPlayer) || running != null) return;
 
         pending = match();
         craftData.set(DATA_READY, pending != null ? 1 : 0);
     }
+
     private static boolean affords(Player who, GuRecipe recipe) {
         return ApertureEssenceService.spendable(who) >= threshold(recipe);
     }
+
     private static long threshold(GuRecipe recipe) {
         long essence = recipe.essenceToFinish();
         return essence / 100L * OPENING_PERCENT + essence % 100L * OPENING_PERCENT / 100L;
@@ -239,6 +260,7 @@ public class RefinementMenu extends AbstractContainerMenu {
             if (wanted > 0) draw(need, slot, wanted);
         }
     }
+
     private void draw(SizedIngredient need, int slot, int wanted) {
         Inventory inventory = player.getInventory();
 
@@ -276,6 +298,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         }
         super.broadcastChanges();
     }
+
     private void advance(ServerPlayer server) {
         GuRecipe recipe = running;
         if (recipe == null) return;
@@ -316,6 +339,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         phaseLeft = GuRecipe.GAP_TICKS;
         publishRun(recipe);
     }
+
     private void gatherStones(ServerPlayer server, GuRecipe recipe) {
         int wanted = recipe.stonesFor(stage) - stonesThisWindow;
         if (wanted <= 0) return;
@@ -329,6 +353,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         if (!server.getInventory().add(held.copy())) server.drop(held.copy(), false);
         supply.setItem(0, ItemStack.EMPTY);
     }
+
     private int takeStones(int wanted) {
         if (wanted <= 0) return 0;
 
@@ -389,6 +414,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         stop();
         refresh();
     }
+
     private void fail(ServerPlayer server, String key) {
         int[] taken = claimed;
         if (taken != null) {
@@ -400,6 +426,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         stop();
         refresh();
     }
+
     private void spoil(ServerPlayer server, int slot, int taken) {
         ItemStack stack = input.getItem(slot);
         if (stack.isEmpty()) return;
@@ -414,6 +441,7 @@ public class RefinementMenu extends AbstractContainerMenu {
 
         input.removeItem(slot, (taken + 1) / 2);
     }
+
     private void stop() {
         running = null;
         claimed = null;
@@ -430,6 +458,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         craftData.set(DATA_STONES_IN, 0);
         craftData.set(DATA_STONES_NEEDED, 0);
     }
+
     private void publishRun(GuRecipe recipe) {
         craftData.set(DATA_RUNNING, 1);
         craftData.set(DATA_STAGE, stage);
@@ -450,6 +479,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         if (id == BUTTON_CLEAR_RECIPE) return select(-1);
         return id >= BUTTON_RECIPE_BASE && select(id - BUTTON_RECIPE_BASE);
     }
+
     private boolean abort() {
         if (!(player instanceof ServerPlayer server) || running == null) return false;
 
@@ -458,6 +488,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         refresh();
         return true;
     }
+
     private boolean begin() {
         if (!(player instanceof ServerPlayer server) || running != null) return false;
         if (!ApertureService.isAwakened(server)) return refuse(server, FAILED_NOT_AWAKENED);
@@ -480,6 +511,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         publishRun(recipe);
         return true;
     }
+
     private void deliver(ServerPlayer server, GuRecipe recipe, boolean vital) {
         boolean sole = recipe.guResultCount() == 1;
         int slot = 0;
@@ -495,10 +527,12 @@ public class RefinementMenu extends AbstractContainerMenu {
             output.setItem(slot, made);
         }
     }
+
     private static void inherit(ServerPlayer server, ItemStack made, TendedGuItem gu) {
         GuItem.bind(made, server, ApertureService.PRIMARY);
         ApertureService.setPrimaryPath(server, ApertureService.PRIMARY, gu.path());
     }
+
     private int freeOutputSlots() {
         int free = 0;
         for (int i = 0; i < OUTPUT_SIZE; i++) {
@@ -506,15 +540,18 @@ public class RefinementMenu extends AbstractContainerMenu {
         }
         return free;
     }
+
     private boolean eatsVital(int[] taken) {
         for (int i = 0; i < taken.length; i++) {
             if (taken[i] > 0 && GuItem.isVital(input.getItem(i))) return true;
         }
         return false;
     }
+
     private static void say(ServerPlayer who, String key, ChatFormatting colour, Object... args) {
         who.displayClientMessage(Component.translatable(key, args).withStyle(colour), true);
     }
+
     private static boolean refuse(ServerPlayer who, String key, Object... args) {
         say(who, key, ChatFormatting.RED, args);
         return false;
@@ -529,6 +566,7 @@ public class RefinementMenu extends AbstractContainerMenu {
         clearContainer(who, supply);
         clearContainer(who, output);
     }
+
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player who, int index) {
         Slot slot = slots.get(index);
@@ -550,34 +588,42 @@ public class RefinementMenu extends AbstractContainerMenu {
         }
         return original;
     }
+
     @Override
-    public boolean stillValid(@NotNull Player who) {return who == player && who.isAlive();}
+    public boolean stillValid(@NotNull Player who) { return who == player && who.isAlive(); }
 
     //region where a thing may sit -- 蛊材 outside, 蛊虫 inside, and NOTHING moves while it runs
     private class RingSlot extends Slot {
 
-        RingSlot(Container container, int index, int x, int y) {super(container, index, x, y);}
+        RingSlot(Container container, int index, int x, int y) { super(container, index, x, y); }
+
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {
             return running == null && !(stack.getItem() instanceof MortalGuItem);
         }
+
         @Override
-        public boolean mayPickup(@NotNull Player who) {return running == null;}
+        public boolean mayPickup(@NotNull Player who) { return running == null; }
     }
+
     private class CoreSlot extends Slot {
 
-        CoreSlot(Container container, int index, int x, int y) {super(container, index, x, y);}
+        CoreSlot(Container container, int index, int x, int y) { super(container, index, x, y); }
+
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {
             if (running != null || !(stack.getItem() instanceof MortalGuItem)) return false;
             return !GuItem.isVital(stack) || GuItem.isVitalOf(stack, player);
         }
+
         @Override
-        public boolean mayPickup(@NotNull Player who) {return running == null;}
+        public boolean mayPickup(@NotNull Player who) { return running == null; }
     }
+
     private class SupplySlot extends Slot {
 
-        SupplySlot(Container container, int index, int x, int y) {super(container, index, x, y);}
+        SupplySlot(Container container, int index, int x, int y) { super(container, index, x, y); }
+
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {
             boolean fuel = stack.getItem() instanceof PrimevalStoneItem
@@ -585,11 +631,13 @@ public class RefinementMenu extends AbstractContainerMenu {
             return fuel && (!GuItem.isVital(stack) || GuItem.isVitalOf(stack, player));
         }
     }
+
     private class OutputSlot extends Slot {
 
-        OutputSlot(int index, int x, int y) {super(output, index, x, y);}
+        OutputSlot(int index, int x, int y) { super(output, index, x, y); }
+
         @Override
-        public boolean mayPlace(@NotNull ItemStack stack) {return false;}
+        public boolean mayPlace(@NotNull ItemStack stack) { return false; }
     }
     //endregion
 }
