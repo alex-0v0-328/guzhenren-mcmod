@@ -45,11 +45,12 @@ repo/
 .codegraph/
 .mimosa/
 
-### Agent tooling: local-only, kept out of the repository (Alex, 2026-09-19; rules layer added 2026-09-22; CLAUDE.md added 2026-09-24) ###
+### Agent tooling: local-only, kept out of the repository (Alex, 2026-09-19; rules layer added 2026-09-22; CLAUDE.md added 2026-09-24; subagent definitions added 2026-09-28) ###
 .kimi-code/
 AGENTS.md
 CLAUDE.md
 .claude/settings.local.json
+.claude/agents/
 AGENTS-reference.md
 rules/
 
