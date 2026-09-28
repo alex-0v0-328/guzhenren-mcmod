@@ -15,7 +15,11 @@ import net.minecraft.util.StringRepresentable;
 
 /**
  * A command argument accepting one constant of an enum, spelled as a {@code word()} literal. Provides
- * a static-constants factory and a dynamic one computing suggestions from what was already parsed.
+ * a static-constants factory ({@link #arg(String, Enum[])}) and a dynamic one
+ * ({@link #arg(String, Function)}) computing suggestions from what was already parsed.
+ *
+ * <p>⚠ The {@link #arg(String, Function)} overload's function must tolerate a nonsense earlier
+ * argument: {@code word()} accepts any word.
  *
  * <p>☠ Everything typed after a redirect is parsed into a CHILD context, and {@code /gzr} is that
  * redirect -- so a read of an earlier argument must go through {@code getLastChild()} or it throws
@@ -40,10 +44,6 @@ public final class ModEnumArgument {
         return arg(name, context -> values);
     }
 
-    /**
-     * The same argument, but the offered constants are computed from what was already parsed.
-     * ⚠ The function must tolerate a nonsense earlier argument: {@code word()} accepts any word.
-     */
     public static <E extends Enum<E> & StringRepresentable> RequiredArgumentBuilder<CommandSourceStack, String> arg(
             String name, Function<CommandContext<CommandSourceStack>, E[]> offered) {
         return Commands.argument(name, StringArgumentType.word())

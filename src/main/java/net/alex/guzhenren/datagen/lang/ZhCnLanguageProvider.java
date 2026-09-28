@@ -38,6 +38,10 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
  * <p>⚠ These renderings are the authority, not a translation of the English. Deriving either side
  * from the other is how a name quietly comes to mean something it never meant.
  *
+ * <p>In {@link #addItemKeys}, the Spirit Spring [元泉] block uses {@code addBlock}: one key name
+ * simultaneously covers the block, its block item, and its fluid type (they share one description
+ * id).
+ *
  * @author Alex
  * @version 1.0.0
  * @see net.alex.guzhenren.datagen.lang.EnUsLanguageProvider
@@ -386,7 +390,6 @@ public class ZhCnLanguageProvider extends LanguageProvider {
         addItem(ModItems.SWEET_LIQUOR, "甜酒");
         addItem(ModItems.BITTER_LIQUOR, "苦酒");
         addItem(ModItems.SPICY_LIQUOR, "辣酒");
-        // 一条键名同时覆盖方块、方块物品与流体类型（共享 description id）。
         addBlock(ModBlocks.SPIRIT_SPRING, "元泉");
 
         addItem(ModItems.SWORD_QI_1, "一转剑气");

@@ -23,9 +23,20 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * only in texture).
  *
  * <p>Combat swipes at arm's length (hit frame at tick 8) and pounces across three to eight blocks:
- * the leap impulse fires at tick 12 with the direction locked at that moment, and the landing hit
- * is a swept-body test over the flight window. Vanilla has no tiger sounds, so the ocelot family
- * stands in at a lowered pitch; the roar reuses the polar bear warning slightly deepened.
+ * {@link #tickHeavyAttack} fires the leap impulse at tick 12 with the direction locked at that
+ * moment -- {@link #startAction} resets that lock for each new pounce, so a stale direction from
+ * the previous pounce is never reused -- and the landing hit is a swept-body test over the flight
+ * window. The leap locks on the first tick at or after the leap frame, so an unticked frame cannot
+ * skip the lock; a leap that could no longer reach the landing window is dropped, and a wall that
+ * stops the leap ends the pounce early without a hit. {@link #heavyKeepsMomentum} keeps the leap's
+ * horizontal momentum from the leap tick through the landing window while gravity supplies the
+ * vertical arc: the velocity is re-applied each tick inside that window so the arc covers the
+ * locked distance instead of bleeding off to drag, and past the window {@code tickAction} zeroes
+ * the horizontal velocity, so the tiger never slides beyond it. Vanilla has no tiger sounds, so the
+ * ocelot family stands in at a lowered pitch; the roar reuses the polar bear warning slightly
+ * deepened.
+ *
+ * <p>{@link #pickDaytimeAmbient}: tigers only sit; they have no roll or scratch animations.
  */
 
 public final class TigerEntity extends BeastEntity {
@@ -123,12 +134,10 @@ public final class TigerEntity extends BeastEntity {
     @Override
     public boolean startAction(Action next) {
         boolean started = super.startAction(next);
-        // Each pounce locks its own leap direction; a stale one from the previous pounce is never reused.
         if (started && next == Action.ATTACK_HEAVY) this.pounceDirection = Vec3.ZERO;
         return started;
     }
 
-    /** The pounce leaps at tick 12 along the direction locked at that moment, then lands the hit. */
     @Override
     protected void tickHeavyAttack(long ticks) {
         LivingEntity target = this.actionTarget;
@@ -137,8 +146,6 @@ public final class TigerEntity extends BeastEntity {
             return;
         }
         if (this.pounceDirection.lengthSqr() == 0.0D) {
-            // Leaps on the first tick at or after the leap frame, so an unticked frame cannot skip the lock;
-            // a leap that could no longer reach the landing window is dropped.
             if (ticks >= POUNCE_WINDOW_END_TICKS || target == null || !this.canAttackTarget(target)) {
                 this.finishAction();
                 return;
@@ -153,15 +160,11 @@ public final class TigerEntity extends BeastEntity {
             return;
         }
         if (this.horizontalCollision) {
-            // A wall stopped the leap; the pounce ends early without a hit.
             this.finishAction();
             return;
         }
         Vec3 current = this.position();
         if (this.heavyKeepsMomentum(ticks)) {
-            // The leap velocity is re-applied inside the landing window so the arc covers the locked
-            // distance instead of bleeding off to drag; gravity still shapes the vertical arc. Past the
-            // window tickAction zeroes the horizontal velocity, so the tiger never slides beyond it.
             Vec3 velocity = this.getDeltaMovement();
             this.setDeltaMovement(this.pounceDirection.x * this.pounceSpeed, velocity.y,
                     this.pounceDirection.z * this.pounceSpeed);
@@ -176,13 +179,11 @@ public final class TigerEntity extends BeastEntity {
         if (ticks >= POUNCE_END_TICKS) this.finishAction();
     }
 
-    /** Momentum is kept from the leap tick through the landing window; gravity supplies the arc. */
     @Override
     protected boolean heavyKeepsMomentum(long ticks) {
         return ticks >= POUNCE_LEAP_TICK && ticks < POUNCE_WINDOW_END_TICKS;
     }
 
-    /** Tigers only sit; they have no roll or scratch animations. */
     @Override
     protected Action pickDaytimeAmbient(double roll) {
         return Action.SIT;

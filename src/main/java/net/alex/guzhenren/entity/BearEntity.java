@@ -20,9 +20,14 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * A bear, one entity type per {@link BearSpecies}.
  *
  * <p>Combat alternates the four-legged swipe (hit frame at tick 9) with the rarer rear-up slam
- * (hit frame at tick 17, about one in three melee attacks). Daytime rests cycle sit, roll and
- * back-scratch; nights lie down and sleep. Vanilla polar bear sounds stand in; the first-lock roar
- * reuses the polar bear warning sound.
+ * (hit frame at tick 17, about one in three melee attacks); {@link #tickHeavyAttack} is stationary,
+ * with the hit landing when the paw comes down. Daytime rests cycle sit, roll and back-scratch --
+ * {@link #pickDaytimeAmbient} sits half the time, splitting the rest between roll and back-scratch --
+ * nights lie down and sleep. Vanilla polar bear sounds stand in; the first-lock roar reuses the polar
+ * bear warning sound.
+ *
+ * <p>{@link #huntsActively} is null-safe: {@code registerGoals} evaluates goals during the
+ * {@code Mob} constructor, before species is set.
  */
 
 public final class BearEntity extends BeastEntity {
@@ -91,7 +96,6 @@ public final class BearEntity extends BeastEntity {
 
     @Override
     protected boolean huntsActively() {
-        // Null-safe: registerGoals evaluates goals during the Mob constructor, before species is set.
         return this.species != null && this.species.hostile();
     }
 
@@ -115,7 +119,6 @@ public final class BearEntity extends BeastEntity {
         }
     }
 
-    /** The rear-up slam is stationary; the hit lands when the paw comes down. */
     @Override
     protected void tickHeavyAttack(long ticks) {
         if (ticks >= REAR_HIT_TICK && !this.heavyHit) {
@@ -129,7 +132,6 @@ public final class BearEntity extends BeastEntity {
         if (ticks >= REAR_END_TICKS) this.finishAction();
     }
 
-    /** Sit half the time; roll and back-scratch split the rest. */
     @Override
     protected Action pickDaytimeAmbient(double roll) {
         if (roll < 0.5D) return Action.SIT;

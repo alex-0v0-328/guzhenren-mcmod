@@ -33,7 +33,8 @@ import org.jetbrains.annotations.Nullable;
  * {@link net.alex.guzhenren.menu.RefinementMenu}. Draws the 5×5 grid (corners cut), the craft
  * button in three states, the phase bar, the stone slot, and the recipe picker modal. Ghosts for
  * missing ingredients are drawn from {@code renderLabels} so the carried item paints last. The picker
- * modal translates Z to 500 to stay above slot items.
+ * modal translates Z to 500 to stay above slot items. In {@link #mouseClicked(double, double, int)},
+ * the open picker swallows every click; only the left button acts on it.
  *
  * <p>⚠ Every cell position comes from the menu's own helpers, so a drawn cell and the real slot
  * cannot drift apart. Two different pitches are in play; do not reuse the inventory's for the grid.
@@ -524,7 +525,6 @@ public class RefinementScreen extends AbstractContainerScreen<RefinementMenu> {
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
         if (picking) {
-            // The open picker swallows every click; only the left button acts on it.
             if (button == 0) clickPicker(mx, my);
             return true;
         }

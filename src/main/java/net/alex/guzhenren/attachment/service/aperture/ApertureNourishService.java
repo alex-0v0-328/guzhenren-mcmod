@@ -24,7 +24,32 @@ import org.jetbrains.annotations.NotNull;
  * <p>⚠ The wall is the PRIMARY aperture's alone -- a second aperture nourishes but never strikes; its
  * only rank-up is a higher-rank Second Aperture Gu. ⚠ A rank-up MUST also set the stage back to {@code
  * LOWEST}, or a "二转巅峰" squares the essence cap. ⚠ The strike zeroes progress win or lose; charge
- * BEFORE rolling. ⚠ A hastened clock bills MORE seconds ({@code steps}), never a bigger second.
+ * BEFORE rolling. ⚠ A hastened clock bills MORE seconds per heartbeat ({@link #tickNourish}, {@code
+ * steps}), never a bigger second -- scaling the progress and the price instead would round the
+ * round's length off the pool it is defined to cost.
+ *
+ * <p>{@link #IMPACT_COST_PER_RANK_BASE}: one strike costs one and a half of a Ten-Extremes peak pool,
+ * so no pool can ever hold it. {@link #CONVERTED_PRESSURE} is where the pressure gauge lands after a
+ * petrified aperture converts a full one into a rank-up. {@link Outcome} is what one strike against
+ * the aperture wall did.
+ *
+ * <p>{@link #shiftTargetForInsertedFirst}: when Hope Gu inserts the first aperture at position 0, an
+ * in-progress session aimed at the lone second aperture (target 0) would silently slide onto the new
+ * first aperture -- move the target with its aperture. No session running, nothing to move; the next
+ * {@code start} rewrites it.
+ *
+ * <p>⚠ {@link #petrify} is the writer that sets {@code petrified}: it lands the aperture on this
+ * rank's peak, zeroes the pressure gauge, and locks cultivation until a full gauge converts
+ * (ten-extremes) or resetAll clears it. A run in progress is force-stopped by the same write, so the
+ * heartbeat loop needs no petrified check of its own. {@link #convertPetrifiedPressure} is the
+ * pressure gauge a petrified aperture keeps filling: at full it converts into the next rank's first
+ * stage and cures the stone -- the one way back to NORMAL short of resetAll, and the landing can take
+ * the next rank's Stone Aperture Gu to enter the cycle again. Only while a next rank exists; at the
+ * last rank it answers {@code false} and the caller detonates.
+ *
+ * <p>{@link #resolve} is the seam the unit tests pin: a roll of {@code 0..99} against the two outcome
+ * tables. ☠ The two tables split at different points, and only the Ten-Extremes one can never lose
+ * base.
  *
  * @author Alex
  * @version 1.0.0
@@ -41,13 +66,7 @@ public final class ApertureNourishService {
     public static final int COST_DIVISOR = 100;
     public static final int BASE_LOSS_MIN = 1;
     public static final int BASE_LOSS_MAX = 5;
-    /**
-     * One strike costs one and a half of a Ten-Extremes peak pool, so no pool can ever hold it.
-     */
     public static final long IMPACT_COST_PER_RANK_BASE = 1_200L;
-    /**
-     * Where the pressure gauge lands after a petrified aperture converts a full one into a rank-up.
-     */
     public static final int CONVERTED_PRESSURE = 90;
     private static final String STARVED = "guzhenren.nourish.starved";
     private static final String STAGE_UP = "guzhenren.nourish.stage_up";
@@ -57,9 +76,6 @@ public final class ApertureNourishService {
     private static final String IMPACT_DROP_STAGE = "guzhenren.impact.drop_stage";
     private static final String IMPACT_DROP_BASE = "guzhenren.impact.drop_base";
 
-    /**
-     * What one strike against the aperture wall did.
-     */
     public enum Outcome { SUCCESS, HOLD, DROP_STAGE, DROP_BASE }
 
     public static @NotNull ApertureNourishData get(@NotNull Player p) { return p.getData(ModAttachments.NOURISH); }
@@ -122,11 +138,6 @@ public final class ApertureNourishService {
         store(player, data.withCultivating(false).withStarvedSinceTick(ApertureNourishData.NOT_STARVED));
     }
 
-    /**
-     * When Hope Gu inserts the first aperture at position 0, an in-progress session aimed at the lone
-     * second aperture (target 0) would silently slide onto the NEW first aperture -- move the target
-     * with its aperture. No session running, nothing to move; the next {@code start} rewrites it.
-     */
     public static void shiftTargetForInsertedFirst(@NotNull ServerPlayer player) {
         ApertureNourishData data = get(player);
         if (data.cultivating() && data.target() == ApertureData.PRIMARY) {
@@ -135,10 +146,6 @@ public final class ApertureNourishService {
     }
 
     //region 温养 [nourishing] -- the second that the heartbeat bills
-    /**
-     * ⚠ A hastened clock bills MORE seconds per heartbeat, never a bigger second. Scaling the progress
-     * and the price instead would round the round's length off the pool it is defined to cost.
-     */
     public static void tickNourish(@NotNull ServerPlayer player) {
         for (int second = PathTimeFlowService.steps(player); second > 0; second--) {
             if (!nourishSecond(player)) return;
@@ -197,12 +204,6 @@ public final class ApertureNourishService {
     //endregion
 
     //region 石窍蛊 [Stone Aperture Gu] -- straight to this rank's peak, and never further
-    /**
-     * ⚠ The writer that sets {@code petrified}: it lands the aperture on this rank's peak, zeroes the
-     * pressure gauge, and locks cultivation until a full gauge converts (ten-extremes) or resetAll
-     * clears it. A run in progress is force-stopped by the same write, so the heartbeat loop needs no
-     * petrified check of its own.
-     */
     public static void petrify(@NotNull ServerPlayer player, int index) {
         Aperture aperture = ApertureService.aperture(player, index);
         if (aperture.petrified()) return;
@@ -212,12 +213,6 @@ public final class ApertureNourishService {
         store(player, ApertureNourishData.DEFAULT);
     }
 
-    /**
-     * The pressure gauge a petrified aperture keeps filling: at full it converts into the next
-     * rank's first stage AND cures the stone -- the one way back to NORMAL short of resetAll, and
-     * the landing can take the next rank's Stone Aperture Gu to enter the cycle again. Only while
-     * a next rank exists; at the last rank it answers {@code false} and the caller detonates.
-     */
     public static boolean convertPetrifiedPressure(@NotNull ServerPlayer player) {
         Aperture aperture = ApertureService.aperture(player);
         if (!aperture.petrified() || aperture.rank() == Rank.HIGHEST) return false;
@@ -273,10 +268,6 @@ public final class ApertureNourishService {
         store(player, ApertureNourishData.DEFAULT);
     }
 
-    /**
-     * The seam the unit tests pin: a roll of {@code 0..99} against the two outcome tables.
-     * ☠ The two tables split at different points, and only the Ten-Extremes one can never lose base.
-     */
     public static @NotNull Outcome resolve(int roll, boolean extreme) {
         if (extreme) {
             if (roll < 60) return Outcome.SUCCESS;

@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
  * distilling empties it). ⚠ {@code consume} burns distilled 1:2 first (rounded UP), then the pool. ⚠
  * The distilling truth is the per-aperture {@code distilling} flag, not the effect. ⚠ Any path that
  * SKIPS a regen step (choke, DEAD [死窍]) must zero that carry; {@code isChoked} outranks everything.
+ * {@link #cascadeTake} is the pure seam the unit tests pin for that cascade.
  *
  * @author Alex
  * @version 1.0.0
@@ -163,11 +164,6 @@ public final class ApertureEssenceService {
         return true;
     }
 
-    /**
-     * The pure seam the unit tests pin: how one amount is paid across the apertures, PRIMARY first.
-     * Each aperture pays with its distilled reserve first at the 1:2 rate (rounded up), then with its
-     * ordinary pool; the remainder walks to the next aperture.
-     */
     public static long[][] cascadeTake(long amount, @NotNull List<Aperture> apertures) {
         long[][] takes = new long[apertures.size()][2];
         long left = amount;

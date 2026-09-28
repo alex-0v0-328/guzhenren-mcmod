@@ -61,6 +61,11 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
  * <p>⚠ There can only be one. The builtin-entries provider reports a fixed name, so a second instance
  * fails datagen outright; add a registry to this one's builder instead.
  *
+ * <p>⚠ {@link #SPIRIT_SPRING_RARITY} is Alex's pick (2026-09-23): desert-well scale, but across 39 land
+ * biomes instead of one. ⚠ {@link #SPIRIT_SPRING_UNDERGROUND_RARITY} is Alex's constraint (2026-09-26):
+ * strictly rarer than the surface roll. 3000 is the initial pick, his to tune -- the cave-floor scan
+ * also fails most sampled attempts, so the effective underground rate lands far below the surface one.
+ *
  * @author Alex
  * @version 1.0.0
  * @since 1.0.0
@@ -158,13 +163,7 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
             ResourceKey.create(Registries.CONFIGURED_FEATURE, Guzhenren.id("spirit_spring_underground"));
     private static final ResourceKey<PlacedFeature> SPIRIT_SPRING_UNDERGROUND_PLACED = ResourceKey.create(
             Registries.PLACED_FEATURE, Guzhenren.id("spirit_spring_underground"));
-    /** ⚠ Alex's pick (2026-09-23): desert-well scale, but across 39 land biomes instead of one. */
     private static final int SPIRIT_SPRING_RARITY = 1000;
-    /**
-     * ⚠ Alex's constraint (2026-09-26): strictly rarer than the surface roll. 3000 is the initial
-     * pick, his to tune -- the cave-floor scan also fails most sampled attempts, so the effective
-     * underground rate lands far below the surface one.
-     */
     private static final int SPIRIT_SPRING_UNDERGROUND_RARITY = 3000;
 
     private static void configuredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {

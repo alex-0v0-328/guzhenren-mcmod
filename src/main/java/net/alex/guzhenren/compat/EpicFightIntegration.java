@@ -43,6 +43,14 @@ import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
  * <p>The old GZR stamina attachment, sprint gate, jump bill, hunger exhaustion surcharge and client mixin are
  * deliberately absent. Epic Fight owns current stamina, regeneration, HUD and all ordinary consumption.
  *
+ * <p>{@link #dashDirection} computes the dash motion direction as a unit vector: the payload's yRot is
+ * the Epic Fight MODEL facing (a backward dodge still faces the enemy), so {@link #ringYawOffset(int)}
+ * recovers the actual motion yaw -- pinned by {@code DashRingYawTest}. The client already bakes the
+ * strafe/diagonal angles (±45°/±90°) into that yaw, so the only correction left is the backward dodge
+ * animation moving opposite to the model facing: every backward combination flips 180, everything else
+ * rides the model yaw unchanged. Every Crash Gu dash moves in the yaw plane: the payload's
+ * vertical/horizontal are the keyboard axes (W/S and A/D), never world-up.
+ *
  * @author Alex
  * @version 1.0.0
  * @since 1.0.0
@@ -127,21 +135,11 @@ public final class EpicFightIntegration {
         if (event.getTarget() instanceof WildGuEntity) event.cancel();
     }
 
-    /**
-     * The dash motion direction as a unit vector: the payload's yRot is the Epic Fight MODEL facing
-     * (a backward dodge still faces the enemy), so {@link #ringYawOffset(int)} recovers the actual
-     * motion yaw. The client already bakes the strafe/diagonal angles (±45°/±90°) into that yaw, so
-     * the only correction left is the backward dodge animation moving opposite to the model facing:
-     * every backward combination flips 180, everything else rides the model yaw unchanged. Every
-     * Crash Gu dash moves in the yaw plane: the payload's vertical/horizontal are the keyboard axes
-     * (W/S and A/D), never world-up.
-     */
     private static Vec3 dashDirection(int vertical, float yRot) {
         float radians = (yRot + ringYawOffset(vertical)) * ((float) Math.PI / 180.0F);
         return new Vec3(-Mth.sin(radians), 0.0D, Mth.cos(radians));
     }
 
-    /** Motion-direction correction from model yaw to motion yaw; pinned by {@code DashRingYawTest}. */
     static float ringYawOffset(int vertical) {
         return vertical < 0 ? 180.0F : 0.0F;
     }

@@ -23,13 +23,19 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * The only writer of Body [肉身] state, and the home of every physique [体质] transition. Static
- * service; owns two clocks with two anchors: {@code tickAging} keeps {@code lastDayIndex} and returns
- * DAYS for the Gu-hunger walks; {@code tickLifespan} keeps {@code lastBilledTick} and bills lifespan.
+ * service; owns two clocks with two anchors: {@link #tickAging} keeps {@code lastDayIndex} and counts
+ * DAYS for the three Gu-hunger walks and nothing else; {@link #tickLifespan} keeps
+ * {@code lastBilledTick} and bills lifespan every heartbeat instead of once a day.
  *
  * <p>⚠ {@code tickAging}'s returned day count can far exceed one and drives three day-clock walks --
- * swallowing it starves every Gu at once. ⚠ 寿元 is SPENT through {@link PathTimeFlowService#perStep};
- * hand-rolling the rate once ran it BACKWARDS. ⚠ The anchor is {@code dayTime}, not {@code gameTime}:
- * time running backwards re-anchors and bills nothing -- one {@code <} is the whole guard, BOTH clocks.
+ * swallowing it starves every Gu at once. ☠ 寿元 is SPENT through {@link PathTimeFlowService#perStep}
+ * like every other thing he spends -- hastened means FASTER; hand-rolling the rate once ran it
+ * BACKWARDS, into a pure longevity buff. ⚠ The anchor is {@code dayTime}, not {@code gameTime} (so
+ * {@code /time add} still ages him): time running backwards re-anchors and bills nothing -- one
+ * {@code <} is the whole guard, BOTH clocks share it.
+ *
+ * <p>In {@link #clampParts}, the intermediate {@code BigInteger} products are kept exact rather than
+ * clamped early, because a later signed addition or fraction can bring them back into range.
  *
  * @author Alex
  * @version 1.0.0
@@ -88,7 +94,6 @@ public final class BodyService {
     }
 
     private static long clampParts(BigInteger parts) {
-        // Keep intermediate products exact: a later signed addition or fraction can bring them back into range.
         return parts.max(BigInteger.valueOf(Long.MIN_VALUE)).min(BigInteger.valueOf(Long.MAX_VALUE)).longValue();
     }
     //endregion
@@ -233,10 +238,6 @@ public final class BodyService {
     public static void clearDeathQiDebt(@NotNull ServerPlayer p) { store(p, get(p).withDeathQiLifespanLost(0L)); }
     //endregion
 
-    /**
-     * ⚠ This counts DAYS for the three Gu-hunger walks and nothing else -- 寿元 left it for
-     * {@code tickLifespan}, which bills every heartbeat instead of once a day.
-     */
     public static long tickAging(@NotNull ServerPlayer player) {
         MinecraftServer server = player.getServer();
         if (server == null) return 0L;
@@ -257,10 +258,6 @@ public final class BodyService {
     }
 
     //region 寿元的钟 -- billed on the heartbeat, because 宙道 changes how fast he spends it
-    /**
-     * ⚠ The anchor is the world's {@code dayTime}, not {@code gameTime}, so {@code /time add} still ages
-     * him. Time running backwards re-anchors and bills nothing, the same guard {@code tickAging} carries.
-     */
     public static void tickLifespan(@NotNull ServerPlayer player) {
         MinecraftServer server = player.getServer();
         if (server == null) return;
@@ -282,10 +279,6 @@ public final class BodyService {
         store(player, body.lived(lived, now));
     }
 
-    /**
-     * ☠ 寿元 is SPENT, so it goes through {@code perStep} like every other thing he spends -- hastened
-     * means FASTER. Hand-rolling the rate here once made it run backwards, into a pure longevity buff.
-     */
     public static long elapsedParts(long elapsedTicks) {
         return LongMath.saturatedMultiply(Math.max(0L, elapsedTicks), BodyData.PARTS_PER_TICK);
     }

@@ -18,6 +18,10 @@ import net.minecraft.world.item.ItemStack;
  * holes are trimmed, or items would jump the moment a gap is saved. ⚠ {@code with} GROWS to reach its
  * index (unlike {@link ApertureData#with}, which refuses) -- a store may exist before its aperture opens.
  *
+ * <p>{@link #shiftRight} makes room for a first aperture inserted ahead of a lone second one: every
+ * stored list and the Vital Gu slot moves one position up. A Vital Gu bound by the component default
+ * (aperture 0) is pinned to 1 explicitly, or it would silently follow the new first aperture.
+ *
  * @author Alex
  * @version 1.0.0
  * @see ApertureData
@@ -120,11 +124,6 @@ public record ApertureStorage(List<List<ItemStack>> byAperture, List<ItemStack> 
         return new ApertureStorage(byAperture, next);
     }
 
-    /**
-     * Makes room for a first aperture inserted ahead of a lone second one: every stored list and the
-     * Vital Gu slot moves one position up. A Vital Gu bound by the component default (aperture 0) is
-     * pinned to 1 explicitly, or it would silently follow the new first aperture.
-     */
     public ApertureStorage shiftRight() {
         if (byAperture.size() >= ApertureData.MAX_APERTURES) return this;
 

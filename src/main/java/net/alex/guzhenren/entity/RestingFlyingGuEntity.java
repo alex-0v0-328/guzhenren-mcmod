@@ -21,6 +21,13 @@ import org.jetbrains.annotations.NotNull;
  * server triggers the concrete entity's one-shot transition animation when a phase transition needs
  * one; a newly tracked or loaded client only selects the synchronized steady state.
  *
+ * <p>{@link #takeOff}: only a resting Gu has closed its wing cases; an aborted landing is still in
+ * the flight pose.
+ *
+ * <p>{@link #readAdditionalSaveData}: goal state is not serialized. A saved landing re-arms its
+ * request so the landing goal picks it up again; a saved rest is resumed by that goal directly,
+ * without replaying the landing.
+ *
  * @author Alex
  * @version 1.0.0
  * @since 1.0.0
@@ -78,7 +85,6 @@ public abstract class RestingFlyingGuEntity extends FlyingGuEntity {
     }
 
     public void takeOff() {
-        // Only a resting Gu has closed its wing cases; an aborted landing is still in the flight pose.
         boolean grounded = phase() == FlightPhase.RESTING;
         setPhase(FlightPhase.FLYING);
         entityData.set(DATA_WANTS_TO_LAND, false);
@@ -102,8 +108,6 @@ public abstract class RestingFlyingGuEntity extends FlyingGuEntity {
         FlightPhase savedPhase = FlightPhase.fromId(tag.getByte("FlightPhase"));
         entityData.set(DATA_FLIGHT_PHASE, savedPhase.id());
         boolean wantsToLand = tag.getBoolean("WantsToLand");
-        // Goal state is not serialized. A saved landing re-arms its request so the landing goal picks it up
-        // again; a saved rest is resumed by that goal directly, without replaying the landing.
         if (savedPhase == FlightPhase.LANDING) wantsToLand = true;
         entityData.set(DATA_WANTS_TO_LAND, wantsToLand);
     }

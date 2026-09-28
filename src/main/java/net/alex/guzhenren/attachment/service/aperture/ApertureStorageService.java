@@ -21,6 +21,11 @@ import org.jetbrains.annotations.NotNull;
  * {@link net.alex.guzhenren.attachment.service.body.BodyHealthService#refresh} hangs off that. ⚠
  * {@code setPrimaryPath} no-ops when unchanged; keep the call, or a rebind loses the path.
  *
+ * <p>{@link #shiftForFirstAperture} is the storage-side twin of
+ * {@link net.alex.guzhenren.attachment.data.aperture.ApertureData#insertFirst}: when Hope Gu opens
+ * the first aperture ahead of a lone second one, every stored list and the Vital Gu slot slides up
+ * one position.
+ *
  * @author Alex
  * @version 1.0.0
  * @see ApertureService
@@ -106,11 +111,6 @@ public final class ApertureStorageService {
         return total;
     }
 
-    /**
-     * The storage-side twin of {@link net.alex.guzhenren.attachment.data.aperture.ApertureData
-     * #insertFirst}: when Hope Gu opens the first aperture ahead of a lone second one, every stored
-     * list and the Vital Gu slot slides up one position.
-     */
     public static void shiftForFirstAperture(@NotNull ServerPlayer p) {
         p.setData(ModAttachments.APERTURE_STORAGE, get(p).shiftRight());
     }

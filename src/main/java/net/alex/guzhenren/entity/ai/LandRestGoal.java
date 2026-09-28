@@ -15,11 +15,19 @@ import net.minecraft.world.phys.Vec3;
  *
  * <p>A requested landing finds the first ground below the entity, at most 64 blocks down, and takes it only
  * when vanilla pathfinding classifies it as walkable, so water, lava and damaging blocks never become a resting
- * place for a one-health Gu. Navigation brings the entity within 1.5 blocks of the spot and a direct drive finishes
- * the descent; only touchdown starts the 160 to 200 tick rest with cleared motion and occasional heading
- * changes. A Gu loaded mid-rest resumes a fresh rest without replaying its landing. Unsafe ground, a stalled
- * landing or a failed navigation target aborts through {@link RestingFlyingGuEntity#takeOff()}, so the goal
- * cannot wedge the entity in a non-flying phase.
+ * place for a one-health Gu. {@link #retargetGround} scans down from the Gu itself rather than reading the
+ * column heightmap: that top can be a canopy, an overhang or a roof above the Gu, which it could never settle
+ * on from below, and the scan stops as soon as it finds ground that is not {@link #isOpen} -- the
+ * {@code MOTION_BLOCKING} heightmap's own test, inverted: nothing to stand on and no fluid -- so only ground a
+ * walking mob would stand on is ever offered as a landing spot. Navigation brings the entity within 1.5 blocks
+ * of the spot and a direct drive finishes the descent: {@link #tickLanding} settles for the spot rather than
+ * on it, aiming just below the surface so the drive ends in a collision, which is what sets {@code onGround}
+ * for a Gu that never falls; only touchdown starts the 160 to 200 tick rest with cleared motion and occasional
+ * heading changes. {@link #canUse} lets the goal pick a rest back up directly for a Gu loaded mid-rest, which
+ * carries no landing request, so it resumes a fresh rest without replaying its landing. Unsafe ground, a
+ * stalled landing or a failed navigation target aborts through {@link RestingFlyingGuEntity#takeOff()} --
+ * {@link #stop} also takes off whenever a threat interrupts rest, even when its escape path cannot start --
+ * so the goal cannot wedge the entity in a non-flying phase.
  *
  * @author Alex
  * @version 1.0.0
@@ -51,7 +59,6 @@ public class LandRestGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        // A Gu loaded mid-rest carries no landing request; this goal picks its rest back up.
         return (gu.wantsToLand() || gu.phase() == RestingFlyingGuEntity.FlightPhase.RESTING)
                 && FleePlayerGoal.nearestThreat(gu) == null;
     }
@@ -78,7 +85,6 @@ public class LandRestGoal extends Goal {
     public void stop() {
         restRemaining = 0;
         gu.getNavigation().stop();
-        // A threat can interrupt rest even when its escape path cannot start.
         if (gu.phase() != RestingFlyingGuEntity.FlightPhase.FLYING) gu.takeOff();
     }
 
@@ -101,8 +107,6 @@ public class LandRestGoal extends Goal {
         } else if (landingTicks >= LANDING_TIMEOUT_TICKS) {
             gu.takeOff();
         } else if (gu.position().distanceTo(landingSpot) < ARRIVAL_RANGE) {
-            // Navigation settles near the spot, not on it. Aiming just below the surface makes the drive end in
-            // a collision, which is what sets onGround for a Gu that never falls.
             gu.getNavigation().stop();
             Vec3 drive = landingSpot.subtract(0.0D, TOUCHDOWN_DEPTH, 0.0D).subtract(gu.position());
             gu.setDeltaMovement(drive.normalize().scale(TOUCHDOWN_SPEED));
@@ -127,20 +131,15 @@ public class LandRestGoal extends Goal {
     }
 
     private boolean retargetGround() {
-        // Scan down from the Gu itself rather than read the column heightmap: that top can be a canopy, an
-        // overhang or a roof above the Gu, which it could never settle on from below.
         BlockPos.MutableBlockPos surface = gu.blockPosition().mutable();
         int lowest = Math.max(gu.level().getMinBuildHeight(), surface.getY() - GROUND_SCAN_DEPTH);
         while (surface.getY() > lowest && isOpen(surface.below())) surface.move(Direction.DOWN);
         if (isOpen(surface.below())) return false;
         landingSpot = Vec3.atBottomCenterOf(surface);
-        // The scan also stops on fluids and harmful blocks; only ground a walking mob would stand on is safe
-        // for a one-health Gu to settle on.
         return WalkNodeEvaluator.getPathTypeStatic(gu, surface) == PathType.WALKABLE
                 && gu.getNavigation().moveTo(landingSpot.x, landingSpot.y, landingSpot.z, LAND_SPEED_MODIFIER);
     }
 
-    /** The {@code MOTION_BLOCKING} heightmap's own test, inverted: nothing to stand on and no fluid. */
     @SuppressWarnings("deprecation")
     private boolean isOpen(BlockPos pos) {
         BlockState state = gu.level().getBlockState(pos);

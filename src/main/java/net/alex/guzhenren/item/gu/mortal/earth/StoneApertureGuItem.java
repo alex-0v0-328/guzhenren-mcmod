@@ -15,15 +15,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A Stone Aperture Gu [石窍蛊]: its target hits this rank's peak and petrifies -- never nourished, never struck again.
+ * A Stone Aperture Gu [石窍蛊]: its target hits this rank's peak and petrifies -- never nourished,
+ * never struck again.
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.ConsumedGuItem}, so it is tended, never feeds and
- * is taken by its own use. Three rungs register against this one class. The target is the PRIMARY
- * aperture whenever it is NORMAL; only a dead or stoned primary passes the gu on, and only to a
- * NORMAL second aperture. A rank mismatch on the primary does NOT pass it on -- the fall-through is
- * for a lost aperture, not for a wrong rank. The gate refuses no usable target, a rank mismatch on
- * the target, and a target already at the peak (that use would buy only the lock). The payout
- * delegates to {@link ApertureNourishService#petrify}.
+ * is taken by its own use. Three rungs register against this one class. {@link #stoneTarget} is the
+ * pure seam the unit tests pin: the target is the PRIMARY aperture whenever it is NORMAL; only a
+ * dead or stoned primary passes the gu on, and only to a NORMAL second aperture; nobody usable
+ * answers {@code NO_TARGET}. {@link #targetOf} maps that seam onto real list positions: a lone
+ * second aperture lives at position 0, and a missing slot counts as DEAD. A rank mismatch on the
+ * primary does NOT pass it on -- the fall-through is for a lost aperture, not for a wrong rank. The
+ * gate refuses no usable target, a rank mismatch on the target, and a target already at the peak
+ * (that use would buy only the lock). The payout delegates to {@link ApertureNourishService#petrify}.
  *
  * @author Alex
  * @version 1.0.0
@@ -42,21 +45,12 @@ public class StoneApertureGuItem extends ConsumedGuItem {
         super(properties, spec);
     }
 
-    /**
-     * The pure seam the unit tests pin: PRIMARY wins while it is NORMAL, the second aperture answers
-     * only when the primary is DEAD, and nobody usable answers {@code NO_TARGET}.
-     */
     public static int stoneTarget(@NotNull ApertureStatus primary, @NotNull ApertureStatus secondary) {
         if (primary == ApertureStatus.NORMAL) return ApertureData.PRIMARY;
         if (secondary == ApertureStatus.NORMAL) return ApertureData.SECONDARY;
         return NO_TARGET;
     }
 
-    /**
-     * Maps the seam's semantic slots onto real list positions: a lone second aperture lives at
-     * position 0, and a missing slot counts as DEAD -- a lost aperture is exactly what the
-     * fall-through exists for.
-     */
     private static int targetOf(Player player) {
         ApertureData data = ApertureService.get(player);
         int primary = data.firstIndex();

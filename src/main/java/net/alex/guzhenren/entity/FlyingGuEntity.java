@@ -24,12 +24,14 @@ import org.jetbrains.annotations.Nullable;
  *
  * <p>Extends {@link net.alex.guzhenren.entity.WildGuEntity}. A flying move control and flying path
  * navigation support the hover and random-flight goals. {@code seeks} is the one door: the base wants anyone,
- * a leaf narrows it.
+ * a leaf narrows it; {@link #wants} is the same test used both for starting and for keeping a target,
+ * so a player who turns spectator or leaves is let go.
  *
  * <p>⚠ {@code isNoGravity()} is a flat true on purpose. The flying move control only clears gravity
- * while it is actively moving the mob, and the hover goal stops the navigation. The fall check is
- * likewise neutralized: a Gu descends only under its own goals, so the fall distance that accrues on
- * the way down must never kill the one-health mote.
+ * while it is actively moving the mob, and the hover goal stops the navigation. {@link #checkFallDamage}
+ * likewise neutralizes the fall check: every descent is self-propelled (hover approach, landing goal,
+ * escape cone), so the accrued fall distance must never become damage and must never kill the
+ * one-health mote -- vanilla flyers such as bees and bats clear this check the same way.
  *
  * @author Alex
  * @version 1.0.0
@@ -76,7 +78,6 @@ public class FlyingGuEntity extends WildGuEntity {
         return level().getNearestPlayer(getX(), getY(), getZ(), DETECT_RANGE, this::wanted);
     }
 
-    /** The same test for starting and for keeping a target, so a player who turns spectator or leaves is let go. */
     public boolean wants(Player player) {
         return player.level() == level() && !player.isSpectator() && seeks(player);
     }
@@ -99,8 +100,5 @@ public class FlyingGuEntity extends WildGuEntity {
 
     @Override
     protected void checkFallDamage(double y, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
-        // Every descent is self-propelled (hover approach, landing goal, escape cone), so the accrued
-        // fall distance must never become damage; vanilla flyers such as bees and bats clear this
-        // check the same way.
     }
 }

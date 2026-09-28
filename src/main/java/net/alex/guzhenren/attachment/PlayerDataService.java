@@ -48,6 +48,14 @@ import org.jetbrains.annotations.NotNull;
  * copy} must carry {@code BORN} or the next login re-rolls brilliance. ⚠ A new death needs an {@code
  * onRespawn} line; its un-fire returns BARE values (soul 1, mind 0) the lethal check never fires on.
  *
+ * <p>{@link #dropHumanApertures}: a death that wipes the apertures shakes one Human Aperture [人窍]
+ * loose per aperture, each at its own rank, at the corpse; keepInventory deaths keep the apertures
+ * and drop nothing.
+ *
+ * <p>{@link #settleOfflineVitalLoss} waits out vanilla's 60-tick spawn invulnerability, which would
+ * swallow the 80% hurt, and settles one lost Gu per heartbeat so the next hurt clears the 10-tick
+ * hurt cooldown.
+ *
  * @author Alex
  * @version 1.0.0
  * @see ApertureService
@@ -116,10 +124,6 @@ public final class PlayerDataService {
         }
     }
 
-    /**
-     * A death that wipes the apertures shakes one Human Aperture [人窍] loose per aperture, each at its
-     * own rank, at the corpse. keepInventory deaths keep the apertures and drop nothing.
-     */
     private static void dropHumanApertures(@NotNull Player from) {
         ApertureData data = from.getData(ModAttachments.APERTURE);
         for (int i = 0; i < data.count(); i++) {
@@ -164,8 +168,6 @@ public final class PlayerDataService {
         PendingVitalPenalties.get(server).record(owner, stack);
     }
 
-    // Waits out vanilla's 60-tick spawn invulnerability, which would swallow the 80% hurt, and settles one
-    // lost Gu per heartbeat so the next hurt clears the 10-tick hurt cooldown.
     public static void settleOfflineVitalLoss(@NotNull ServerPlayer player) {
         if (player.tickCount <= OFFLINE_VITAL_SETTLE_AFTER_TICKS) return;
 

@@ -14,15 +14,16 @@ import org.jetbrains.annotations.Nullable;
  * The stream codecs this mod adds: an enum as its ordinal, and enum-keyed maps and sets.
  *
  * <p>Provides {@code ofEnum} (ordinal round-trip), {@code ofNullableEnum} (ordinal + 1, zero = unset),
- * {@code enumMap}, and {@code enumSet}. The nullable-enum idiom is what lets the two nullable
- * {@code GuPath} fields on {@code Aperture} travel on the wire without a {@code NONE} constant to
- * lean on. Used by the attachment stream codecs and the client-intent payloads.
+ * {@code enumMap}, and {@code enumSet}. Used by the attachment stream codecs and the client-intent payloads.
  *
  * <p>⚠ A nullable enum travels as its ordinal plus one, with zero meaning unset. No enum here has a
- * NONE constant to lean on, so this is where "has not chosen" becomes representable on the wire.
+ * NONE constant to lean on, so this is where "has not chosen" becomes representable on the wire -- it
+ * is what lets the two nullable {@code GuPath} fields on {@code Aperture} travel.
  *
- * <p>⚠ Decoding rejects an out-of-range ordinal with a {@code DecoderException}: the client-intent
- * payloads read enums through these codecs, so a forged ordinal must fail as a malformed packet.
+ * <p>⚠ Decoding rejects an out-of-range ordinal with a {@code DecoderException} ({@link #byOrdinal}):
+ * the client-intent payloads read enums through these codecs and a forged packet can carry any
+ * {@code VAR_INT}, so it fails as a malformed packet that disconnects the sender with a readable reason
+ * instead of a bare {@code ArrayIndexOutOfBoundsException}.
  *
  * @author Alex
  * @version 1.0.0
@@ -53,8 +54,6 @@ public final class ModStreamCodecs {
         return i == 0 ? null : byOrdinal(type, type.getEnumConstants(), i - 1);
     }
 
-    // Client-intent payloads decode through here, and a forged packet can carry any VAR_INT. Rejecting it
-    // as a malformed packet disconnects the sender with a readable reason instead of a bare AIOOBE.
     private static <E extends Enum<E>> E byOrdinal(Class<E> type, E[] values, int ordinal) {
         if (ordinal < 0 || ordinal >= values.length) {
             throw new DecoderException(type.getSimpleName() + " ordinal " + ordinal + " is outside 0.."

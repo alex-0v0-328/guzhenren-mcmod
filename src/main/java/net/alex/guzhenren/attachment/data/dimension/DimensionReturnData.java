@@ -16,6 +16,11 @@ import org.jetbrains.annotations.NotNull;
  * <p>The compact constructor rejects a null outer {@code point}; the nested compact constructor rejects
  * a null level key.
  *
+ * <p>{@link ReturnPoint} is one saved location: dimension, position, rotation, and whether the
+ * player was flying on entry. Flight permission itself is not saved -- the anchored-dimension grant
+ * is a transient attribute modifier, so a record written before it may still carry a {@code mayfly}
+ * key that decoding ignores.
+ *
  * @author Alex
  * @version 1.0.0
  * @see net.alex.guzhenren.attachment.service.dimension.DimensionTravelService
@@ -55,11 +60,6 @@ public record DimensionReturnData(Optional<ReturnPoint> point) {
         return DEFAULT;
     }
 
-    /**
-     * One saved location: dimension, position, rotation, and whether the player was flying on entry.
-     * Flight permission itself is not saved -- the anchored-dimension grant is a transient attribute
-     * modifier, so a record written before it may still carry a {@code mayfly} key that decoding ignores.
-     */
     public record ReturnPoint(ResourceKey<Level> level, double x, double y, double z, float yaw, float pitch,
             boolean flying) {
 

@@ -24,8 +24,9 @@ import org.jetbrains.annotations.Nullable;
  * word the same fact differently somewhere else. If two surfaces say a thing, the sentence belongs in
  * this file. Brackets ({@code [无]}, {@code [太日阳莽体]}) are baked into the lang value, never assembled here.
  *
- * <p>⚠ Two decimals on lifespan, not one: a hundredth of a year is twelve real seconds, the coarsest
- * step the eye still reads as movement.
+ * <p>⚠ Two decimals on lifespan, not one ({@link #lifespan(double, double)}): a hundredth of a year is
+ * twelve real seconds at ordinary speed, the coarsest step the eye still reads as movement; a tenth
+ * stands still for two minutes.
  *
  * @author Alex
  * @version 1.0.0
@@ -121,10 +122,6 @@ public final class ModDisplayText {
         return line;
     }
 
-    /**
-     * ⚠ Two decimals, not one: a hundredth of a year is twelve real seconds at ordinary speed, which is
-     * the coarsest step the eye still reads as movement. A tenth stands still for two minutes.
-     */
     public static MutableComponent lifespan(double lifespan, double age) {
         return Component.translatable("guzhenren.display.lifespan", years(lifespan), years(age));
     }

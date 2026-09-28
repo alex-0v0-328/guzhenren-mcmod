@@ -43,6 +43,10 @@ import org.jetbrains.annotations.Nullable;
  * Attainment [气道造诣], ...) is a label plus its rows, never a value; attainment [造诣] and Dao
  * marks [道痕] belong to the path-attainment list [流派造诣]. Do not widen {@code Entry}.
  *
+ * <p>⚠ In {@link ApertureIndex}, {@code number} is the display ordinal (1 = first aperture, 2 =
+ * second), while {@code index} is the real list position -- a lone second aperture shows number 2
+ * but lives at index 0.
+ *
  * @author Alex
  * @version 1.0.0
  * @see ModDisplayText
@@ -60,10 +64,6 @@ public final class InfoModel {
     public sealed interface Entry {}
 
     //region Aperture
-    /**
-     * ⚠ {@code number} is the display ordinal (1 = first aperture, 2 = second), while {@code index} is
-     * the real list position -- a lone second aperture shows number 2 but lives at index 0.
-     */
     public record ApertureIndex(int number, int index) implements Entry {}
 
     public record Blank() implements Entry {}

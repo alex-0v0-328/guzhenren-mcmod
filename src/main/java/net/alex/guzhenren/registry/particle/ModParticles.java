@@ -15,6 +15,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  * {@code ModParticleDescriptionProvider}; textures live under
  * {@code textures/particle/} as Alex's hand-drawn finals.
  *
+ * <p>{@link #SHOCKWAVE_RING} is the dash trail: rings listed small-to-large, each blooming in place
+ * where it was dropped along the dash path (planted, Alex 2026-09-20), hidden from the dashing
+ * player's own first-person camera -- the trail is for third-person and bystanders.
+ * {@link #IMPACT_RING} is the punch trail: the same rings listed small-to-large, planted along the
+ * punch ray from the strike point behind the target.
+ *
  * @author Alex
  * @version 1.0.0
  * @see net.alex.guzhenren.client.particle.RingParticle
@@ -27,17 +33,8 @@ public final class ModParticles {
 
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(Registries.PARTICLE_TYPE, Guzhenren.MOD_ID);
-    /**
-     * The dash trail: rings listed small-to-large, each blooming in place where it was dropped
-     * along the dash path (planted, Alex 2026-09-20). Hidden from the dashing player's own
-     * first-person camera -- the trail is for third-person and bystanders.
-     */
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SHOCKWAVE_RING = PARTICLE_TYPES.register(
             "shockwave_ring", () -> new SimpleParticleType(false));
-    /**
-     * The punch trail: the same rings listed small-to-large, planted along the punch ray from the
-     * strike point behind the target.
-     */
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> IMPACT_RING = PARTICLE_TYPES.register(
             "impact_ring", () -> new SimpleParticleType(false));
 

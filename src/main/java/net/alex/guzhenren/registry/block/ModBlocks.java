@@ -19,6 +19,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  * {@link net.alex.guzhenren.registry.item.ModItems} so the creative tab's single item walk
  * still sees it.
  *
+ * <p>In {@link #SPIRIT_SPRING}, it is safe to call {@code get()} on
+ * {@link net.alex.guzhenren.registry.fluid.ModFluids#SPIRIT_SPRING} here: vanilla registers FLUID
+ * before BLOCK, so the holder is filled.
+ *
  * @author Alex
  * @version 1.0.0
  * @since 1.0.0
@@ -30,7 +34,6 @@ public final class ModBlocks {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Guzhenren.MOD_ID);
     public static final DeferredBlock<SpiritSpringBlock> SPIRIT_SPRING = BLOCKS.register("spirit_spring",
-            // Safe to get() here: vanilla registers FLUID before BLOCK, so the holders are filled.
             () -> new SpiritSpringBlock(ModFluids.SPIRIT_SPRING.get(), BlockBehaviour.Properties.of()
                     .mapColor(MapColor.WATER)
                     .replaceable()

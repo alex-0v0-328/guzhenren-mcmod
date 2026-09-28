@@ -15,8 +15,9 @@ import org.jetbrains.annotations.Nullable;
  * NPC-only. No sibling mod may add a race.
  *
  * <p>⚠ A race can be changed, so both halves of that standing must be exactly revocable: the marks are
- * booked under {@code RACE} rather than {@code NATURAL}, and the attainment MOVES (a shift) rather than
- * being set. {@code Race.HUMAN} is not {@link GuPath#HUMAN} [人道].
+ * booked under {@code RACE} rather than {@code NATURAL}, and the attainment MOVES (a shift,
+ * {@link #TALENT_SHIFT}) rather than being set, so leaving the race can undo it exactly.
+ * {@code Race.HUMAN} is not {@link GuPath#HUMAN} [人道].
  *
  * @author Alex
  * @version 1.0.0
@@ -41,9 +42,6 @@ public enum Race implements StringRepresentable, EnumTranslatable {
     SNOWMEN(GuPath.ICE_SNOW);
 
     public static final long TALENT_MARKS = 10L;
-    /**
-     * How far the race moves its path's attainment. ⚠ A SHIFT, so leaving the race can undo it exactly.
-     */
     public static final int TALENT_SHIFT = 1;
     public static final Codec<Race> CODEC = StringRepresentable.fromEnum(Race::values);
     private static final String KEY_PREFIX = "guzhenren.enum.body.race.";

@@ -35,6 +35,11 @@ import org.jetbrains.annotations.Nullable;
  * <p>⚠ The billing step runs decay, then auto-feed, then warn. Nothing in the code makes that order
  * look load-bearing, and swapping any two of them changes which Gu survive a day.
  *
+ * <p>⚠ {@link #canBeVital}: a Gu taken by its own use may never be bound, or the slot would lose it on
+ * the very first click. ⚠ {@link #cooldownStamp}: stamped BACK by the share a hastened clock has
+ * already served, because the stamp is read again long after the form has ended -- scaling the window
+ * on the way out would recompute a live cooldown.
+ *
  * @author Alex
  * @version 1.0.0
  * @see GuSpec
@@ -70,9 +75,6 @@ public abstract class TendedGuItem extends MortalGuItem {
 
     protected int feedUnits(ItemStack food) { return spec.feedUnits(food); }
 
-    /**
-     * ⚠ A Gu taken by its own use may never be bound: the slot would lose it on the very first click.
-     */
     public boolean canBeVital() { return true; }
     //endregion
 
@@ -288,10 +290,6 @@ public abstract class TendedGuItem extends MortalGuItem {
 
     private static long gameTime(ServerPlayer player) { return player.server.overworld().getGameTime(); }
 
-    /**
-     * ⚠ Stamped BACK by the share a hastened clock has already served, because the stamp is read again
-     * long after the form has ended. Scaling the window on the way out would recompute a live cooldown.
-     */
     private static long cooldownStamp(ServerPlayer player, int window) {
         return gameTime(player) - (window - PathTimeFlowService.waited(player, window));
     }

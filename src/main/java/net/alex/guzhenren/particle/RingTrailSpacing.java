@@ -6,6 +6,13 @@ package net.alex.guzhenren.particle;
  * movement arrives in uneven chunks (Epic Fight locks movement and lets the animation drive it),
  * so a per-tick drop clusters the rings at the start and end of the path (Alex, 2026-09-20);
  * spacing by measured travel keeps the trail uniform across windups, jumps and wall truncations.
+ * {@link #SPACING} is the distance between two neighbouring rings on the dash path, in blocks.
+ *
+ * <p>{@link #drops} takes the distance travelled since the last drop ({@code carry}, always
+ * {@code < SPACING}), this tick's movement segment length ({@code segLen}), and the rings the burst
+ * may still drop ({@code ringsLeft}), and returns a {@link Drops} of where on the segment the rings
+ * drop, plus the new carry and remaining ring budget; {@link Drops#offsets} are the ascending
+ * offsets along this tick's segment where rings drop.
  *
  * @author Alex
  * @version 1.0.0
@@ -16,15 +23,8 @@ final class RingTrailSpacing {
 
     private RingTrailSpacing() {}
 
-    /** Distance between two neighbouring rings on the dash path, in blocks. */
     static final double SPACING = 2.0D;
 
-    /**
-     * @param carry     distance travelled since the last drop (always {@code < SPACING})
-     * @param segLen    length of this tick's movement segment
-     * @param ringsLeft rings the burst may still drop
-     * @return where on the segment the rings drop, plus the new carry and remaining ring budget
-     */
     static Drops drops(double carry, double segLen, int ringsLeft) {
         double along = SPACING - carry;
         int count = 0;
@@ -35,6 +35,5 @@ final class RingTrailSpacing {
         return new Drops(offsets, newCarry, ringsLeft - count);
     }
 
-    /** @param offsets ascending offsets along this tick's segment where rings drop */
     record Drops(double[] offsets, double carry, int ringsLeft) {}
 }

@@ -36,6 +36,9 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
  * registration cannot leave a key behind pointing at nothing. The value column aligns per
  * {@code add*()} method to that method's longest key.
  *
+ * <p>In {@link #addItemKeys}, one {@code addBlock} entry names the Spirit Spring block, its
+ * BlockItem and the fluid type together, since they share one description id.
+ *
  * @author Alex
  * @version 1.0.0
  * @see net.alex.guzhenren.datagen.lang.ZhCnLanguageProvider
@@ -383,7 +386,6 @@ public class EnUsLanguageProvider extends LanguageProvider {
         addItem(ModItems.SWEET_LIQUOR, "Sweet Liquor");
         addItem(ModItems.BITTER_LIQUOR, "Bitter Liquor");
         addItem(ModItems.SPICY_LIQUOR, "Spicy Liquor");
-        // One entry names the block, its BlockItem and the fluid type (shared description id).
         addBlock(ModBlocks.SPIRIT_SPRING, "Spirit Spring");
 
         addItem(ModItems.SWORD_QI_1, "Sword Qi I");

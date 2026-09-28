@@ -19,7 +19,8 @@ import org.jetbrains.annotations.Nullable;
  * <p>Extends {@link net.alex.guzhenren.item.material.GuMaterialItem}. The essence value comes from registration.
  * The gate refuses an unawakened player (the service write is a silent no-op there) and a full pool. ☠ It also
  * owns every automatic draw on carried stones -- the top-up line (refill below 50%, stop at 80%) and the
- * {@code drawStones} path used by the refinement menu and the Elder Gu vault. A second copy of the top-up
+ * {@code drawStones} path used by the refinement menu and the Elder Gu vault. {@link #topUp} refills
+ * from carried stones, and only once the pool has fallen below the line. A second copy of the top-up
  * line drifts, and the pool silently clamps whatever a caller pours past the cap.
  *
  * <p>⚠ It refuses the unawakened instead of quietly doing nothing: the stone would otherwise be eaten for free.
@@ -82,9 +83,6 @@ public class PrimevalStoneItem extends GuMaterialItem {
                 - ApertureEssenceService.currentEssence(p);
     }
 
-    /**
-     * Refills from carried stones, and only once the pool has fallen below the line.
-     */
     public static void topUp(ServerPlayer player) {
         if (needsTopUp(player)) pourInto(player, topUpDeficit(player));
     }

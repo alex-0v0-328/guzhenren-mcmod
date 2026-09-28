@@ -14,10 +14,12 @@ import org.jetbrains.annotations.Nullable;
  * The escape reaction shared by flying Gu with a landing and rest lifecycle.
  *
  * <p>A non-creative, non-spectator player within six blocks is a threat. The goal holds until that
- * player is farther than ten blocks. The escape point uses {@link AirAndWaterRandomPos} because the
- * normal ground-only random position helper returns no point for a flying mob in open air. A resting
- * or landing Gu takes off before the escape navigation starts, so a threat cannot leave the entity
- * stuck in a ground phase.
+ * player is farther than ten blocks; {@link #canContinueToUse} re-checks every tick, since a player
+ * who switches to creative or spectator, or leaves the dimension, is no longer the threat the goal
+ * started from. The escape point uses {@link AirAndWaterRandomPos} because the normal ground-only
+ * random position helper returns no point for a flying mob in open air. A resting or landing Gu
+ * takes off before the escape navigation starts, so a threat cannot leave the entity stuck in a
+ * ground phase.
  *
  * @author Alex
  * @version 1.0.0
@@ -53,8 +55,6 @@ public class FleePlayerGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        // Re-checked every tick: a player who switches to creative or spectator, or leaves the dimension, is
-        // no longer the threat the goal started from.
         return threat != null && threat.isAlive() && isThreat(threat) && threat.level() == gu.level()
                 && gu.distanceTo(threat) < RestingFlyingGuEntity.ESCAPE_RANGE;
     }

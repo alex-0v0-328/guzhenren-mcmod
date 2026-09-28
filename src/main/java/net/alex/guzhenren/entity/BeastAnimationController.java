@@ -11,7 +11,12 @@ import software.bernie.geckolib.animation.state.BoneSnapshot;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 
-/** Maps synchronized beast actions onto GeckoLib 4's transition and playback clocks. */
+/**
+ * Maps synchronized beast actions onto GeckoLib 4's transition and playback clocks.
+ *
+ * <p>In {@link #process}, GeckoLib polls at transition tick zero: initialize then seek in the same
+ * frame, otherwise a late tracker either has no pose or briefly displays the first frame.
+ */
 
 final class BeastAnimationController<T extends GeoAnimatable> extends AnimationController<T> {
 
@@ -43,8 +48,6 @@ final class BeastAnimationController<T extends GeoAnimatable> extends AnimationC
         super.process(model, state, bones, snapshots, tick, crashIfBoneMissing);
         if (!this.action.get().loops() && this.getAnimationState() == State.TRANSITIONING
                 && this.getCurrentAnimation() != null) {
-            // GeckoLib polls at transition tick zero. Initialize then seek in the same frame,
-            // otherwise a late tracker either has no pose or briefly displays the first frame.
             this.boneAnimationQueues.clear();
             super.process(model, state, bones, snapshots, tick, crashIfBoneMissing);
         }

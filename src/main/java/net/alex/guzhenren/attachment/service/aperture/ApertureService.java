@@ -39,6 +39,15 @@ import org.jetbrains.annotations.Nullable;
  * holder -- it appends; the caller gates. ⚠ {@code reconcileTalentPaths} (ten-extreme Dao marks plus
  * human qi) is one of the two cross-domain grants; a third is the coordinator threshold.
  *
+ * <p>{@link #status(Player, int)} is the one derivation of {@link ApertureStatus}: Zombie,
+ * Half-Zombie and petrified apertures are DEAD; every other aperture is NORMAL.
+ *
+ * <p>{@link #openSecondary} is the only opener of a second aperture: Grade-A at 8/10, this rank's
+ * first stage and a full pool. Works with NO aperture at all -- the lone second aperture then IS the
+ * whole list until Hope Gu inserts the first one ahead of it. A higher-rank Second Aperture Gu
+ * overwrites what is already there, back to the first stage, while the bound paths stay -- the Vital
+ * Gu holding them is untouched in storage.
+ *
  * @author Alex
  * @version 1.0.0
  * @see ApertureData
@@ -82,10 +91,6 @@ public final class ApertureService {
 
     public static boolean hasAperture(@NotNull Player p) { return get(p).hasAperture(); }
 
-    /**
-     * The one derivation of {@link ApertureStatus}: Zombie, Half-Zombie and petrified apertures are
-     * DEAD; every other aperture is NORMAL.
-     */
     public static @NotNull ApertureStatus status(@NotNull Player p, int index) {
         Aperture aperture = aperture(p, index);
         if (BodyService.isZombieOrHalfZombie(p) || aperture.petrified()) return ApertureStatus.DEAD;
@@ -250,13 +255,6 @@ public final class ApertureService {
         open(player, Aperture.openedAt(baseEssence));
     }
 
-    /**
-     * The only opener of a second aperture: Grade-A at 8/10, this rank's first stage and a full pool.
-     * Works with NO aperture at all -- the lone second aperture then IS the whole list until Hope Gu
-     * inserts the first one ahead of it. A higher-rank Second Aperture Gu overwrites what is already
-     * there, back to the first stage, while the bound paths stay -- the Vital Gu holding them is
-     * untouched in storage.
-     */
     public static void openSecondary(@NotNull ServerPlayer player, @NotNull Rank rank) {
         ApertureData data = get(player);
         Aperture opened = Aperture.secondaryOpened(rank);

@@ -32,10 +32,71 @@ import software.bernie.geckolib.animatable.GeoEntity;
  *
  * <p>Mirrors {@link WildBoarEntity}'s contract: every pose is a synchronized {@link Action} with a
  * server game-time start and a monotonic sequence, so late trackers replay one-shot actions from
- * their first frame. Damage lands on animation hit frames, never on contact. Subclasses supply the
- * timing constants, the attack selection and the heavy-attack physics; this base supplies target
+ * their first frame. {@link #action} exposes the current one, including one-shot actions for late
+ * trackers; {@link #actionTicks} is the elapsed server game ticks since that start; and
+ * {@link #actionSequence} is the monotonic sequence used to distinguish repeated actions of one
+ * type. Damage lands on animation hit frames, never on contact. Subclasses supply the timing
+ * constants, the attack selection and the heavy-attack physics; this base supplies target
  * validation, directional hurt poses, the roar-on-first-lock rule, the night-sleep / daytime-rest
  * ambient chain, death timing and persistence.
+ *
+ * <p>The timing constants: {@link #swipeHitTick} is the tick at which the swipe's hit frame lands;
+ * {@link #swipeActionTicks} the tick at which the swipe action ends and the pose returns to idle;
+ * {@link #roarActionTicks} the length of the first-lock roar; {@link #lieDownActionTicks} the length
+ * of the lie-down transition into lie/sleep; {@link #getUpActionTicks} the length of the get-up
+ * transition back to idle; and {@link #deathRemoveTick} the death-tick at which the corpse is
+ * removed, covering the full death animation. The attack selection: {@link #chooseAttack} selects
+ * and starts an attack against the current target, called while idle; {@link #swipeDamage} and
+ * {@link #heavyDamage} are the flat damage, before armor; {@link #swipeKnockback} and
+ * {@link #swipeUpward} are the swipe's horizontal and upward knockback. The heavy-attack physics:
+ * {@link #tickHeavyAttack} advances the heavy attack, with hit frames and movement physics living
+ * there; {@link #heavyKeepsMomentum} says whether the heavy attack keeps its horizontal momentum at
+ * a given tick (pounce flight) -- false by default. {@link #huntsActively} says whether the beast
+ * seeks targets on its own or only retaliates; {@link #pursuitSpeed} is the movement-speed
+ * multiplier applied to the pursuit navigation; {@link #pickDaytimeAmbient} picks the daytime
+ * ambient action this beast may take, with relative weights. {@link #cullExtraHeight} and
+ * {@link #cullHorizontalInflate} extend the render culling box (extra height, and symmetric
+ * horizontal inflation) so rearing poses and tail sweeps are not clipped.
+ *
+ * <p>{@link #startAction} starts a server action: attacks refuse to start while another attack is
+ * in progress or under cooldown, and the target is captured immediately so a new attacker cannot
+ * redirect an in-progress attack.
+ *
+ * <p>In {@link #registerGoals}, {@link HuntGoal} is registered unconditionally: {@code registerGoals}
+ * runs inside the {@code Mob} constructor, before subclass fields like the bear species are
+ * assigned, so the temperament check must happen at tick time.
+ *
+ * <p>In {@link #customServerAiStep}, a beast that becomes engaged while in an ambient pose is
+ * snapped straight out of it without a get-up transition. In {@link #tickAction}, {@code DEATH} and
+ * {@code IDLE} are both no-ops there: death is advanced by {@code tickDeath} and remains
+ * synchronized until removal.
+ *
+ * <p>In {@link #validateTarget}, a completed hit still needs its recovery pose, even when that hit
+ * killed the target.
+ *
+ * <p>{@link #sweptHit} is the shared swept-body hit test for lunging attacks (tiger pounce).
+ * {@link #canStartLunge} is the collision-and-ground scan ahead of a lunging attack; it refuses
+ * walls and ledges.
+ *
+ * <p>In {@link #setTarget}, the first lock of an engagement is announced by the roar; it never
+ * interrupts a running action. In {@link #hurt}, a running hurt pose is never restarted: it
+ * outlasts vanilla's 10-tick damage window, so restarting it would let steady hits stun-lock the
+ * beast out of every attack. {@link #directionalHurt} picks the hurt pose from the attacker's
+ * bearing: an attacker on this beast's left side knocks the head to the beast's right, playing
+ * {@code hurt_right}, and vice versa.
+ *
+ * <p>{@link #rollAmbient} picks and starts an ambient action after a completed wander; nothing
+ * happens on a miss.
+ *
+ * <p>{@link HuntGoal} is the active target search for hunting species: the nearest valid player or
+ * prey animal. In {@link HuntGoal#canUse}, any awake, non-combat pose notices prey -- including
+ * sitting, lying, rolling and scratching; only actual sleep, the get-up transition and ongoing
+ * combat skip hunting. {@link RestGoal} holds navigation still while the beast sits, lies, sleeps,
+ * rolls or scratches.
+ *
+ * <p>{@link Action} is the set of synchronized poses: the ordinal is the wire id, and subclasses
+ * map the poses onto their animation set. {@link Action#isAmbient} marks the rest poses
+ * (sit/lie/sleep/roll/scratch) that combat engagement interrupts.
  */
 
 public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
@@ -77,66 +138,48 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         super(type, level);
     }
 
-    /** Tick at which the swipe's hit frame lands. */
     protected abstract int swipeHitTick();
 
-    /** Tick at which the swipe action ends and the pose returns to idle. */
     protected abstract int swipeActionTicks();
 
-    /** Length of the first-lock roar. */
     protected abstract int roarActionTicks();
 
-    /** Length of the lie-down transition into lie/sleep. */
     protected abstract int lieDownActionTicks();
 
-    /** Length of the get-up transition back to idle. */
     protected abstract int getUpActionTicks();
 
-    /** Death-tick at which the corpse is removed (covers the full death animation). */
     protected abstract int deathRemoveTick();
 
-    /** Flat swipe damage, before armor. */
     protected abstract float swipeDamage();
 
-    /** Flat heavy-attack damage, before armor. */
     protected abstract float heavyDamage();
 
-    /** Whether this beast seeks targets on its own (true) or only retaliates (false). */
     protected abstract boolean huntsActively();
 
-    /** Movement-speed multiplier applied to the pursuit navigation. */
     protected abstract double pursuitSpeed();
 
-    /** Selects and starts an attack against the current target; called while idle. */
     protected abstract void chooseAttack(LivingEntity target);
 
-    /** Advances the heavy attack; hit frames and movement physics live here. */
     protected abstract void tickHeavyAttack(long ticks);
 
-    /** Whether the heavy attack keeps its horizontal momentum at this tick (pounce flight). */
     protected boolean heavyKeepsMomentum(long ticks) {
         return false;
     }
 
-    /** Daytime ambient actions this beast may pick, with relative weights. */
     protected abstract Action pickDaytimeAmbient(double roll);
 
     protected abstract SoundEvent roarSound();
 
     protected abstract float roarPitch();
 
-    /** Extra height added to the render culling box so rearing poses are not clipped. */
     protected abstract double cullExtraHeight();
 
-    /** Symmetric horizontal inflation of the render culling box (tail sweep, rearing width). */
     protected abstract double cullHorizontalInflate();
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new CombatGoal(this));
-        // Registered unconditionally: registerGoals runs inside the Mob constructor, before subclass
-        // fields like the bear species are assigned, so the temperament check must happen at tick time.
         this.goalSelector.addGoal(2, new HuntGoal(this));
         this.goalSelector.addGoal(4, new RestGoal(this));
         this.goalSelector.addGoal(6, new WanderGoal(this));
@@ -155,19 +198,16 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         builder.define(DATA_PURSUING, false);
     }
 
-    /** Current synchronized action, including one-shot actions for late trackers. */
     public Action action() {
         return Action.fromId(this.entityData.get(DATA_ACTION));
     }
 
-    /** Elapsed server game ticks since the synchronized action start. */
     public long actionTicks() {
         if (this.action() == Action.IDLE) return 0L;
         long elapsed = this.level().getGameTime() - this.entityData.get(DATA_ACTION_START);
         return Math.max(0L, elapsed);
     }
 
-    /** Monotonic action sequence used to distinguish repeated actions of one type. */
     public int actionSequence() {
         return this.entityData.get(DATA_ACTION_SEQUENCE);
     }
@@ -184,10 +224,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         return this.entityData.get(DATA_PURSUING);
     }
 
-    /**
-     * Starts a server action. Attacks refuse to start while another attack is in progress or under
-     * cooldown; the target is captured now so a new attacker cannot redirect an in-progress attack.
-     */
     public boolean startAction(Action next) {
         if (this.level().isClientSide() || next == null || this.isDeadOrDying() || this.action().isAttack()) {
             return false;
@@ -252,7 +288,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         this.entityData.set(DATA_PURSUING, this.getTarget() != null);
         Action current = this.action();
         if (this.getTarget() != null && current.isAmbient()) {
-            // Being engaged snaps the beast out of any rest pose without a get-up transition.
             this.finishAction();
             current = this.action();
         }
@@ -314,9 +349,7 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
             case BACK_SCRATCH -> {
                 if (ticks >= BACK_SCRATCH_ACTION_TICKS) this.finishAction();
             }
-            case DEATH, IDLE -> {
-                // Death is advanced by tickDeath and remains synchronized until removal.
-            }
+            case DEATH, IDLE -> {}
         }
     }
 
@@ -328,13 +361,10 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
                 this.directionOrFacing(target));
     }
 
-    /** Horizontal knockback strength of the swipe. */
     protected abstract double swipeKnockback();
 
-    /** Upward knockback component of the swipe. */
     protected abstract double swipeUpward();
 
-    /** Shared swept-body hit test for lunging attacks (tiger pounce). */
     protected boolean sweptHit(LivingEntity target, Vec3 from, Vec3 to) {
         AABB targetBox = target.getBoundingBox();
         double halfWidth = this.getBbWidth() * 0.5D;
@@ -381,7 +411,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         if (!this.canAttackTarget(target)) {
             this.setTarget(null);
             this.lostSightTicks = 0;
-            // A completed hit still needs its recovery pose, even when that hit killed the target.
             if (this.action() == Action.ROAR || (this.action().isAttack() && !this.heavyHit)) this.finishAction();
             return;
         }
@@ -405,7 +434,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
                 && (player.isSpectator() || player.isCreative() || this.level().getDifficulty() == Difficulty.PEACEFUL));
     }
 
-    /** Collision-and-ground scan ahead of a lunging attack; refuses walls and ledges. */
     protected boolean canStartLunge(LivingEntity target, double maxDistance) {
         if (!this.canAttackTarget(target) || !this.onGround() || !this.hasLineOfSight(target)) return false;
         Vec3 direction = this.directionTo(target);
@@ -461,7 +489,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
     public void setTarget(@Nullable LivingEntity target) {
         LivingEntity previous = this.getTarget();
         super.setTarget(target);
-        // First lock of an engagement is announced by the roar; it never interrupts a running action.
         if (target != null && previous == null && !this.level().isClientSide() && !this.isDeadOrDying()
                 && (this.action() == Action.IDLE || this.action().isAmbient())) {
             this.setActionWithoutTarget(Action.ROAR);
@@ -478,8 +505,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
             this.lostSightTicks = 0;
         }
         Action current = this.action();
-        // A running hurt pose is never restarted: it outlasts vanilla's 10-tick damage window, so
-        // restarting it would let steady hits stun-lock the beast out of every attack.
         if (!current.isAttack() && current != Action.DEATH && current != Action.ROAR
                 && current != Action.HURT_LEFT && current != Action.HURT_RIGHT) {
             this.setActionWithoutTarget(this.directionalHurt(attacker));
@@ -487,10 +512,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         return true;
     }
 
-    /**
-     * Picks the hurt pose from the attacker's bearing: an attacker on this beast's left side knocks
-     * the head to the beast's right, playing {@code hurt_right}, and vice versa.
-     */
     private Action directionalHurt(@Nullable Entity attacker) {
         if (attacker == null) return Action.HURT_LEFT;
         double dx = attacker.getX() - this.getX();
@@ -599,7 +620,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
     protected abstract SoundEvent stepSound();
 
-    /** Picks and starts an ambient action after a completed wander; nothing happens on a miss. */
     private void rollAmbient() {
         if (this.action() != Action.IDLE || this.getTarget() != null || this.isDeadOrDying() || !this.onGround()) {
             return;
@@ -649,7 +669,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         }
     }
 
-    /** Active target search for hunting species: the nearest valid player or prey animal. */
     private static final class HuntGoal extends Goal {
 
         private static final int SCAN_INTERVAL_TICKS = 10;
@@ -661,8 +680,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
         @Override
         public boolean canUse() {
-            // Any awake, non-combat pose notices prey — including sitting, lying, rolling and
-            // scratching; only actual sleep, the get-up transition and ongoing combat skip hunting.
             Action action = this.beast.action();
             return this.beast.huntsActively() && this.beast.getTarget() == null
                     && action != Action.SLEEP && action != Action.GET_UP && action != Action.DEATH
@@ -695,7 +712,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         }
     }
 
-    /** Holds navigation still while the beast sits, lies, sleeps, rolls or scratches. */
     private static final class RestGoal extends Goal {
 
         private final BeastEntity beast;
@@ -749,7 +765,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
         }
     }
 
-    /** Synchronized poses. The ordinal is the wire id; subclasses map the poses onto their animation set. */
     public enum Action {
 
         IDLE(true, false, false),
@@ -781,7 +796,6 @@ public abstract class BeastEntity extends PathfinderMob implements GeoEntity {
 
         public boolean isAttack() { return this.attack; }
 
-        /** Rest poses (sit/lie/sleep/roll/scratch) that combat engagement interrupts. */
         public boolean isAmbient() { return this.ambient; }
 
         private byte id() { return (byte)this.ordinal(); }

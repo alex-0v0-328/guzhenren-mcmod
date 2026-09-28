@@ -26,6 +26,11 @@ import org.jetbrains.annotations.NotNull;
  * counts it via {@link AttackContributor#attackBonus}. ⚠ The zombie bonus rides {@code
  * BodyData.zombieTier}, NOT a MobEffect (permanent 僵 has none; command tier -1 gets NO attack).
  *
+ * <p>{@link #showsImpactRing(double)} tests the attack-panel value against
+ * {@link #IMPACT_RING_ATTACK_THRESHOLD}, at and above which a landed Epic-Fight bare-hand/fist punch
+ * spawns the shockwave ring (Alex, 2026-09-19); read as the panel number, so only fist-category
+ * weapon damage ever rides along with the strength bonus.
+ *
  * @author Alex
  * @version 1.0.0
  * @see BodyHealthService
@@ -41,11 +46,6 @@ public final class BodyAttackService {
     private static final ResourceLocation MODIFIER_ID =
             Guzhenren.id("strength_attack_damage");
     public static final double ZOMBIE_ATTACK_BASE = 5.0D;
-    /**
-     * Attack-panel value at and above which a landed Epic-Fight bare-hand/fist punch spawns the
-     * shockwave ring (Alex, 2026-09-19). Read as the panel number, so only fist-category weapon
-     * damage ever rides along with the strength bonus.
-     */
     public static final double IMPACT_RING_ATTACK_THRESHOLD = 16.0D;
 
     public static boolean showsImpactRing(double attackDamage) {

@@ -24,6 +24,9 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
  * <p>All checks are server-side. The few events that also fire on the client are guarded with
  * {@code !level.isClientSide()} so action is taken exactly once per interaction.
  *
+ * <p>In {@link #onPlayerTick}, leaving by any route -- exit, vanilla {@code /tp}, another mod's
+ * teleport -- drops the flight grant.
+ *
  * @author Alex
  * @version 1.0.0
  * @see net.alex.guzhenren.attachment.service.dimension.DimensionTravelService
@@ -125,7 +128,6 @@ public final class TreasureYellowHeavenGuardEvents {
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         if (!inTyh(player)) {
-            // Leaving by any route -- exit, vanilla /tp, another mod's teleport -- drops the flight grant.
             if (!ModDimensions.ANCHORED_DIMENSIONS.containsKey(player.level().dimension())) {
                 DimensionTravelService.revokeFlight(player);
             }

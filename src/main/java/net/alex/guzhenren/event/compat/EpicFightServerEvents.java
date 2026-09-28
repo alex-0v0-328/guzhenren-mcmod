@@ -20,6 +20,13 @@ import yesman.epicfight.world.gamerule.EpicFightGameRules;
 /**
  * Sets Epic Fight's per-level skill-retention rule for every loaded server level, and opens the
  * punch shockwave trail on a heavy fist landing.
+ *
+ * <p>{@link #onIncomingDamage}: a landed attack from an Epic-Fight-mode player punching bare-handed
+ * (or with a fist-category weapon; an empty hand resolves to FIST too) opens the punch shockwave
+ * trail at the struck target's hitbox center -- rings planting along the punch ray behind the
+ * target, each blooming small-to-large in place -- when the attack panel has reached
+ * {@link BodyAttackService#IMPACT_RING_ATTACK_THRESHOLD}. The panel is read as-is, so weapon damage
+ * only rides along for fist-category items.
  */
 
 @EventBusSubscriber(modid = Guzhenren.MOD_ID)
@@ -34,14 +41,6 @@ public final class EpicFightServerEvents {
         }
     }
 
-    /**
-     * Heavy-punch feedback: a landed attack from an Epic-Fight-mode player punching bare-handed (or
-     * with a fist-category weapon; an empty hand resolves to FIST too) opens the punch shockwave
-     * trail at the struck target's hitbox center -- rings planting along the punch ray behind the
-     * target, each blooming small-to-large in place -- when the attack panel has reached
-     * {@link BodyAttackService#IMPACT_RING_ATTACK_THRESHOLD}. The panel is read as-is, so weapon
-     * damage only rides along for fist-category items.
-     */
     @SubscribeEvent
     public static void onIncomingDamage(LivingIncomingDamageEvent event) {
         if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;

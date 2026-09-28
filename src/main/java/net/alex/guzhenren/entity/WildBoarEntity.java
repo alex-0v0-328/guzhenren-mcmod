@@ -39,7 +39,28 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-/** Server-authoritative wild boar with retaliatory charge and toss attacks. */
+/**
+ * Server-authoritative wild boar with retaliatory charge and toss attacks.
+ *
+ * <p>{@link #action} is the current synchronized action, including one-shot actions for late
+ * trackers; {@link #actionTicks} is the elapsed server game ticks since the synchronized action
+ * start; {@link #actionSequence} is the monotonic action sequence used to distinguish repeated
+ * actions of one type; {@link #actionStartGameTime} is the synchronized game time at which the
+ * current action began.
+ *
+ * <p>{@link #startAction} starts a server action. Charge direction is locked only after its
+ * wind-up; the target is captured now so a new attacker cannot redirect an attack already in
+ * progress.
+ *
+ * <p>In {@link #tickAction}, the {@code DEATH} and {@code IDLE} cases are handled elsewhere: death
+ * is advanced by {@code tickDeath} and remains synchronized until removal.
+ *
+ * <p>In {@link #tickCharge}, the Minkowski expansion tests the actual swept body, not the diagonal
+ * broad-phase rectangle.
+ *
+ * <p>In {@link #validateTarget}, a completed hit still needs its recovery pose, even when that hit
+ * killed the target.
+ */
 
 public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
 
@@ -120,24 +141,20 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
         builder.define(DATA_PURSUING, false);
     }
 
-    /** Current synchronized action, including one-shot actions for late trackers. */
     public Action action() {
         return Action.fromId(this.entityData.get(DATA_ACTION));
     }
 
-    /** Elapsed server game ticks since the synchronized action start. */
     public long actionTicks() {
         if (this.action() == Action.IDLE) return 0L;
         long elapsed = this.level().getGameTime() - this.entityData.get(DATA_ACTION_START);
         return Math.max(0L, elapsed);
     }
 
-    /** Monotonic action sequence used to distinguish repeated actions of one type. */
     public int actionSequence() {
         return this.entityData.get(DATA_ACTION_SEQUENCE);
     }
 
-    /** Synchronized game time at which the current action began. */
     public long actionStartGameTime() {
         return this.entityData.get(DATA_ACTION_START);
     }
@@ -150,10 +167,6 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
         return this.entityData.get(DATA_TOSS_COOLDOWN);
     }
 
-    /**
-     * Starts a server action. Charge direction is locked only after its wind-up; the target is
-     * captured now so a new attacker cannot redirect an attack already in progress.
-     */
     public boolean startAction(Action next) {
         if (this.level().isClientSide() || next == null || this.isDeadOrDying() || this.action().isAttack()) return false;
         if (next.isAttack() && (this.recoveryTicks > 0 || !this.canAttackTarget(this.getTarget())
@@ -283,7 +296,6 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
                 if (ticks >= GRAZE_ACTION_TICKS || this.getTarget() != null) this.finishAction();
             }
             case DEATH, IDLE -> {
-                // Death is advanced by tickDeath and remains synchronized until removal.
             }
         }
     }
@@ -307,7 +319,6 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
         Vec3 start = this.position();
         this.move(MoverType.SELF, movement);
         Vec3 end = this.position();
-        // Minkowski expansion tests the actual swept body, not the diagonal broad-phase rectangle.
         AABB targetBox = target.getBoundingBox();
         double halfWidth = this.getBbWidth() * 0.5D;
         AABB contact = new AABB(targetBox.minX - halfWidth, targetBox.minY - this.getBbHeight(),
@@ -361,7 +372,6 @@ public final class WildBoarEntity extends PathfinderMob implements GeoEntity {
         if (!this.canAttackTarget(target)) {
             this.setTarget(null);
             this.lostSightTicks = 0;
-            // A completed hit still needs its recovery pose, even when that hit killed the target.
             if (this.action() == Action.ALERT || (this.action().isAttack() && !this.chargeHit)) this.finishAction();
             return;
         }

@@ -58,6 +58,10 @@ import org.jetbrains.annotations.Nullable;
  * <p>⚠ The registration id mirrors the Java name (and the PNG); a rank ladder is numbered
  * ({@code sword_qi_1..5}), but an item with its own fiction name keeps that name ({@code blood_wight_gu}).
  *
+ * <p>{@link #SPIRIT_SPRING} is the spring's {@code BlockItem}: same key as the block, answers to
+ * the block's lang entry, and its icon is the fluid's still strip (see
+ * {@code ModItemModelProvider}) -- no item PNG of its own.
+ *
  * @author Alex
  * @version 1.0.0
  * @see GuSpec
@@ -464,8 +468,6 @@ public final class ModItems {
             () -> new LiquorItem(new Item.Properties()));
     public static final DeferredItem<Item> SPICY_LIQUOR = ITEMS.register("spicy_liquor",
             () -> new LiquorItem(new Item.Properties()));
-    // The spring's BlockItem: same key as the block, answers to the block's lang entry, and its
-    // icon is the fluid's still strip (see ModItemModelProvider) -- no item PNG of its own.
     public static final DeferredItem<Item> SPIRIT_SPRING = ITEMS.register("spirit_spring",
             () -> new BlockItem(ModBlocks.SPIRIT_SPRING.get(), new Item.Properties()));
     //endregion
