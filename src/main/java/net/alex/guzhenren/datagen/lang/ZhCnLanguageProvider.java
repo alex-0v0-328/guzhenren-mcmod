@@ -169,6 +169,7 @@ public class ZhCnLanguageProvider extends LanguageProvider {
         add("biome.guzhenren.treasure_yellow_heaven", "宝黄天");
         add("travelerstitles.guzhenren.treasure_yellow_heaven", "宝黄天");
         add("travelerstitles.guzhenren.treasure_yellow_heaven.color", "f4d35e");
+        add("guzhenren.dimension.treasure_yellow_heaven.inventory_full", "背包已满，放不下的物品悬浮在身边");
     }
     //endregion
 
@@ -237,6 +238,9 @@ public class ZhCnLanguageProvider extends LanguageProvider {
         add("guzhenren.menu.aperture_storage", "空窍存储");
         add("guzhenren.menu.vital", "本命");
         add("guzhenren.menu.refinement", "炼蛊");
+        add("guzhenren.menu.soul_trade.trade", "交易");
+        add("guzhenren.menu.soul_trade.short", "材料不足，无法交易");
+        add("guzhenren.menu.soul_trade.no_room", "背包空间不足，请先腾出空间再交易");
         add("guzhenren.menu.refinement.essence", "需真元%s炼制");
         add("guzhenren.menu.refinement.craft", "炼制");
         add("guzhenren.menu.refinement.no_room", "输出无空位");
@@ -495,6 +499,7 @@ public class ZhCnLanguageProvider extends LanguageProvider {
         add("entity.guzhenren.vertical_crash_gu_entity", "直撞蛊");
         add("entity.guzhenren.charging_crash_gu_4_entity", "四转横冲直撞蛊");
         add("entity.guzhenren.charging_crash_gu_5_entity", "五转横冲直撞蛊");
+        add("entity.guzhenren.test_trade_gu_immortal", "测试交易蛊仙");
     }
     //endregion
 

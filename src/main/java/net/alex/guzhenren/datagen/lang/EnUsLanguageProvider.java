@@ -166,6 +166,8 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("biome.guzhenren.treasure_yellow_heaven", "Treasure Yellow Heaven");
         add("travelerstitles.guzhenren.treasure_yellow_heaven", "Treasure Yellow Heaven");
         add("travelerstitles.guzhenren.treasure_yellow_heaven.color", "f4d35e");
+        add("guzhenren.dimension.treasure_yellow_heaven.inventory_full",
+                "Inventory full: what does not fit floats beside you");
     }
     //endregion
 
@@ -234,6 +236,9 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("guzhenren.menu.aperture_storage", "Aperture Storage");
         add("guzhenren.menu.vital", "Vital");
         add("guzhenren.menu.refinement", "Gu Refinement");
+        add("guzhenren.menu.soul_trade.trade", "Trade");
+        add("guzhenren.menu.soul_trade.short", "Not enough to pay for this trade");
+        add("guzhenren.menu.soul_trade.no_room", "Not enough inventory space: make room before trading");
         add("guzhenren.menu.refinement.essence", "Refining needs %s essence");
         add("guzhenren.menu.refinement.craft", "Refine");
         add("guzhenren.menu.refinement.no_room", "No output space");
@@ -490,6 +495,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("entity.guzhenren.vertical_crash_gu_entity", "Vertical Crash Gu");
         add("entity.guzhenren.charging_crash_gu_4_entity", "Rank Four Charging Crash Gu");
         add("entity.guzhenren.charging_crash_gu_5_entity", "Rank Five Charging Crash Gu");
+        add("entity.guzhenren.test_trade_gu_immortal", "Test Trade GuImmortal");
     }
     //endregion
 

@@ -8,12 +8,15 @@ import net.alex.guzhenren.client.hud.PlayerStatsHud;
 import net.alex.guzhenren.client.particle.RingParticle;
 import net.alex.guzhenren.client.renderer.BearGeoRenderer;
 import net.alex.guzhenren.client.renderer.BoarGuGeoRenderer;
+import net.alex.guzhenren.client.renderer.HumanSoulGeoModel;
 import net.alex.guzhenren.client.renderer.RhinocerosBeetleGuGeoRenderer;
+import net.alex.guzhenren.client.renderer.SoulTraderGeoRenderer;
 import net.alex.guzhenren.client.renderer.TigerGeoRenderer;
 import net.alex.guzhenren.client.renderer.WildBoarGeoRenderer;
 import net.alex.guzhenren.client.screen.ApertureStorageScreen;
 import net.alex.guzhenren.client.screen.PlayerInfoScreen;
 import net.alex.guzhenren.client.screen.RefinementScreen;
+import net.alex.guzhenren.client.screen.SoulTradeScreen;
 import net.alex.guzhenren.entity.BearEntity;
 import net.alex.guzhenren.entity.BoarGuEntity;
 import net.alex.guzhenren.entity.RhinocerosBeetleGuEntity;
@@ -59,7 +62,8 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
  * ({@link net.alex.guzhenren.client.hud.PlayerStatsHud},
  * {@link net.alex.guzhenren.client.hud.ChargeHud},
  * {@link net.alex.guzhenren.client.hud.NourishHud}), the key mapping for the B panel, the menu
- * screens for the two containers, the shockwave-ring particle provider, fixed-texture renderers sharing each Gu family's GeckoLib model,
+ * screens for the three containers, the shockwave-ring particle provider, fixed-texture renderers sharing each Gu family's GeckoLib model,
+ * the soul traders' translucent {@code human_soul} renderer (texture chosen per trader, not per model),
  * and the wild boar's cutout GeckoLib model,
  * and the Hope Gu [希望蛊] entity as a
  * {@link net.minecraft.client.renderer.entity.NoopRenderer} (pure particles, no model), plus the
@@ -92,6 +96,7 @@ public final class ClientEvents {
             new DefaultedEntityGeoModel<>(Guzhenren.id("bear"), false);
     private static final GeoModel<TigerEntity> TIGER_MODEL =
             new DefaultedEntityGeoModel<>(Guzhenren.id("tiger"), false);
+    private static final HumanSoulGeoModel HUMAN_SOUL_MODEL = new HumanSoulGeoModel();
     private static final float DASH_YAW_CROSS = 90.0F;
     private static final float DASH_YAW_DIAGONAL = 45.0F;
     private static boolean previousUp;
@@ -124,6 +129,7 @@ public final class ClientEvents {
     public static void onRegisterScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.APERTURE_STORAGE_MENU.get(), ApertureStorageScreen::new);
         event.register(ModMenus.REFINEMENT_MENU.get(), RefinementScreen::new);
+        event.register(ModMenus.SOUL_TRADE_MENU.get(), SoulTradeScreen::new);
     }
 
     @SubscribeEvent
@@ -167,6 +173,8 @@ public final class ClientEvents {
                 context -> new TigerGeoRenderer(context, TIGER_MODEL, TigerGeoRenderer.ORANGE_TEXTURE));
         event.registerEntityRenderer(ModEntityTypes.WHITE_TIGER.get(),
                 context -> new TigerGeoRenderer(context, TIGER_MODEL, TigerGeoRenderer.WHITE_TEXTURE));
+        event.registerEntityRenderer(ModEntityTypes.TEST_TRADE_GU_IMMORTAL.get(),
+                context -> new SoulTraderGeoRenderer(context, HUMAN_SOUL_MODEL, SoulTraderGeoRenderer.BLUE_TEXTURE));
     }
 
     @SubscribeEvent

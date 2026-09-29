@@ -4,6 +4,7 @@ import net.alex.guzhenren.Guzhenren;
 import net.alex.guzhenren.entity.BearEntity;
 import net.alex.guzhenren.entity.BearSpecies;
 import net.alex.guzhenren.entity.FlyingGuEntity;
+import net.alex.guzhenren.entity.SoulTraderEntity;
 import net.alex.guzhenren.entity.TigerEntity;
 import net.alex.guzhenren.entity.WildBoarEntity;
 import net.alex.guzhenren.registry.entity.ModEntityTypes;
@@ -32,7 +33,7 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
  * ({@code BlockTags.ANIMALS_SPAWNABLE_ON} underfoot, raw brightness above 8). The flying placement uses
  * {@link net.minecraft.world.level.levelgen.Heightmap.Types#MOTION_BLOCKING_NO_LEAVES} and a custom check that
  * requires {@code pos.getY() >= level.getSeaLevel()} — NOT {@code canSeeSky}, because leaves count as cover
- * and would empty every forest floor.
+ * and would empty every forest floor. Soul traders get attributes but no placement: they are summoned only.
  *
  * @author Alex
  * @version 1.0.0
@@ -63,6 +64,7 @@ public final class EntityRegistrationEvents {
         }
         event.put(ModEntityTypes.TIGER.get(), TigerEntity.createAttributes().build());
         event.put(ModEntityTypes.WHITE_TIGER.get(), TigerEntity.createAttributes().build());
+        event.put(ModEntityTypes.TEST_TRADE_GU_IMMORTAL.get(), SoulTraderEntity.createAttributes().build());
     }
 
     private static EntityType<BearEntity> bearType(BearSpecies species) {

@@ -7,6 +7,8 @@ import net.alex.guzhenren.entity.BearSpecies;
 import net.alex.guzhenren.entity.BoarGuEntity;
 import net.alex.guzhenren.entity.HopeGuEntity;
 import net.alex.guzhenren.entity.RhinocerosBeetleGuEntity;
+import net.alex.guzhenren.entity.SoulTrader;
+import net.alex.guzhenren.entity.SoulTraderEntity;
 import net.alex.guzhenren.entity.TigerEntity;
 import net.alex.guzhenren.entity.WildBoarEntity;
 import net.alex.guzhenren.registry.item.ModItems;
@@ -23,7 +25,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  *
  * <p>Hope Gu, three boar Gu and four rhinoceros beetle Gu variants are naturally spawning ambient entities;
  * the wild boar, the four bears and the two tigers are naturally spawning creatures. Hope Gu's client mote
- * is emitted by its entity class.
+ * is emitted by its entity class. Each {@link SoulTrader} registers one fire-immune misc entity with no spawn
+ * rule at all: soul traders exist only through {@code /summon}.
  * Gu capture is a bare right click and is never gated on awakening [开窍]; the wild boar has no capture path.
  *
  * @author Alex
@@ -47,6 +50,8 @@ public final class ModEntityTypes {
     private static final float BEAR_HEIGHT = 1.4F;
     private static final float TIGER_WIDTH = 1.3F;
     private static final float TIGER_HEIGHT = 1.4F;
+    private static final float SOUL_TRADER_WIDTH = 0.6F;
+    private static final float SOUL_TRADER_HEIGHT = 1.95F;
     public static final DeferredHolder<EntityType<?>, EntityType<HopeGuEntity>> HOPE_GU_ENTITY =
             ENTITY_TYPES.register("hope_gu_entity", () -> EntityType.Builder
                     .<HopeGuEntity>of((type, level) ->
@@ -95,6 +100,8 @@ public final class ModEntityTypes {
                     .sized(TIGER_WIDTH, TIGER_HEIGHT)
                     .clientTrackingRange(TRACKING_CHUNKS)
                     .build("white_tiger"));
+    public static final DeferredHolder<EntityType<?>, EntityType<SoulTraderEntity>> TEST_TRADE_GU_IMMORTAL =
+            soulTrader(SoulTrader.TEST_TRADE_GU_IMMORTAL);
 
     private static DeferredHolder<EntityType<?>, EntityType<BearEntity>> bear(BearSpecies species) {
         return ENTITY_TYPES.register(species.id(), () -> EntityType.Builder
@@ -102,6 +109,15 @@ public final class ModEntityTypes {
                 .sized(BEAR_WIDTH, BEAR_HEIGHT)
                 .clientTrackingRange(TRACKING_CHUNKS)
                 .build(species.id()));
+    }
+
+    private static DeferredHolder<EntityType<?>, EntityType<SoulTraderEntity>> soulTrader(SoulTrader trader) {
+        return ENTITY_TYPES.register(trader.id(), () -> EntityType.Builder
+                .<SoulTraderEntity>of((type, level) -> new SoulTraderEntity(type, level, trader), MobCategory.MISC)
+                .sized(SOUL_TRADER_WIDTH, SOUL_TRADER_HEIGHT)
+                .fireImmune()
+                .clientTrackingRange(TRACKING_CHUNKS)
+                .build(trader.id()));
     }
 
     private static DeferredHolder<EntityType<?>, EntityType<BoarGuEntity>> boarGu(String name, Supplier<Item> caughtGu) {
