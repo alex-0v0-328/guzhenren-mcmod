@@ -143,16 +143,16 @@ public final class ClientEvents {
                 context -> new BoarGuGeoRenderer(context, BOAR_GU_MODEL, BoarGuGeoRenderer.FLOWER_TEXTURE));
         event.registerEntityRenderer(ModEntityTypes.HORIZONTAL_CRASH_GU_ENTITY.get(),
                 context -> new RhinocerosBeetleGuGeoRenderer(context, BEETLE_GU_MODEL,
-                        RhinocerosBeetleGuGeoRenderer.LIGHT_TEXTURE));
+                        RhinocerosBeetleGuGeoRenderer.SILVER_TEXTURE));
         event.registerEntityRenderer(ModEntityTypes.VERTICAL_CRASH_GU_ENTITY.get(),
                 context -> new RhinocerosBeetleGuGeoRenderer(context, BEETLE_GU_MODEL,
-                        RhinocerosBeetleGuGeoRenderer.ORIGINAL_TEXTURE));
+                        RhinocerosBeetleGuGeoRenderer.SILVER_TEXTURE));
         event.registerEntityRenderer(ModEntityTypes.CHARGING_CRASH_GU_4_ENTITY.get(),
                 context -> new RhinocerosBeetleGuGeoRenderer(context, BEETLE_GU_MODEL,
-                        RhinocerosBeetleGuGeoRenderer.DARK_TEXTURE));
+                        RhinocerosBeetleGuGeoRenderer.GOLD_TEXTURE));
         event.registerEntityRenderer(ModEntityTypes.CHARGING_CRASH_GU_5_ENTITY.get(),
                 context -> new RhinocerosBeetleGuGeoRenderer(context, BEETLE_GU_MODEL,
-                        RhinocerosBeetleGuGeoRenderer.DARK_TEXTURE));
+                        RhinocerosBeetleGuGeoRenderer.AMETHYST_TEXTURE));
         event.registerEntityRenderer(ModEntityTypes.WILD_BOAR.get(),
                 context -> new WildBoarGeoRenderer(context, WILD_BOAR_MODEL));
         event.registerEntityRenderer(ModEntityTypes.BROWN_BEAR.get(),
