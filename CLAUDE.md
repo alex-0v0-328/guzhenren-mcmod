@@ -1,0 +1,96 @@
+# CLAUDE.md — GZR main mod
+
+The project rules for GZR, loaded at the start of every session. Collaboration rules live in the constitution skill (`.claude/skills/constitution/`), which the SessionStart hook injects into every Claude Code session and which outranks this file; the task skills beside it own their workflows (`dashboard`, `ship`, `closeout`). Alex's chat instructions beat both. No parent-workspace or global rules file outranks or extends them. Everything else loads on demand, never whole: domain facts from [reference/](reference/README.md), one file per topic, workflows from [rules/](rules/) through the Workflow router, the wiki by affected page.
+
+## Boundaries
+
+- The main project root `C:\workspace\Dev\Projects\Minecraft-ModDev\guzhenren` is the only Git repo; its parent workspace intentionally is not. Check this repository's `status`/`diff` at task start and preserve checkouts and uncommitted WIP.
+- Nothing gets backed up (Alex, 2026-09-26): no backup copy of any file, in any location, for any task. Git history is the only rollback. The wiki `C:\workspace\Obsidian\guzhenren-mod-wiki`, `.claude/settings.local.json`, `rules/`, `reference/` and `tools/` sit outside Git and have none, so edits there are precise, reviewable and right the first time. Before deleting anything, check content, references, tracking and use; a file that cannot be regenerated goes to the Recycle Bin, while regenerable output (logs, builds, anything under Temp) is deleted outright.
+- Alex edits files live in IDEA and the wiki in Obsidian. Re-read a file right before editing it; on an edit conflict, re-read and identify the source; his wording changes stay as-is.
+- The model authority `C:\workspace\Dev\Projects\Blockbench-Modeling\gzr-models\` is read-only; exports land in the mod.
+- Numbers live in code: Gu specs in `ModItems.GuSpec`, characters in their enums and services. The dev wiki explains design and reasoning; the player wiki is a version snapshot. One primary number location per audience; everything else references it.
+- Scope is mortals, rank 1..5 (一转..五转); nothing shaped for stage 3 and later (ascension 仙, immortal Gu, rank 6..9) gets built or counted as missing. First explicit exception, commissioned by Alex on 2026-09-21: the Treasure Yellow Heaven dimension (appearance-only first version).
+- Think like a Minecraft modder and a modpack player: gameplay flow, compatibility, maintenance cost. Review against Java types, state invariants, server authority and lifecycle.
+- Hardware budget is a standing design constraint: default to restrained block, entity and particle scales, and state magnitude estimates (how many blocks, how many seconds) in reports so Alex can judge by feel (explosion radius 320→112).
+
+## Tools and context
+
+- **Search.** The runtime's text-search tool or `rg` for text; IDEA's JetBrains MCP for Java symbols, references and file problems; the npm-global `ast-grep` for structural queries (a syntax match is not type proof). If IDEA is closed, read the disk and the pinned dependency sources. An index never overrides the disk.
+- **Docs.** Context7 is an optional lookup; accept only NeoForge 1.21.1 / GeckoLib 4 results, otherwise use the pinned jars and sources. Vanilla and NeoForge runtime behavior comes from the decompiled sources (reference《环境、构建与测试》).
+- **Tool economy.** Prefer dedicated read, search and edit tools over shell equivalents; run independent calls in parallel; keep queries short and paths scoped, and don't chain several equivalent indexes for the same answer; cite code as `path:line`.
+- **Onboarding.** A new MCP server or plugin counts only after four steps — installed, config valid, callable in session, actually effective — and none is added just for tool count. Credentials stay in the user environment; config files hold variable names only.
+- **Claude Code MCP** (local scope, the project entry in `~/.claude.json`): `jetbrains` → `http://127.0.0.1:64342/stream`, online while IDEA runs; `context7` → `https://mcp.context7.com/mcp`, bearer from env `CONTEXT7_API_KEY`; `github` → `https://api.githubcopilot.com/mcp/`, bearer from env `GITHUB_PERSONAL_ACCESS_TOKEN`, which Alex sets (GitHub's OAuth does not support Claude Code's client registration). There is no `gh` CLI: GitHub goes through this MCP or REST `curl -L`. The canonical repo is `alex-0v0-328/guzhenren-mod`, the `origin` of the 2026-09-29 clone; the old names `guzhenren-neoforge-1.21.1` and `Guzhenren-Mod---Neoforge-1.21.1` redirect to it.
+- **Claude Code local settings** (`.claude/settings.local.json`, local-only; Alex, 2026-09-24): its one hook is SessionStart, which runs `python tools/session_start.py` to inject the constitution and i-have-adhd skills (Alex, 2026-09-30); the PreToolUse guard Alex had removed on 2026-09-25 (it pushed routine commands onto him) stays gone. The wiki, `C:\workspace\Dev\Projects\_Temp`, the Camera Shift repo `../immersive-camera-shift` and the dashboard folder `../.dashboard` are additional working directories. Its only allow rule lets file edits into `../.dashboard/**`, so that subagent's `dontAsk` mode refuses every other write while the main session runs in default or plan mode (`dashboard` skill).
+- **Context economy.** Load on demand: the reference by heading, rules through the router, the wiki by affected page. Broad sweeps go to subagents, so the main context keeps conclusions, not file dumps.
+- **Temporary files** (Alex, 2026-09-26). Everything temporary — probes, diagnostics, logs, smoke-test worlds, CI-mirror exports, conversion scripts — lives under `C:\workspace\Dev\Projects\_Temp\<project>\` (`guzhenren`, `gzr-models`, `workstation`) in a subfolder per task, and is deleted after its final use and result verification, before the task closes. Never write temporary files into the user profile, `%APPDATA%`, `%TEMP%`, the runtime's scratch directory, `build/` or any repo; Claude Code's harness still creates its own session folders under `%LOCALAPPDATA%\Temp\claude\`, which hold nothing on purpose. A script kept across tasks belongs under `tools/` with a clear name, a documented purpose and a test alongside. Before deleting legacy leftovers, check whether they are still the only working install or an active asset.
+- **Memory.** Session memory is not rules authority: a rule that lives only in one agent's memory is codified into this file or the skill that owns it in the same session it is proven. Memory keeps only what the repo and these rules can't: Alex's preferences, feedback with its reason, dated constraints, external pointers. Recalled memory is background — verify that a named file, symbol or flag still exists before relying on it.
+- Keep this file lean: domain facts go to the reference or the wiki, not into the autoload.
+
+## Checks and shipping
+
+Two one-command tools replace hand-run Gradle chains and the manual commit ritual (Alex, 2026-09-26). They run on Windows Python, which both runtimes call directly, and each writes one log, `C:\workspace\Dev\Projects\_Temp\guzhenren\logs\check.log` or `ship.log`, which its next run overwrites. Read the log, report from it, then delete it. While one tool drives Gradle, the other refuses to start (`gradle.lock`), so parallel sessions never collide.
+
+`python tools/check.py` runs every stage in this order. Naming stages runs only those, `--headless` skips the client, and `--list` describes each stage. Times are warm-cache; a cold build adds 2–3 minutes.
+
+| Stage      | What a pass proves                                                                                                                        | Warm time |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `build`    | Compile and jar pass, plus L1 `pureTest` and L2 `test` JUnit; the wiki gate `-PwikiDir` is on whenever the wiki exists                   | 0–2 min   |
+| `gametest` | Every L3 `@GameTest` passes on the dedicated GameTestServer                                                                               | ≈0.5 min  |
+| `data`     | `runData` reproduces `src/generated` byte for byte (the CI drift check); a rewrite fails and lists the files to review                   | ≈0.3 min  |
+| `server`   | `runServer` in a throwaway Temp world without the pack mirror: boot, summon every mod entity, place every mod feature, tick 20 s, stop over RCON | ≈0.7 min  |
+| `client`   | `runClient` with the `run/` pack reaches the title screen and stays alive 20 s, then closes; opens a window, and skips while a game from this checkout runs | ≈0.8 min  |
+
+- During iteration, run the stages the change touches; the `ship` skill runs the full check before shipping. Visual and feel acceptance in `runClient` stays Alex's.
+- `python tools/ship.py` is the commit tool behind the `ship` skill, which owns the flow and describes every stage.
+- The test suites are local-only (Alex, 2026-09-27): `src/test/` is gitignored, GitHub Actions only compiles, packages and checks datagen drift, and the ship mirror is where tests guard a push. They have no remote copy and no version history from that date on.
+
+## Map
+
+| Path                                | What it is                                                                                                                                    |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| `./`                                | Main mod, id `guzhenren`, and the only Git repo                                                                                               |
+| `src/test/`                         | Every test, one folder per layer: `pure/` L1, `modded/` L2, `game/` L3 GameTests (own source set, not in the jar); local-only, gitignored; catalog in wiki 《测试集》 |
+| `CLAUDE.md`                         | This rules file; tracked, so cloud sessions load it (Alex, 2026-10-01)                                                                        |
+| `reference/`                        | Domain reference in Chinese, one file per topic, index in `reference/README.md`; local-only, gitignored                                      |
+| `rules/`                            | Workflow modules per task type (Workflow router), read on demand; `rules/state-archive.md` holds closed state entries; local-only, gitignored |
+| `C:\workspace\Obsidian\guzhenren-mod-wiki\开发向\` | Attached design wiki, entry 《蛊 模组设定 MOC》                                                                                               |
+| `C:\workspace\Obsidian\guzhenren-mod-wiki\玩家向\` | Attached player snapshot; 《蛊真人MOD 1.0.0 总表》 (timestamps + TODO) is the closeout index                                                  |
+| `../Assets/textures/`               | Alex's art staging; intentionally not attached to agent projects                                                                              |
+| `../Assets/test modpack/`           | Old modpack mirror; attach only for a task that needs it, then remove it                                                                      |
+| `../immersive-camera-shift/`        | Camera Shift, a client-only Epic Fight add-on in its own Git repo, worked on from GZR sessions (Alex, 2026-09-29); read its `CLAUDE.md` whole before touching it — those rules govern work there |
+| `.claude/agents/`                   | Subagent definitions `gzr-sonnet-medium` and `dashboard-builder`; tracked                                                                      |
+| `.claude/skills/`                   | Project skills: `constitution` and `i-have-adhd` (injected into every session), `dashboard`, `ship`, `closeout`; tracked |
+| `../.dashboard/`                    | `dashboard` skill: `dashboard.html` and the shared preference store `memory/style.md`; outside Git                                                   |
+| `tools/gen_template.py`             | Regenerates the GameTest `empty9x9x9.nbt` scenario template                                                                                   |
+| `tools/geckolib_export.py`          | Shared Blockbench-to-GeckoLib 4 exporter behind the per-model export scripts (compile, copy, validate)                                        |
+| `tools/export_rhinoceros_beetle.py` | Converts the beetle `.bbmodel` into its GeckoLib model/animation files via `geckolib_export.py` (test alongside)                              |
+| `tools/export_boar_gu.py`           | Converts the ladybug `.bbmodel` into the boar Gu's GeckoLib model/animation files (test alongside)                                            |
+| `tools/export_bear.py`, `export_tiger.py` | Convert the bear and tiger `.bbmodel`s into their GeckoLib model/animation files (tests alongside)                                      |
+| `tools/export_human_soul.py`       | Converts the human soul `.bbmodel` into its GeckoLib model/animation files, the blue texture and the shared eye glow mask (test alongside) |
+| `tools/check.py`                    | One-command local check: build + JUnit, GameTests, runData drift, server and client smoke (Checks and shipping; test alongside)                |
+| `tools/ship.py`                     | One-command commit tool behind the `ship` skill: preflight, CI mirror on the exact tree, commits, contributor gate, push, CI wait (test alongside) |
+| `tools/gzr_env.py`                  | Shared plumbing for `check.py` and `ship.py`: Temp paths, the per-tool log, Gradle lock, process control; derives the Temp root (`GZR_TEMP` overrides it) and the wiki from the repository's location, and the wiki gate turns itself off when the wiki is missing |
+| `tools/poll_actions_ci.py`          | Polls GitHub Actions via REST (`curl -L`, no `gh`) until the latest run, or the run of `--sha`, finishes (test alongside)                      |
+| `tools/session_start.py`            | SessionStart hook: prints the constitution and i-have-adhd skills into every Claude Code session (test alongside)                             |
+
+Obsidian: a file named like its title doesn't repeat that title as an H1. Wiki documents describe the present; version snapshots, undecided designs and rejected-idea records are anti-regression history — keep them.
+
+## Workflow router
+
+Read only the module for the task at hand. This file loads first; a module extends it and never overrides it. Every code change ends with the wiki-sync chain.
+
+| Task                                                                     | Module                                         |
+|--------------------------------------------------------------------------|------------------------------------------------|
+| Commit, push, CI red                                                     | `ship` skill ([.claude/skills/ship/SKILL.md](.claude/skills/ship/SKILL.md)) |
+| New content — mechanics, entities, items, tools, weapons                 | [rules/new-content.md](rules/new-content.md)   |
+| Modification — any change, missed expectations, wrong structure          | [rules/modification.md](rules/modification.md) |
+| Review — compliance, optimization, cleanup, audits                       | [rules/review.md](rules/review.md)             |
+| Wiki sync — after every code change                                      | [rules/wiki-sync.md](rules/wiki-sync.md)       |
+| Project state — open WIP and items awaiting Alex; history in the archive | [rules/state.md](rules/state.md)               |
+
+## Language and style
+
+- Chat in Chinese (zh-CN); think in English, the model's strongest language — only the reply is Chinese (Alex, 2026-09-25). Code, comments and commit messages in American English. `CLAUDE.md`, `rules/` and `.claude/skills/` are written in English, `reference/` in Chinese.
+- Terms come from the language provider, `en_us.json` and the wiki《原著词汇 与命名》 — never invent bilingual pairs (known trap pairs in reference《写作与命名》).
+- New code matches its neighbors' comment density, naming and idiom; formatting follows `.editorconfig`; comments explain non-obvious reasons only. No bulk reformat, no project-wide IDEA "cleanup code". Substantive conventions (`@NotNull`/`@Nullable`, import ordering, Javadoc FQN rules) live in reference《写作与命名》.
+- Cross-references name the heading — `CLAUDE › Boundaries`, reference《心跳顺序》, `[[待定设计#…]]` in the wiki — never a section sign or a section number, and headings carry no number prefixes (Alex, 2026-09-24).

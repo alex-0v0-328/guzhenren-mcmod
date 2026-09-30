@@ -1,0 +1,38 @@
+---
+name: ship
+description: GitHub commit and push for GZR — use when Alex asks to commit, push, 提交并推送 or 走提交流程, when he brings a red GitHub Actions run, or when the closeout skill finds unshipped work. Runs the whole flow; picking the commit message is the only question.
+---
+
+# GitHub Commit and Push Skill
+
+When Alex asks to commit, push, or commit and push ("走提交流程"), go straight into this flow (Alex, 2026-09-30). Picking the commit message is the only step that waits for him; every other step runs on its own, with no step-by-step asks and no separate push confirmation. Commits carry Alex's identity alone: Claude is never added as a contributor — no `Co-Authored-By` or other AI trailer, no generated-with line, no AI author or committer, no `git config` change — and an attribution line the harness supplies is dropped. The branch stays `main`; no PR unless Alex asks for one.
+
+## Flow
+
+1. **Check the changes.** Start from `git status` and attribute every changed file: the agent's own work, or Alex's live IDEA edits (his ask means he is done editing). Before shipping, run the full `python tools/check.py` (`--headless` when no client code, renderer or resource changed).
+2. **Prepare the commits.** Group the changes by independent purpose; each group carries its own tests, providers and generated resources, and every commit includes its datagen output. `ship.py` stages whole files only: a file whose hunks belong to two groups is staged by hand as a reviewed `git apply --cached` patch and committed before the tool runs — never a whole shared file into the wrong group.
+3. **Offer commit messages.** For each group, offer 2..3 English titles through the question tool, never as plain chat text, the recommended one first, marked `(Recommended)` with a one-line reason; then wait for his pick — never default, never pick for him. Title shape `[PREFIX] <english body>` (Alex, 2026-09-21): `[UPDATE]` bugfixes and small changes, `[TEST]` test releases, `[ALPHA]` second-to-last before a release, `[BETA]` last before a release, `[RELEASE]` official release. `mod_version` bumps are Alex's call per release.
+4. **Commit and push.** Write `C:\workspace\Dev\Projects\_Temp\guzhenren\ship-plan.json` — `{"commits": [{"title": "...", "files": [...]}]}` in commit order, paths relative to the repo root, a folder written with a trailing `/` taking everything under it, deletions included — and run `python tools/ship.py C:\workspace\Dev\Projects\_Temp\guzhenren\ship-plan.json` right after the pick, without a separate `--dry-run`. In order it runs: preflight (branch `main`, empty index, remote not ahead, every plan path changed, every `run/mods` jar downloaded in CI); the CI mirror (exports the exact planned tree from a scratch index into Temp, runs what GitHub runs — build, runData drift — then copies in the local-only `src/test` and runs JUnit with the wiki gate and GameTests on that same code, ≈2–4 min; Alex's concurrent edits are never reverted and a planned file edited mid-run aborts the commit); one commit per group; the contributor gate; push to `origin main`; a wait for that SHA's Actions run (15-minute default, `--poll-timeout`).
+5. **Contributor gate.** Before the push, `ship.py` reads every commit in `origin/main..HEAD` and refuses when an author or committer differs from the `git config` identity or looks like an AI, or when a message carries a `Co-Authored-By` or generated-with line. The commits then stay local: fix them (reword, or reset the author on the unpushed commits only), and run `python tools/ship.py --push-only`, which re-runs the gate, pushes and waits for CI. When the configured identity itself is the problem, stop and tell Alex — the agent never changes `git config`. Nothing is pushed until the gate passes.
+6. **Report.** Read `C:\workspace\Dev\Projects\_Temp\guzhenren\logs\ship.log`. Report each commit's SHA, title, push state and the real CI state as observed, quoting the failing step's log lines for a red run. Delete the plan with the log, and append SHA and CI to the `rules/state.md` entry.
+
+## Push rules
+
+- No force push and no rewrite of pushed history; for pushed work a new commit beats `--amend`. Never `--no-verify`, `--no-gpg-sign` or `-c commit.gpgsign=false` — a failing hook is fixed at its cause.
+- A preflight or mirror failure stops before anything is staged; fix the cause and re-run. When the remote moved ahead, pull (keep both sides' work) and re-run. Don't "fix" the old-name remote redirect. Interactive flags (`-i`) don't work in agent shells.
+- `python tools/poll_actions_ci.py --sha <sha>` re-checks CI by hand.
+
+## CI red
+
+When Alex brings a GitHub Actions failure, the loop locate → fix → this flow → green runs without waiting for an explicit commit request — a red CI left unpushed counts as unfixed (2026-09-04 GeckoLib incident). The commit-message pick still applies.
+
+## Traps
+
+- Line-ending noise stays out of commits (mechanics in reference《环境、构建与测试》).
+- Gradle lock conflicts between parallel runs: retry or serialize.
+- Commit status and Actions check runs are separate queries — an empty status is not "CI green", and neither are "queued", "in progress" or "no run found".
+- A hard dependency referenced straight from `run/mods` needs its CI download step, otherwise CI goes red while local stays green (reference《依赖与兼容》).
+
+## After
+
+When a change moved folders or packages, Alex runs a Gradle refresh in IDEA. Before a change that rewrites many files (a move, a rename), ship any pending WIP first, and ask Alex to pause IDEA edits until it lands.
