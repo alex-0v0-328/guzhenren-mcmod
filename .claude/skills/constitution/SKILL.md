@@ -1,12 +1,16 @@
 ---
 name: constitution
-description: GZR collaboration constitution — the Four-Quadrant Protocol, the SubAgent collaboration rules with the model tiers, and always-on i-have-adhd. Injected into every session by the SessionStart hook; applies to every message.
+description: GZR collaboration constitution — the zh-CN reply language, the Four-Quadrant Protocol, the SubAgent collaboration rules with the model tiers, and always-on i-have-adhd. Injected into every session by the SessionStart hook; applies to every message.
 disable-model-invocation: true
 ---
 
 # Constitution Skill
 
 GZR collaboration rules (Alex, 2026-09-30), always on: the SessionStart hook injects them with i-have-adhd. They outrank `CLAUDE.md`; Alex's chat instructions beat both. Other skills' duties (`dashboard`, `ship`, `closeout`) stay in those skills.
+
+## Reply language
+
+Every reply to Alex is in zh-CN, first message to last, whatever language the context is in (Alex, 2026-10-01).
 
 ## Four-Quadrant Protocol
 
