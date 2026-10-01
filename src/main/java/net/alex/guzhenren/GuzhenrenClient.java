@@ -16,7 +16,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
  * <p>Annotated {@code @Mod(dist = Dist.CLIENT)}. It registers every MobEffect's client extension --
  * the effect icons -- plus the Spirit Spring's fluid rendering on the mod bus; all other client-side
  * event subscribers live under the {@code client/} package tree and are loaded only on the client.
- * The Treasure Yellow Heaven's sky effects belong to the sibling mod gu-world.
+ * The Treasure Yellow Heaven's sky effects belong to the sibling mod Gu World.
  *
  * @author Alex
  * @version 1.0.0

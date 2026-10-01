@@ -167,7 +167,7 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
-// gu-world, the sibling project at ../guworld (or -PguWorldDir), supplies every dimension, terrain
+// Gu World, the sibling project at ../guworld (or -PguWorldDir), supplies every dimension, terrain
 // and biome. Its built jar joins the runs as a mod, the GameTest server included, while this mod never
 // compiles against it. An unbuilt sibling (or CI, which has none) simply adds nothing.
 def guWorldLibs = file(providers.gradleProperty('guWorldDir').getOrElse('../guworld') + '/build/libs')
@@ -187,7 +187,7 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
-    localRuntime fileTree(dir: guWorldLibs, include: 'gu_world-*.jar', exclude: '*-sources.jar')
+    localRuntime fileTree(dir: guWorldLibs, include: 'guworld-*.jar', exclude: '*-sources.jar')
 
     testImplementation platform("org.junit:junit-bom:${junit_version}")
     testImplementation "org.junit.jupiter:junit-jupiter"

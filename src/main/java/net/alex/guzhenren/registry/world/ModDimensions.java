@@ -11,8 +11,8 @@ import net.minecraft.world.phys.Vec3;
  * Level keys of the anchored dimensions this mod's travel acts on.
  *
  * <p>The dimensions themselves -- dimension type, biome, level stem and sky effects -- belong to the
- * companion mod gu-world ({@code gu_world}), a sibling project that depends on this mod; this mod never
- * sees its classes. So each dimension is named here by its level key alone, a contract that gu-world's
+ * companion mod Gu World ({@code guworld}), a sibling project that depends on this mod; this mod never
+ * sees its classes. So each dimension is named here by its level key alone, a contract that Gu World's
  * level stem keeps. Without that mod installed the level is absent, and {@code /guworld enter} refuses every target
  * ({@link net.alex.guzhenren.attachment.service.dimension.DimensionTravelService#enter} finds no level).
  * The dimension's display name, {@code dimension.<namespace>.<path>}, is that mod's language key too.
@@ -27,7 +27,7 @@ import net.minecraft.world.phys.Vec3;
  * Yellow Heaven is a rank-8 grotto-heaven; future Blessed Land / Grotto-Heaven dimensions register
  * here.
  *
- * <p>⚠ {@link #TREASURE_YELLOW_HEAVEN} spells out gu-world's namespace because this mod cannot reach
+ * <p>⚠ {@link #TREASURE_YELLOW_HEAVEN} spells out Gu World's namespace because this mod cannot reach
  * that mod's id constant. Renaming the dimension there means renaming it here too, or entering it fails.
  *
  * @author Alex
@@ -40,7 +40,7 @@ public final class ModDimensions {
     private ModDimensions() {}
 
     public static final ResourceKey<Level> TREASURE_YELLOW_HEAVEN = ResourceKey.create(
-            Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath("gu_world", "treasure_yellow_heaven"));
+            Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath("guworld", "treasure_yellow_heaven"));
     public static final Vec3 TREASURE_YELLOW_HEAVEN_SPAWN = new Vec3(0.5, 64.0, 0.5);
 
     public record AnchoredDimension(ResourceKey<Level> level, Vec3 spawn, int rank) {}
