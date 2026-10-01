@@ -167,10 +167,10 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
-// gu-world, the sibling project at ../gu-world (or -PguWorldDir), supplies every dimension, terrain
+// gu-world, the sibling project at ../guworld (or -PguWorldDir), supplies every dimension, terrain
 // and biome. Its built jar joins the runs as a mod, the GameTest server included, while this mod never
 // compiles against it. An unbuilt sibling (or CI, which has none) simply adds nothing.
-def guWorldLibs = file(providers.gradleProperty('guWorldDir').getOrElse('../gu-world') + '/build/libs')
+def guWorldLibs = file(providers.gradleProperty('guWorldDir').getOrElse('../guworld') + '/build/libs')
 
 dependencies {
     compileOnly files('run/mods/epic-fight-21.17.3.1-mc1.21.1-neoforge.jar')

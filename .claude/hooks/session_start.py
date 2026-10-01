@@ -2,13 +2,16 @@
 
     python ~/.claude/hooks/session_start.py           user-level hook: every local session, from ~/.claude/skills
     python3 .claude/hooks/session_start.py            repository hook: cloud sessions, from .claude/skills
-    python .claude/hooks/session_start.py --deploy    copies the skills and this script from the repository into ~/.claude
+    python .claude/hooks/session_start.py --deploy    copies the skills and this script from the repository into
+                                                      ~/.claude and into the sibling repositories
 
 Claude Code adds the hook's stdout to the session context. Skills otherwise load on demand; this makes
 alex-constitution and i-have-adhd apply from the first message. Each copy reads the skills folder beside its
 own hooks folder, so the user-level hook injects the deployed copies and the repository hook the tracked ones.
-The repository copy is the source: edit it there, then redeploy. When the session's project carries its own
-copy of an always-on skill that differs from the injected one, the output says so.
+The guzhenren repository copy is the source: edit it there, then redeploy, which also writes the skills, this
+script and the cloud hook settings into each sibling repository beside it (SIBLINGS), so a cloud session
+opened on one of those injects the same skills. When the session's project carries its own copy of an
+always-on skill that differs from the injected one, the output says so.
 
 A missing or unreadable skill is reported in the output, never fatal: the hook must not block a session
 start. Claude Code caps hook output at 10,000 characters; past that only a 2,000-character preview arrives.
@@ -24,6 +27,8 @@ CLAUDE_DIR = Path(__file__).resolve().parents[1]
 SKILLS = CLAUDE_DIR / 'skills'
 USER_CLAUDE_DIR = Path.home() / '.claude'
 ALWAYS_ON = ['alex-constitution', 'i-have-adhd']
+SOURCE = 'guzhenren'
+SIBLINGS = ['guworld', 'camera-shift']
 FRONTMATTER = re.compile(r'\A---[^\S\r\n]*\r?\n.*?\r?\n---[^\S\r\n]*(?:\r?\n|\Z)', re.S)
 
 
@@ -81,10 +86,27 @@ def deploy(source=CLAUDE_DIR, target=USER_CLAUDE_DIR, names=ALWAYS_ON):
     return target
 
 
+def sync(source=CLAUDE_DIR, siblings=SIBLINGS, names=ALWAYS_ON):
+    """Copies the always-on skills, this script and the cloud hook settings into each sibling repository's
+    .claude folder; a sibling not checked out beside the source is skipped. Returns the folders written."""
+    written = []
+    for name in siblings:
+        target = source.parent.parent / name / '.claude'
+        if target.parent.is_dir():
+            deploy(source, target, names)
+            shutil.copy2(source / 'settings.json', target / 'settings.json')
+            written.append(target)
+    return written
+
+
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     if argv == ['--deploy']:
+        if CLAUDE_DIR.parent.name != SOURCE:
+            raise SystemExit(f'--deploy runs from the {SOURCE} repository copy, the source of every other copy')
         print(f'deployed {", ".join(ALWAYS_ON)} and the hook into {deploy()}')
+        for target in sync():
+            print(f'synced them and the cloud hook settings into {target}')
         return 0
     try:
         sys.stdout.reconfigure(encoding='utf-8')

@@ -16,16 +16,18 @@ When Alex asks to commit, push, or commit and push ("走提交流程"), go strai
 5. **Contributor gate.** Before the push, `ship.py` reads every commit in `origin/main..HEAD` and refuses when an author or committer differs from the `git config` identity or looks like an AI, or when a message carries a `Co-Authored-By` or generated-with line. The commits then stay local: fix them (reword, or reset the author on the unpushed commits only), and run `python tools/ship.py --push-only`, which re-runs the gate, pushes and waits for CI. When the configured identity itself is the problem, stop and tell Alex — the agent never changes `git config`. Nothing is pushed until the gate passes.
 6. **Report.** Read `C:\workspace\Dev\Projects\_Temp\guzhenren\logs\ship.log`. Report each commit's SHA, title, push state and the real CI state as observed, quoting the failing step's log lines for a red run. Delete the plan with the log, and append SHA and CI to the `rules/state.md` entry.
 
-## gu-world
+## Sibling repositories
 
-The sibling repository `../gu-world` (remote `alex-0v0-328/gu-world-mcmod`) ships through the same flow and the same tools with `--project gu-world`: check with `python tools/check.py --project gu-world` (build, then its datagen drift), write the plan to `C:\workspace\Dev\Projects\_Temp\gu-world\ship-plan.json`, run `python tools/ship.py <plan> --project gu-world`, and read `C:\workspace\Dev\Projects\_Temp\gu-world\logs\ship.log`. Its mirror runs `build` as its GitHub workflow does, then the local `data` drift check its CI cannot run. The contributor rule and the gate apply unchanged. A repository or remote with no commit yet ships too: the first push creates `main` and sets the upstream. When a change spans both repositories, ship gu-world first, so Guzhenren's runs and links already find it.
+gu-world (`../guworld`, remote `alex-0v0-328/mcmod-guworld`) ships through the same flow and the same tools with `--project guworld`: check with `python tools/check.py --project guworld` (build, then its datagen drift), write the plan to `C:\workspace\Dev\Projects\_Temp\guworld\ship-plan.json`, run `python tools/ship.py <plan> --project guworld`, and read `C:\workspace\Dev\Projects\_Temp\guworld\logs\ship.log`. Its mirror runs `build` as its GitHub workflow does, then the local `data` drift check its CI cannot run. The contributor rule and the gate apply unchanged. A repository or remote with no commit yet ships too: the first push creates `main` and sets the upstream. When a change spans both repositories, ship gu-world first, so Guzhenren's runs and links already find it.
 
-Camera Shift (`../camera-shift`, remote `alex-0v0-328/camera-shift`, renamed 2026-10-01 from `Immersive-Camera-Shift`, which redirects) ships the same way with `--project camerashift` (Alex, 2026-10-01): plan at `C:\workspace\Dev\Projects\_Temp\camerashift\ship-plan.json`, check and mirror run `build`, which includes its tracked JUnit. Read its `CLAUDE.md` whole before touching that repository; it is local-only and never part of a plan.
+Camera Shift (`../camera-shift`, remote `alex-0v0-328/mcmod-camera-shift`) ships the same way with `--project camerashift` (Alex, 2026-10-01): plan at `C:\workspace\Dev\Projects\_Temp\camerashift\ship-plan.json`; check runs `build` with its local JUnit suite, and the mirror runs `build` as its GitHub workflow does, then again with the gitignored `src/test` copied in. Read each sibling's `CLAUDE.md` whole before touching that repository.
+
+Both siblings track the same `.claude/` cloud files as this repository (`settings.json`, `hooks/session_start.py`, the two always-on skills). They are copies: edit them here, run `python .claude/hooks/session_start.py --deploy`, and ship each sibling's refreshed copy with that sibling.
 
 ## Push rules
 
 - No force push and no rewrite of pushed history; for pushed work a new commit beats `--amend`. Never `--no-verify`, `--no-gpg-sign` or `-c commit.gpgsign=false` — a failing hook is fixed at its cause.
-- A preflight or mirror failure stops before anything is staged; fix the cause and re-run. When the remote moved ahead, pull (keep both sides' work) and re-run. Don't "fix" the old-name remote redirect. Interactive flags (`-i`) don't work in agent shells.
+- A preflight or mirror failure stops before anything is staged; fix the cause and re-run. When the remote moved ahead, pull (keep both sides' work) and re-run. Interactive flags (`-i`) don't work in agent shells.
 - `python tools/poll_actions_ci.py --sha <sha>` re-checks CI by hand.
 
 ## CI red
