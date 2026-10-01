@@ -22,7 +22,9 @@ sourceSets.main.resources {
 
     // Exclude common development only resources from finalized outputs
     exclude("**/*.bbmodel") // BlockBench project files
-    exclude("src/generated/**/.cache") // datagen cache files
+    // Datagen cache files. Patterns are relative to each resource root, and the cache sits at the root
+    // of src/generated/resources, so the template's "src/generated/**/.cache" never matched.
+    exclude('.cache/**')
 }
 
 repositories {
