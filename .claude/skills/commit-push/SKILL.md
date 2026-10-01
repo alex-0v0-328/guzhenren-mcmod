@@ -20,6 +20,8 @@ When Alex asks to commit, push, or commit and push ("走提交流程"), go strai
 
 The sibling repository `../gu-world` (remote `alex-0v0-328/gu-world-mcmod`) ships through the same flow and the same tools with `--project gu-world`: check with `python tools/check.py --project gu-world` (build, then its datagen drift), write the plan to `C:\workspace\Dev\Projects\_Temp\gu-world\ship-plan.json`, run `python tools/ship.py <plan> --project gu-world`, and read `C:\workspace\Dev\Projects\_Temp\gu-world\logs\ship.log`. Its mirror runs `build` as its GitHub workflow does, then the local `data` drift check its CI cannot run. The contributor rule and the gate apply unchanged. A repository or remote with no commit yet ships too: the first push creates `main` and sets the upstream. When a change spans both repositories, ship gu-world first, so Guzhenren's runs and links already find it.
 
+Camera Shift (`../camera-shift`, remote `alex-0v0-328/camera-shift`, renamed 2026-10-01 from `Immersive-Camera-Shift`, which redirects) ships the same way with `--project camerashift` (Alex, 2026-10-01): plan at `C:\workspace\Dev\Projects\_Temp\camerashift\ship-plan.json`, check and mirror run `build`, which includes its tracked JUnit. Read its `CLAUDE.md` whole before touching that repository; it is local-only and never part of a plan.
+
 ## Push rules
 
 - No force push and no rewrite of pushed history; for pushed work a new commit beats `--amend`. Never `--no-verify`, `--no-gpg-sign` or `-c commit.gpgsign=false` — a failing hook is fixed at its cause.
