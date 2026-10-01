@@ -1,41 +1,22 @@
-# 蛊真人
+# 蛊真人 Guzhenren 模组
 
-简体中文 | [English](README.en.md)
+简体中文 | [繁體中文](README.zh-TW.md) | [English](README.en.md)
 
-单人、硬核、生存向的仙侠 RPG 模组。
+偏向 RPG 探索+经营+角色扮演 的中国风格的架空世界模组
 
-> 1.0.0 正式版发布前处于开发阶段，玩法内容尚未定型，本文不列具体内容。
+## 依赖
 
-## 环境与依赖
+- Epic Fight: https://www.curseforge.com/minecraft/mc-mods/epic-fight-mod
+- Geckolib: https://www.curseforge.com/minecraft/mc-mods/geckolib
+- JEI: https://www.curseforge.com/minecraft/mc-mods/jei
+- Curios API: https://modrinth.com/mod/curios
 
-|               |                                    |
-|---------------|------------------------------------|
-| Minecraft     | `1.21.1`                           |
-| NeoForge      | `21.1.x`                           |
-| Java          | `21`                               |
-| mod id / 包名 | `guzhenren` · `net.alex.guzhenren` |
-| 必需依赖      | Epic Fight · GeckoLib              |
-| 可选依赖      | JEI · Curios                       |
-| 配套模组      | gu-world（完整游戏必装）           |
+## 被依赖
 
-精确版本以 `gradle.properties` 与 `build.gradle` 为准。
+[蛊界](https://github.com/alex-0v0-328/mcmod-guworld) 为本Mod的配套模组
 
-## 构建与运行
+包含独特世界+地形生成，独特建筑，其他维度
 
-`build.gradle` 按文件名引用 `run/mods/` 下的 Epic Fight 与 GeckoLib jar。该目录不入库，首次构建前需放入同名 jar（CI 从 Modrinth 下载）。全部维度在配套模组 [gu-world](https://github.com/alex-0v0-328/mcmod-guworld) 里：开发运行时从兄弟目录 `../guworld/build/libs` 加载它的 jar，先在那边执行 `gradlew.bat build`。
+（缺失会导致一系列问题，单独下载其中之一会导致内容体验不完整）
 
-```text
-gradlew.bat build              # 编译、打包
-gradlew.bat runClient          # 开发客户端
-gradlew.bat runData            # 重新生成数据
-```
-
-其他系统用 `./gradlew`。`runData` 的产物 `src/generated/resources` 属于源码集，provider 改动后需重新生成并提交。
-
-## 测试
-
-自动化测试只保留在开发者本地，不随仓库发布；CI 负责编译、打包与生成数据一致性检查。
-
-## 许可
-
-模组本体版权所有，保留所有权利。`LICENSE.txt` 是继承自 NeoForge MDK 模板的 MIT 协议，**不覆盖模组代码**。
+当前还在前期开发中，暂无版本迭代信息

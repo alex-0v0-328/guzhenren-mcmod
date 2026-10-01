@@ -1,43 +1,24 @@
-# Guzhenren
+# Guzhenren Mod
 
-[简体中文](README.md) | English
+[简体中文](README.md) | [繁體中文](README.zh-TW.md) | English
 
-A single-player, hardcore, survival-oriented xianxia RPG mod.
+A Chinese-style fictional-world mod with a lean toward RPG exploration, management and role-play.
 
-> In development ahead of the 1.0.0 release. Gameplay is not final, so this file lists no content.
+This is a translation of [README.md](README.md); where the versions differ, the Simplified Chinese one prevails.
 
-This is a translation of [README.md](README.md); where the two differ, the Chinese version prevails.
+## Dependencies
 
-## Requirements
+- Epic Fight: https://www.curseforge.com/minecraft/mc-mods/epic-fight-mod
+- GeckoLib: https://www.curseforge.com/minecraft/mc-mods/geckolib
+- JEI: https://www.curseforge.com/minecraft/mc-mods/jei
+- Curios API: https://modrinth.com/mod/curios
 
-|                  |                                    |
-|------------------|------------------------------------|
-| Minecraft        | `1.21.1`                           |
-| NeoForge         | `21.1.x`                           |
-| Java             | `21`                               |
-| mod id / package | `guzhenren` · `net.alex.guzhenren` |
-| Required         | Epic Fight · GeckoLib              |
-| Optional         | JEI · Curios                       |
-| Companion        | gu-world (full game needs both)    |
+## Required by
 
-Exact versions live in `gradle.properties` and `build.gradle`.
+[Gu World](https://github.com/alex-0v0-328/mcmod-guworld) is this mod's companion mod.
 
-## Build and run
+It adds its own world and terrain generation, its own structures and other dimensions.
 
-`build.gradle` references the Epic Fight and GeckoLib jars in `run/mods/` by file name. That directory is not tracked, so put the matching jars there before the first build (CI downloads them from Modrinth). Every dimension lives in the companion mod [gu-world](https://github.com/alex-0v0-328/mcmod-guworld): dev runs load its jar from the sibling `../guworld/build/libs`, so run `gradlew.bat build` there first.
+(Leaving it out causes a range of problems, and installing only one of the two leaves the content incomplete.)
 
-```text
-gradlew.bat build              # compile, jar
-gradlew.bat runClient          # dev client
-gradlew.bat runData            # regenerate data
-```
-
-Use `./gradlew` on other systems. `runData` writes `src/generated/resources`, which is a source set: regenerate and commit it after any provider change.
-
-## Tests
-
-The automated tests stay on the developer's machine and are not published with the repository; CI compiles, packages and checks that generated data is up to date.
-
-## License
-
-All rights reserved. `LICENSE.txt` is the MIT license inherited from the NeoForge MDK template and **does not cover the mod's code**.
+Still in early development; there is no release history yet.
