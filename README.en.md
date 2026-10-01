@@ -10,14 +10,14 @@ This is a translation of [README.md](README.md); where the two differ, the Chine
 
 ## Requirements
 
-|                  |                                       |
-|------------------|---------------------------------------|
-| Minecraft        | `1.21.1`                              |
-| NeoForge         | `21.1.x`                              |
-| Java             | `21`                                  |
+|                  |                                    |
+|------------------|------------------------------------|
+| Minecraft        | `1.21.1`                           |
+| NeoForge         | `21.1.x`                           |
+| Java             | `21`                               |
 | mod id / package | `guzhenren` · `net.alex.guzhenren` |
-| Required         | Epic Fight · GeckoLib                 |
-| Optional         | JEI · Curios                          |
+| Required         | Epic Fight · GeckoLib              |
+| Optional         | JEI · Curios                       |
 
 Exact versions live in `gradle.properties` and `build.gradle`.
 

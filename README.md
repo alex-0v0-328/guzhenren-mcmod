@@ -8,14 +8,14 @@
 
 ## 环境与依赖
 
-|               |                                       |
-|---------------|---------------------------------------|
-| Minecraft     | `1.21.1`                              |
-| NeoForge      | `21.1.x`                              |
-| Java          | `21`                                  |
+|               |                                    |
+|---------------|------------------------------------|
+| Minecraft     | `1.21.1`                           |
+| NeoForge      | `21.1.x`                           |
+| Java          | `21`                               |
 | mod id / 包名 | `guzhenren` · `net.alex.guzhenren` |
-| 必需依赖      | Epic Fight · GeckoLib                 |
-| 可选依赖      | JEI · Curios                          |
+| 必需依赖      | Epic Fight · GeckoLib              |
+| 可选依赖      | JEI · Curios                       |
 
 精确版本以 `gradle.properties` 与 `build.gradle` 为准。
 
