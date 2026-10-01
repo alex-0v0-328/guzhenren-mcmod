@@ -16,12 +16,13 @@
 | mod id / 包名 | `guzhenren` · `net.alex.guzhenren` |
 | 必需依赖      | Epic Fight · GeckoLib              |
 | 可选依赖      | JEI · Curios                       |
+| 配套模组      | gu-world（完整游戏必装）           |
 
 精确版本以 `gradle.properties` 与 `build.gradle` 为准。
 
 ## 构建与运行
 
-`build.gradle` 按文件名引用 `run/mods/` 下的 Epic Fight 与 GeckoLib jar。该目录不入库，首次构建前需放入同名 jar（CI 从 Modrinth 下载）。
+`build.gradle` 按文件名引用 `run/mods/` 下的 Epic Fight 与 GeckoLib jar。该目录不入库，首次构建前需放入同名 jar（CI 从 Modrinth 下载）。全部维度在配套模组 [gu-world](https://github.com/alex-0v0-328/gu-world-mcmod) 里：开发运行时从兄弟目录 `../gu-world/build/libs` 加载它的 jar，先在那边执行 `gradlew.bat build`。
 
 ```text
 gradlew.bat build              # 编译、打包

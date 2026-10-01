@@ -1,6 +1,5 @@
 package net.alex.guzhenren;
 
-import net.alex.guzhenren.client.dimension.TreasureYellowHeavenEffects;
 import net.alex.guzhenren.client.fluid.SpiritSpringClientExtensions;
 import net.alex.guzhenren.client.icon.GradedEffectIcon;
 import net.alex.guzhenren.client.icon.ItemEffectIcon;
@@ -9,16 +8,15 @@ import net.alex.guzhenren.registry.fluid.ModFluidTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
 /**
  * Client-only entry point, so that nothing which would crash a dedicated server sits in {@link Guzhenren}.
  *
  * <p>Annotated {@code @Mod(dist = Dist.CLIENT)}. It registers every MobEffect's client extension --
- * the effect icons -- plus the Spirit Spring's fluid rendering and the Treasure Yellow Heaven
- * dimension special effects on the mod bus; all other client-side event subscribers live under the
- * {@code client/} package tree and are loaded only on the client.
+ * the effect icons -- plus the Spirit Spring's fluid rendering on the mod bus; all other client-side
+ * event subscribers live under the {@code client/} package tree and are loaded only on the client.
+ * The Treasure Yellow Heaven's sky effects belong to the sibling mod gu-world.
  *
  * @author Alex
  * @version 1.0.0
@@ -31,11 +29,6 @@ public class GuzhenrenClient {
 
     public GuzhenrenClient(IEventBus modEventBus) {
         modEventBus.addListener(GuzhenrenClient::onRegisterClientExtensions);
-        modEventBus.addListener(GuzhenrenClient::onRegisterDimensionSpecialEffects);
-    }
-
-    private static void onRegisterDimensionSpecialEffects(RegisterDimensionSpecialEffectsEvent event) {
-        event.register(Guzhenren.id("treasure_yellow_heaven"), new TreasureYellowHeavenEffects());
     }
 
     private static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {

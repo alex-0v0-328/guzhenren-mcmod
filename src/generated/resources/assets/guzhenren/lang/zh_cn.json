@@ -1,7 +1,6 @@
 {
   "advancements.guzhenren.first_awakening.description": "使用你的第一只希望蛊，开出第一窍",
   "advancements.guzhenren.first_awakening.title": "开窍！",
-  "biome.guzhenren.treasure_yellow_heaven": "宝黄天",
   "block.guzhenren.spirit_spring": "元泉",
   "death.attack.guzhenren.aperture_pressure_explosion": "%1$s 空窍压力爆炸而亡",
   "death.attack.guzhenren.lifespan_exhausted": "%1$s 寿元耗尽而亡",
@@ -9,7 +8,6 @@
   "death.attack.guzhenren.soul_collapse": "%1$s 魂魄衰竭而亡",
   "death.attack.guzhenren.ten_extreme_disaster": "%1$s 被十绝天灾波及而亡",
   "death.attack.guzhenren.vital_gu_lost": "%1$s 本命蛊死亡而亡",
-  "dimension.guzhenren.treasure_yellow_heaven": "宝黄天",
   "effect.guzhenren.all_out_effort": "全力以赴蛊效果",
   "effect.guzhenren.brute_force_longhorn_beetle_gu": "蛮力天牛蛊效果",
   "effect.guzhenren.casual_gu": "随意蛊效果",
@@ -544,7 +542,5 @@
   "itemGroup.guzhenren.mortal_gu": "凡蛊",
   "itemGroup.guzhenren.strength_mortal_gu": "力道凡蛊",
   "key.categories.guzhenren": "蛊真人",
-  "key.guzhenren.open_info": "打开信息面板",
-  "travelerstitles.guzhenren.treasure_yellow_heaven": "宝黄天",
-  "travelerstitles.guzhenren.treasure_yellow_heaven.color": "f4d35e"
+  "key.guzhenren.open_info": "打开信息面板"
 }

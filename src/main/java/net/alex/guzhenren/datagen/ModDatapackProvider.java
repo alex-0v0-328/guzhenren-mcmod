@@ -1,8 +1,6 @@
 package net.alex.guzhenren.datagen;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.OptionalLong;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import net.alex.guzhenren.Guzhenren;
@@ -12,9 +10,7 @@ import net.alex.guzhenren.entity.RhinocerosBeetleGuEntity;
 import net.alex.guzhenren.registry.damage.ModDamageTypes;
 import net.alex.guzhenren.registry.entity.ModEntityTypes;
 import net.alex.guzhenren.registry.world.ModBiomeTags;
-import net.alex.guzhenren.registry.world.ModDimensions;
 import net.alex.guzhenren.registry.world.ModFeatures;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
@@ -23,21 +19,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeGenerationSettings;
-import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
@@ -53,8 +41,8 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
  * The single provider for every datapack registry this mod writes.
  *
  * <p>Extends {@link net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider}. Builds damage
- * types, the Treasure Yellow Heaven dimension, the Spirit Spring worldgen feature and biome modifiers
- * in one {@code RegistrySetBuilder}. The tag providers take
+ * types, the Spirit Spring worldgen feature and biome modifiers in one {@code RegistrySetBuilder}; the
+ * dimensions belong to the sibling mod gu-world. The tag providers take
  * {@code getRegistryProvider()} from this instance, not the plain lookup, so the tag pass sees the
  * types this run generates.
  *
@@ -75,9 +63,6 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
 
     private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.DAMAGE_TYPE, ModDatapackProvider::damageTypes)
-            .add(Registries.DIMENSION_TYPE, ModDatapackProvider::dimensionTypes)
-            .add(Registries.BIOME, ModDatapackProvider::biomes)
-            .add(Registries.LEVEL_STEM, ModDatapackProvider::levelStems)
             .add(Registries.CONFIGURED_FEATURE, ModDatapackProvider::configuredFeatures)
             .add(Registries.PLACED_FEATURE, ModDatapackProvider::placedFeatures)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModDatapackProvider::biomeModifiers);
@@ -96,61 +81,6 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
         context.register(ModDamageTypes.TEN_EXTREME_DISASTER,
                 new DamageType("guzhenren.ten_extreme_disaster", 0.0F));
         context.register(ModDamageTypes.VITAL_GU_LOST, new DamageType("guzhenren.vital_gu_lost", 0.0F));
-    }
-    //endregion
-
-    //region Dimension type [维度类型]
-    private static void dimensionTypes(BootstrapContext<DimensionType> context) {
-        context.register(ModDimensions.TREASURE_YELLOW_HEAVEN_TYPE, new DimensionType(
-                OptionalLong.empty(),
-                true,
-                false,
-                false,
-                false,
-                1.0,
-                false,
-                false,
-                0,
-                256,
-                256,
-                BlockTags.INFINIBURN_OVERWORLD,
-                Guzhenren.id("treasure_yellow_heaven"),
-                0.0F,
-                new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)
-        ));
-    }
-    //endregion
-
-    //region Biome [生物群系]
-    private static final int TREASURE_YELLOW_HEAVEN_SKY_COLOR = 0xF4D35E;
-
-    private static void biomes(BootstrapContext<Biome> context) {
-        context.register(ModDimensions.TREASURE_YELLOW_HEAVEN_BIOME, new Biome.BiomeBuilder()
-                .hasPrecipitation(false)
-                .temperature(0.8F)
-                .downfall(0.0F)
-                .specialEffects(new BiomeSpecialEffects.Builder()
-                        .skyColor(TREASURE_YELLOW_HEAVEN_SKY_COLOR)
-                        .fogColor(TREASURE_YELLOW_HEAVEN_SKY_COLOR)
-                        .waterColor(TREASURE_YELLOW_HEAVEN_SKY_COLOR)
-                        .waterFogColor(TREASURE_YELLOW_HEAVEN_SKY_COLOR)
-                        .build())
-                .mobSpawnSettings(new MobSpawnSettings.Builder().build())
-                .generationSettings(BiomeGenerationSettings.EMPTY)
-                .build());
-    }
-    //endregion
-
-    //region Level stem [维度层级源]
-    private static void levelStems(BootstrapContext<LevelStem> context) {
-        HolderGetter<DimensionType> dimensionTypes = context.lookup(Registries.DIMENSION_TYPE);
-        HolderGetter<Biome> biomes = context.lookup(Registries.BIOME);
-        Holder<Biome> biome = biomes.getOrThrow(ModDimensions.TREASURE_YELLOW_HEAVEN_BIOME);
-        FlatLevelGeneratorSettings settings = new FlatLevelGeneratorSettings(Optional.empty(), biome, List.of());
-        context.register(ModDimensions.TREASURE_YELLOW_HEAVEN_STEM, new LevelStem(
-                dimensionTypes.getOrThrow(ModDimensions.TREASURE_YELLOW_HEAVEN_TYPE),
-                new FlatLevelSource(settings)
-        ));
     }
     //endregion
 

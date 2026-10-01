@@ -1,7 +1,6 @@
 {
   "advancements.guzhenren.first_awakening.description": "Use your first Hope Gu to open your first aperture",
   "advancements.guzhenren.first_awakening.title": "Awakening!",
-  "biome.guzhenren.treasure_yellow_heaven": "Treasure Yellow Heaven",
   "block.guzhenren.spirit_spring": "Spirit Spring",
   "death.attack.guzhenren.aperture_pressure_explosion": "%1$s died in an aperture pressure explosion",
   "death.attack.guzhenren.lifespan_exhausted": "%1$s ran out of lifespan",
@@ -9,7 +8,6 @@
   "death.attack.guzhenren.soul_collapse": "%1$s suffered soul collapse",
   "death.attack.guzhenren.ten_extreme_disaster": "%1$s was killed by a Ten-Extreme disaster",
   "death.attack.guzhenren.vital_gu_lost": "%1$s lost their Vital Gu",
-  "dimension.guzhenren.treasure_yellow_heaven": "Treasure Yellow Heaven",
   "effect.guzhenren.all_out_effort": "All-Out Effort Gu Effect",
   "effect.guzhenren.brute_force_longhorn_beetle_gu": "Brute Force Longhorn Beetle Gu Effect",
   "effect.guzhenren.casual_gu": "Casual Gu Effect",
@@ -544,7 +542,5 @@
   "itemGroup.guzhenren.mortal_gu": "Mortal Gu",
   "itemGroup.guzhenren.strength_mortal_gu": "Strength Mortal Gu",
   "key.categories.guzhenren": "Guzhenren",
-  "key.guzhenren.open_info": "Open Info Panel",
-  "travelerstitles.guzhenren.treasure_yellow_heaven": "Treasure Yellow Heaven",
-  "travelerstitles.guzhenren.treasure_yellow_heaven.color": "f4d35e"
+  "key.guzhenren.open_info": "Open Info Panel"
 }

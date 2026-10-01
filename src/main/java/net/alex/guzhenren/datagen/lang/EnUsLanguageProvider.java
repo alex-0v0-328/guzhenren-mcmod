@@ -162,10 +162,6 @@ public class EnUsLanguageProvider extends LanguageProvider {
 
     //region DIMENSION
     private void addDimensionKeys() {
-        add("dimension.guzhenren.treasure_yellow_heaven", "Treasure Yellow Heaven");
-        add("biome.guzhenren.treasure_yellow_heaven", "Treasure Yellow Heaven");
-        add("travelerstitles.guzhenren.treasure_yellow_heaven", "Treasure Yellow Heaven");
-        add("travelerstitles.guzhenren.treasure_yellow_heaven.color", "f4d35e");
         add("guzhenren.dimension.treasure_yellow_heaven.inventory_full",
                 "Inventory full: what does not fit floats beside you");
     }

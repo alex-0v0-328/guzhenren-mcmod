@@ -18,12 +18,13 @@ This is a translation of [README.md](README.md); where the two differ, the Chine
 | mod id / package | `guzhenren` · `net.alex.guzhenren` |
 | Required         | Epic Fight · GeckoLib              |
 | Optional         | JEI · Curios                       |
+| Companion        | gu-world (full game needs both)    |
 
 Exact versions live in `gradle.properties` and `build.gradle`.
 
 ## Build and run
 
-`build.gradle` references the Epic Fight and GeckoLib jars in `run/mods/` by file name. That directory is not tracked, so put the matching jars there before the first build (CI downloads them from Modrinth).
+`build.gradle` references the Epic Fight and GeckoLib jars in `run/mods/` by file name. That directory is not tracked, so put the matching jars there before the first build (CI downloads them from Modrinth). Every dimension lives in the companion mod [gu-world](https://github.com/alex-0v0-328/gu-world-mcmod): dev runs load its jar from the sibling `../gu-world/build/libs`, so run `gradlew.bat build` there first.
 
 ```text
 gradlew.bat build              # compile, jar

@@ -165,10 +165,6 @@ public class ZhCnLanguageProvider extends LanguageProvider {
 
     //region DIMENSION
     private void addDimensionKeys() {
-        add("dimension.guzhenren.treasure_yellow_heaven", "宝黄天");
-        add("biome.guzhenren.treasure_yellow_heaven", "宝黄天");
-        add("travelerstitles.guzhenren.treasure_yellow_heaven", "宝黄天");
-        add("travelerstitles.guzhenren.treasure_yellow_heaven.color", "f4d35e");
         add("guzhenren.dimension.treasure_yellow_heaven.inventory_full", "背包已满，放不下的物品悬浮在身边");
     }
     //endregion
