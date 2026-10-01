@@ -1,6 +1,6 @@
 ---
-name: gzr-sonnet-medium
-description: GZR worker for every delegated task — audits, reviews, research, sweeps, counts and bounded edits (Alex, 2026-09-28; one Sonnet medium tier since 2026-09-30). The main agent keeps design and final acceptance.
+name: gzr-worker
+description: GZR worker for every delegated task — audits, reviews, research, sweeps, counts and bounded edits (Alex, 2026-09-28). Alex picks the model per dispatch, Sonnet when none is passed; the main agent keeps design and final acceptance.
 model: sonnet
 effort: medium
 ---
