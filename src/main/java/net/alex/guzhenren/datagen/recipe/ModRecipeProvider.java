@@ -72,7 +72,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 " .I. ");
     }
 
-    //region 蛊方 [Gu Recipe] patterns -- one row a grid row, ' ' a cut corner, '.' an empty cell
+    //region Gu Recipe [蛊方] patterns -- one row a grid row, ' ' a cut corner, '.' an empty cell
     private static void refinement(RecipeOutput output, ItemLike result, long essencePerSecond,
                                    long soulPerSecond, int baseSuccess, List<Integer> windows,
                                    Map<Character, SizedIngredient> key, String... pattern) {

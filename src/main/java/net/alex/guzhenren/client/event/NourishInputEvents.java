@@ -15,7 +15,8 @@ import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
  *
  * <p>Annotated {@code @EventBusSubscriber(Dist.CLIENT)}. On {@code MovementInputUpdateEvent} it zeroes
  * every input axis while {@link net.alex.guzhenren.attachment.service.aperture.ApertureNourishService#isCultivating}
- * is true; on {@code ComputeFovModifierEvent} it sets a multiplier so the view pulls in to 100.
+ * is true; on {@code ComputeFovModifierEvent} it sets a multiplier so the view pulls in to a
+ * {@link #CULTIVATION_FOV}-degree field of view.
  *
  * <p>☠ Standing still can only be enforced on the CLIENT. A server-side stop is undone on the very
  * next tick by whatever key is held -- client input is the only authority that can keep it still.

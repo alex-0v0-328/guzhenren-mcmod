@@ -10,12 +10,12 @@ import net.neoforged.neoforge.client.extensions.common.IClientMobEffectExtension
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Shared layout for an effect icon drawn from a texture: slot centring, the HUD/inventory render hooks,
+ * Shared layout for an effect icon drawn from a texture: slot centering, the HUD/inventory render hooks,
  * and the one abstract seam -- which texture this instance wears.
  *
  * <p>Implements {@link net.neoforged.neoforge.client.extensions.common.IClientMobEffectExtensions}.
  * The two default render methods (HUD and inventory) both delegate to {@code textureFor}, so a new
- * effect icon strategy is one class implementing that seam. All icons are 16×16, centred with a 1px
+ * effect icon strategy is one class implementing that seam. All icons are 16×16, centered with a 1px
  * inset.
  *
  * @author Alex

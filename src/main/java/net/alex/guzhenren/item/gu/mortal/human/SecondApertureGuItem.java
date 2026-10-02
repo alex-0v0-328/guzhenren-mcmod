@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>The gate refuses only a second aperture already at or above the rung -- an upgrade must be
  * strictly higher than the second aperture alone, and it overwrites it whole. (Back to the first stage,
  * Grade-A at 8/10, progress zeroed, bound paths kept.) Everything else answers: no first aperture,
- * no aperture at all, any rank gap -- a gu below the holder needs no primary to compare against.
+ * no aperture at all, any rank gap -- a Gu below the holder needs no primary to compare against.
  * Usable while undead: an aperture opened by it reads a LIVING one under every later undeath.
  *
  * @author Alex

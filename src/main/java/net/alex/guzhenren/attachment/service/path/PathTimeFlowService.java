@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * The only door the player's own clock [自身时间] is hastened through; 宙道 [Time Path] is all that comes
+ * The only door the player's own clock [自身时间] is hastened through; Time Path [宙道] is all that comes
  * to it. {@code rate()} walks {@code getActiveEffects()} for every {@link TimeRateUpEffect}, flooring at 1.
  *
  * <p>⚠ THREE verbs leave this class and a caller uses ONE: {@code waited}, {@code perStep}, {@code
@@ -47,7 +47,7 @@ public final class PathTimeFlowService {
         return Math.max(NORMAL_RATE, rate);
     }
 
-    //region 自身时间 [his own clock] -- three verbs, because it only ever takes three shapes
+    //region his own clock [自身时间] -- three verbs, because it only ever takes three shapes
     public static int waited(@NotNull Player p, int ticks) { return waited(rate(p), ticks); }
 
     public static long perStep(@NotNull Player p, long amount) { return perStep(rate(p), amount); }

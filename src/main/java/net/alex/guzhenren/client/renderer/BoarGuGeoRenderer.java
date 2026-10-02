@@ -9,7 +9,7 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 /**
- * Shared GeckoLib [GeckoLib] renderer for the white, black and flower Boar Gu [豕蛊] entities.
+ * Shared GeckoLib renderer for the white, black and flower Boar Gu [豕蛊] entities.
  *
  * <p>Geometry and animations come from the shared {@link GeoModel} baked from
  * {@code assets/guzhenren/geo/entity/boar_gu.geo.json}; each entity injects its own fixed

@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
  * BodyData.zombieTier}, NOT a MobEffect (permanent 僵 has none; command tier -1 gets NO attack).
  *
  * <p>{@link #showsImpactRing(double)} tests the attack-panel value against
- * {@link #IMPACT_RING_ATTACK_THRESHOLD}, at and above which a landed Epic-Fight bare-hand/fist punch
+ * {@link #IMPACT_RING_ATTACK_THRESHOLD}, at and above which a landed Epic Fight bare-hand/fist punch
  * spawns the shockwave ring (Alex, 2026-09-19); read as the panel number, so only fist-category
  * weapon damage ever rides along with the strength bonus.
  *

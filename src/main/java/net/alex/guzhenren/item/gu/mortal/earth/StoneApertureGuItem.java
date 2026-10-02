@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>Extends {@link net.alex.guzhenren.item.gu.ConsumedGuItem}, so it is tended, never feeds and
  * is taken by its own use. Three rungs register against this one class. {@link #stoneTarget} is the
  * pure seam the unit tests pin: the target is the PRIMARY aperture whenever it is NORMAL; only a
- * dead or stoned primary passes the gu on, and only to a NORMAL second aperture; nobody usable
+ * dead or stoned primary passes the Gu on, and only to a NORMAL second aperture; nobody usable
  * answers {@code NO_TARGET}. {@link #targetOf} maps that seam onto real list positions: a lone
  * second aperture lives at position 0, and a missing slot counts as DEAD. A rank mismatch on the
  * primary does NOT pass it on -- the fall-through is for a lost aperture, not for a wrong rank. The

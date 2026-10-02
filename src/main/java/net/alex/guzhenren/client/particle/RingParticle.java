@@ -32,7 +32,7 @@ import org.joml.Vector3f;
  * small-to-large where they were planted: the dash trail rides {@code shockwave_ring} along the
  * dash path (hidden from the dashing player's own first-person view -- the trail is for
  * third-person and bystanders, Alex 2026-09-20), the punch trail rides {@code impact_ring} along
- * the punch ray from the strike point. The particles json's sprite order IS the playback order,
+ * the punch ray from the strike point. The particle JSON's sprite order IS the playback order,
  * and each frame's world size derives from its own canvas width
  * ({@link RingGeometry#scaleForWidth(int)}), so growth direction lives in exactly one place. The
  * quad size lerps toward the next frame every tick ({@link #getQuadSize(float)} lerps toward
@@ -43,7 +43,7 @@ import org.joml.Vector3f;
  * chosen by the provider: {@link Orientation#GROUND} lays the quad flat in the world XZ plane
  * (rotating XZ corners by the camera quaternion was the 2026-09-19 bug -- it pitched the quad with
  * the view and sank its leading edge under the terrain). {@link Orientation#FACING_MOTION} builds
- * the ring plane perpendicular to the spawn velocity, tilting a few degrees toward the camera only
+ * the ring plane perpendicular to the spawn velocity, tilting toward the camera only
  * when that plane would be perfectly edge-on (a sideways dash seen from the front -- Alex's
  * 2026-09-19 spec: keep the ring perpendicular to the motion, opening toward the camera by
  * {@link RingGeometry#MIN_OPENING_DEGREES} when it runs parallel to the screen). New

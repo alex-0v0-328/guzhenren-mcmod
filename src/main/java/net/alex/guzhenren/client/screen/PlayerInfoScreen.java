@@ -33,8 +33,8 @@ import org.jetbrains.annotations.Nullable;
  *
  * <p>Extends {@link net.minecraft.client.gui.screens.Screen} (no menu behind it). Six tabs: 空窍,
  * 肉身, 魂魄, 流派造诣, 脑海, 炼蛊. The aperture tab draws one column per aperture -- a lone aperture
- * keeps the single-column layout -- and every column carries its own 温养空窍 [nourish] /
- * 冲刷窍壁 [flush] / 空窍存储 [storage] buttons; the storage button opens that aperture's container.
+ * keeps the single-column layout -- and every column carries its own nourish [温养空窍] /
+ * flush [冲刷窍壁] / storage [空窍存储] buttons; the storage button opens that aperture's container.
  * The refinement tab opens its container via a client-intent payload instead of drawing rows. Row
  * content comes from {@link net.alex.guzhenren.display.InfoModel}, shared with {@code /gzr
  * info}, so the two surfaces cannot diverge.
@@ -219,7 +219,7 @@ public final class PlayerInfoScreen extends Screen {
     }
     //endregion
 
-    //region per-aperture buttons -- 温养空窍 [nourish] / 冲刷窍壁 [flush] / 空窍存储 [storage], one stack per aperture
+    //region per-aperture buttons -- nourish [温养空窍] / flush [冲刷窍壁] / storage [空窍存储], one stack per aperture
     private record ApButton(int aperture, int kind, String key, int top) {}
 
     private record ColumnButton(int aperture, int kind, String key, int x0, int x1, int top) {}

@@ -15,9 +15,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 /**
  * The item components this mod adds, for state belonging to one particular stack.
  *
- * <p>DeferredRegister holder: {@link RefinedGuState}, {@code VITAL_OWNER}, {@code STORED_STONES},
- * {@code REFINED_AT}, {@code AWAKEN_BASE}, {@code USED_AT} and {@code HEAL_BANK}. A component here is
- * for state that not every tended Gu shares; anything all of them carry belongs on the shared state
+ * <p>DeferredRegister holder: {@link RefinedGuState}, {@code VITAL_OWNER}, {@code VITAL_APERTURE},
+ * {@code STORED_STONES}, {@code REFINED_AT}, {@code AWAKEN_BASE}, {@code USED_AT} and {@code HEAL_BANK}. A
+ * component here is for state that not every tended Gu shares; anything all of them carry belongs on the shared state
  * record instead.
  *
  * <p>⚠ Game-clock timestamps default to {@code 0}, which is a real game time -- judge {@code null},

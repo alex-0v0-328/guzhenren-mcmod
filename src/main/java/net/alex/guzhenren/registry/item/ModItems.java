@@ -104,7 +104,7 @@ public final class ModItems {
             () -> new RelicsGuItem(oneShot(), GuSpec.of(Rank.FIVE, GuPath.HEAVEN)));
     //endregion
 
-    //region 兽力虚影流 [Beast Strength Phantom Branch]
+    //region Beast Strength Phantom Branch [兽力虚影流]
     public static final DeferredItem<Item> WHITE_BOAR_GU = ITEMS.register("white_boar_gu",
             () -> new BeastStrengthGuItem(tended(), BeastStrength.WHITE_BOAR, GuSpec.of(Rank.ONE, GuPath.STRENGTH)
                     .strengthPathBranch(StrengthPathBranch.BEAST_STRENGTH_PHANTOM)
@@ -158,7 +158,7 @@ public final class ModItems {
                                     .cooldown(30 * Ticks.SECOND, Ticks.SECOND)));
     //endregion
 
-    //region 基础力道 [Normal] -- Strength Path Gu outside the three specialized branches
+    //region Normal [基础力道] -- Strength Path Gu outside the three specialized branches
     public static final DeferredItem<Item> HORIZONTAL_CRASH_GU = ITEMS.register("horizontal_crash_gu",
             () -> new BuffGuItem(tended(), ModEffects.HORIZONTAL_CRASH_GU, CrashGuEffect.duration(30),
                     GuSpec.of(Rank.THREE, GuPath.STRENGTH)
@@ -210,7 +210,7 @@ public final class ModItems {
                             .cooldown(30 * Ticks.SECOND, Ticks.SECOND)));
     //endregion
 
-    //region 人力钧力流 [Human Jun Strength Branch] -- one round is one layer
+    //region Human Jun Strength Branch [人力钧力流] -- one round is one layer
     public static final DeferredItem<Item> JIN_STRENGTH_GU = ITEMS.register("jin_strength_gu",
             () -> new HumanStrengthGuItem(tended(), HumanStrength.JIN, GuSpec.of(Rank.ONE, GuPath.STRENGTH)
                     .strengthPathBranch(StrengthPathBranch.HUMAN_JUN_STRENGTH)
@@ -241,7 +241,7 @@ public final class ModItems {
                     .feed(ModItemTags.JIN_FEED_SMELTED, 1)));
     //endregion
 
-    //region 基础力道 [Normal] -- All-Out Effort Gu unlocks a stockpiled 9999 jin
+    //region Normal [基础力道] -- All-Out Effort Gu unlocks a stockpiled 9999 jin
     public static final DeferredItem<Item> ALL_OUT_EFFORT_GU_3 = ITEMS.register("all_out_effort_gu_3",
             () -> new AllOutEffortGuItem(tended(), 60, GuSpec.of(Rank.THREE, GuPath.STRENGTH)
                     .refine(80_000)
@@ -303,7 +303,7 @@ public final class ModItems {
                     .refine(160_000).costPerUse(0)));
     //endregion
 
-    //region 天元宝莲 [Treasure Lotus Gu] -- wood path; 5% essence per second and minted stones
+    //region Heavenly Essence Treasure Lotus Gu [天元宝莲] -- wood path; 5% essence per second and minted stones
     public static final DeferredItem<Item> HEAVENLY_ESSENCE_TREASURE_LOTUS_GU = ITEMS.register(
             "heavenly_essence_treasure_lotus_gu",
             () -> new TreasureLotusGuItem(tended(), 1, 100, GuSpec.of(Rank.THREE, GuPath.WOOD)
@@ -318,7 +318,7 @@ public final class ModItems {
                     .refine(8_000_000).costPerUse(0)));
     //endregion
 
-    //region 僵尸蛊 [zombie Gu] -- 变化道; a timed 半生半僵, and a 5-minute window that makes it permanent
+    //region Zombie Gu [僵尸蛊] -- 变化道; a timed 半生半僵, and a 5-minute window that makes it permanent
     public static final DeferredItem<Item> ROAMING_ZOMBIE_GU = ITEMS.register("roaming_zombie_gu",
             () -> new ZombieGuItem(tended(), 2 * Ticks.MINUTE, GuSpec.of(Rank.TWO, GuPath.TRANSFORMATION)
                     .refine(8_000).costPerUse(160)
@@ -355,7 +355,7 @@ public final class ModItems {
     }
     //endregion
 
-    //region 更蛊 [Watch Gu] -- 宙道; tended like any other, and taken by the one use it is kept for
+    //region Watch Gu [更蛊] -- 宙道; tended like any other, and taken by the one use it is kept for
     public static final DeferredItem<Item> SECOND_WATCH_GU = ITEMS.register("second_watch_gu",
             () -> new WatchGuItem(tended(), ModEffects.SECOND_WATCH_GU, 5 * Ticks.MINUTE,
                     GuSpec.of(Rank.FOUR, GuPath.TIME)
@@ -368,7 +368,7 @@ public final class ModItems {
                             .cooldown(Ticks.SECOND)));
     //endregion
 
-    //region 恶念蛊 [Malicious Thought Gu] -- 智道; a one-use flood of evil thoughts, taken by its use
+    //region Malicious Thought Gu [恶念蛊] -- 智道; a one-use flood of evil thoughts, taken by its use
     public static final DeferredItem<Item> MALICIOUS_THOUGHT_GU_2 = ITEMS.register("malicious_thought_gu_2",
             () -> new MaliciousThoughtGuItem(tended(), ModEffects.MALICIOUS_THOUGHT_GU, 64L,
                     GuSpec.of(Rank.TWO, GuPath.WISDOM)
@@ -399,12 +399,12 @@ public final class ModItems {
                             .cooldown(Ticks.SECOND)));
     //endregion
 
-    //region 胆识蛊 [Guts Gu] -- 魂道; a one-shot Gu that raises the soul cap
+    //region Guts Gu [胆识蛊] -- 魂道; a one-shot Gu that raises the soul cap
     public static final DeferredItem<Item> GUTS_GU = ITEMS.register("guts_gu",
             () -> new GutsGuItem(oneShot(), GuSpec.of(Rank.ONE, GuPath.SOUL)));
     //endregion
 
-    //region 随意蛊 [Casual Gu] -- 智道; ten seconds of random thoughts, taken by its use
+    //region Casual Gu [随意蛊] -- 智道; ten seconds of random thoughts, taken by its use
     public static final DeferredItem<Item> CASUAL_GU_1 = ITEMS.register("casual_gu_1",
             () -> new CasualGuItem(tended(), ModEffects.CASUAL_GU, GuSpec.of(Rank.ONE, GuPath.WISDOM)
                     .refine(100)
@@ -421,7 +421,7 @@ public final class ModItems {
                     .cooldown(Ticks.SECOND)));
     //endregion
 
-    //region 石窍蛊 [Stone Aperture Gu] -- earth path; never feeds, taken by its use, and the aperture
+    //region Stone Aperture Gu [石窍蛊] -- earth path; never feeds, taken by its use, and the aperture
     // it leaves stands on this rank's peak, petrified
     public static final DeferredItem<Item> STONE_APERTURE_GU_3 = ITEMS.register("stone_aperture_gu_3",
             () -> new StoneApertureGuItem(tended(), GuSpec.of(Rank.THREE, GuPath.EARTH)
@@ -437,7 +437,7 @@ public final class ModItems {
                     .cooldown(Ticks.SECOND)));
     //endregion
 
-    //region 第二空窍蛊 [Second Aperture Gu] -- human path; opens or upgrades the second aperture,
+    //region Second Aperture Gu [第二空窍蛊] -- human path; opens or upgrades the second aperture,
     // a free one-shot taken by its use; Grade-A at 8/10, this rank's first stage, never a physique
     public static final DeferredItem<Item> SECOND_APERTURE_GU_1 = ITEMS.register("second_aperture_gu_1",
             () -> secondApertureGu(Rank.ONE));
@@ -455,7 +455,7 @@ public final class ModItems {
     }
     //endregion
 
-    //region 蛊材 [Gu materials]
+    //region Gu materials [蛊材]
     public static final DeferredItem<Item> PRIMEVAL_STONE = ITEMS.register("primeval_stone",
             () -> new PrimevalStoneItem(new Item.Properties(), PRIMEVAL_STONE_ESSENCE));
     public static final DeferredItem<Item> LIQUOR = ITEMS.register("liquor",
@@ -472,7 +472,7 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.SPIRIT_SPRING.get(), new Item.Properties()));
     //endregion
 
-    //region 人窍 [Human Aperture] -- pure gu material, ranks I..V; a wiped death drops one per aperture
+    //region Human Aperture [人窍] -- pure Gu material, ranks I..V; a wiped death drops one per aperture
     public static final DeferredItem<Item> HUMAN_APERTURE_1 = humanAperture("human_aperture_1", Rank.ONE);
     public static final DeferredItem<Item> HUMAN_APERTURE_2 = humanAperture("human_aperture_2", Rank.TWO);
     public static final DeferredItem<Item> HUMAN_APERTURE_3 = humanAperture("human_aperture_3", Rank.THREE);

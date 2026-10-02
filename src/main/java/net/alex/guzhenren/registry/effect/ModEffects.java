@@ -62,7 +62,7 @@ public final class ModEffects {
     public static final DeferredHolder<MobEffect, StrengthQiEffect> STRENGTH_QI = MOB_EFFECTS.register(
             "strength_qi", () -> new StrengthQiEffect(MobEffectCategory.BENEFICIAL, EFFECT_COLOR));
 
-    //region 兽力虚影流 [Beast Strength Phantom Branch]
+    //region Beast Strength Phantom Branch [兽力虚影流]
     public static final DeferredHolder<MobEffect, FlowerBoarGuEffect> FLOWER_BOAR_GU = MOB_EFFECTS.register(
             "flower_boar_gu", () -> new FlowerBoarGuEffect(MobEffectCategory.BENEFICIAL, EFFECT_COLOR));
     public static final DeferredHolder<MobEffect, DragonpillCricketGuEffect> DRAGONPILL_CRICKET_GU =
@@ -73,7 +73,7 @@ public final class ModEffects {
                     MobEffectCategory.BENEFICIAL, EFFECT_COLOR));
     //endregion
 
-    //region 基础力道 [Normal]
+    //region Normal [基础力道]
     public static final DeferredHolder<MobEffect, AllOutEffortEffect> ALL_OUT_EFFORT = MOB_EFFECTS.register(
             "all_out_effort", () -> new AllOutEffortEffect(MobEffectCategory.BENEFICIAL, EFFECT_COLOR));
     public static final DeferredHolder<MobEffect, CrashGuEffect> HORIZONTAL_CRASH_GU = MOB_EFFECTS.register(
@@ -97,7 +97,7 @@ public final class ModEffects {
     public static final DeferredHolder<MobEffect, HalfZombieEffect> HALF_ZOMBIE = MOB_EFFECTS.register(
             "half_zombie", () -> new HalfZombieEffect(MobEffectCategory.NEUTRAL, EFFECT_COLOR));
 
-    //region 更蛊 [Watch Gu] -- one effect per Gu, so both can be worn at once and their rates add
+    //region Watch Gu [更蛊] -- one effect per Gu, so both can be worn at once and their rates add
     public static final DeferredHolder<MobEffect, TimeRateUpEffect> SECOND_WATCH_GU = MOB_EFFECTS.register(
             "second_watch_gu", () -> new TimeRateUpEffect(MobEffectCategory.BENEFICIAL, EFFECT_COLOR, 2, 2));
     public static final DeferredHolder<MobEffect, TimeRateUpEffect> THIRD_WATCH_GU = MOB_EFFECTS.register(

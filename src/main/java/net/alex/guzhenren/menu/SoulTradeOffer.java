@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * <p>{@link #settle(NonNullList, List)} is all or nothing: it pays and stows on copies and writes back only when
  * both succeed, and then only the slots whose contents changed, so untouched stacks keep their identity. The trade is also refused unless everything that will later fall back into the
- * bag still fits afterwards -- the stack on the cursor and the 2x2 crafting grid, passed as {@code returning}.
+ * bag still fits afterward -- the stack on the cursor and the 2x2 crafting grid, passed as {@code returning}.
  * Inside the Treasure Yellow Heaven [宝黄天] such a return has nowhere else to go.
  *
  * @author Alex

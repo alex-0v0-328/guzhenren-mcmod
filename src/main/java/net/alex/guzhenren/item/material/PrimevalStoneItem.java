@@ -68,7 +68,7 @@ public class PrimevalStoneItem extends GuMaterialItem {
         return (int) Math.min(stack.getCount(), (deficit + essence - 1) / essence);
     }
 
-    //region 元石补给 [the stone top-up] -- one line, so two callers cannot drift apart
+    //region the stone top-up [元石补给] -- one line, so two callers cannot drift apart
     public static long essencePerStone() {
         return ModItems.PRIMEVAL_STONE.get() instanceof PrimevalStoneItem stone ? stone.essence() : 0L;
     }

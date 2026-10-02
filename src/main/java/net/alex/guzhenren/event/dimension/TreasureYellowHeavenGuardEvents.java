@@ -24,8 +24,8 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 /**
  * Server-authority guard for the Treasure Yellow Heaven [宝黄天] anchored dimension. While inside,
- * a player may only move, fly, chat, and use the exit command; every other interaction is cancelled
- * here. Void damage is also cancelled so the rescue handler below can return the player to spawn.
+ * a player may only move, fly, chat, and use the exit command; every other interaction is canceled
+ * here. Void damage is also canceled so the rescue handler below can return the player to spawn.
  *
  * <p>All checks are server-side. The few events that also fire on the client are guarded with
  * {@code !level.isClientSide()} so action is taken exactly once per interaction.
@@ -34,9 +34,9 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
  * teleport -- drops the flight grant.
  *
  * <p>The one entity a player may right-click here is a {@link SoulTraderEntity}: trading is what this heaven is
- * for (Alex, 2026-09-29). Attacks on it stay cancelled like every other attack.
+ * for (Alex, 2026-09-29). Attacks on it stay canceled like every other attack.
  *
- * <p>⚠ A cancelled toss goes back into the bag through {@link #stowTossed}, which never drops. Putting it back
+ * <p>⚠ A canceled toss goes back into the bag through {@link #stowTossed}, which never drops. Putting it back
  * with {@code placeItemBackInInventory} dropped whatever did not fit, the drop fired this toss event again, and a
  * full bag recursed until the server crashed -- a cursor stack or the 2x2 crafting grid falling back on a
  * closing screen was enough. What does not fit now stays out as an item that hovers without gravity where it

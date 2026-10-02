@@ -72,7 +72,7 @@ public final class BodyService {
 
     private static void store(ServerPlayer p, BodyData data) { p.setData(ModAttachments.BODY, data); }
 
-    //region 寿元与年龄 [lifespan and age] -- ⚠ every caller speaks YEARS; only this file knows parts
+    //region lifespan and age [寿元与年龄] -- ⚠ every caller speaks YEARS; only this file knows parts
     public static void setAge(@NotNull ServerPlayer p, long years) {
         store(p, get(p).withAgeParts(BodyData.parts(years)));
     }

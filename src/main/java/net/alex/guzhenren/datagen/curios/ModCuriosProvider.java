@@ -14,7 +14,7 @@ import top.theillusivec4.curios.api.CuriosDataProvider;
  * (size 2) and attaches the player entity to the standard Curios slots. Curios is an optional
  * dependency; the full jar stays on the runtime classpath so {@code runData} can load this provider.
  *
- * <p>⚠ Curios carries equipment only, and no Gu ever goes into Curios slot. That decision is why
+ * <p>⚠ Curios carries equipment only, and no Gu ever goes into a Curios slot. That decision is why
  * the whole Curios footprint here is datagen.
  *
  * @author Alex

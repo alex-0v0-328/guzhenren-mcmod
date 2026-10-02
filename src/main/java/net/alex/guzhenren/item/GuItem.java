@@ -65,7 +65,7 @@ public abstract class GuItem extends Item {
 
     public record Refusal(String key, Object... args) {}
 
-    //region 蓄力 [charge] -- paced by the holder's rank against this item's own, never by the stage
+    //region charge [蓄力] -- paced by the holder's rank against this item's own, never by the stage
     public static final int USE_FAST_TICKS = 5;
     public static final int USE_SAME_TICKS = Ticks.HALF_SECOND;
     public static final int USE_SLOW_TICKS = 20;

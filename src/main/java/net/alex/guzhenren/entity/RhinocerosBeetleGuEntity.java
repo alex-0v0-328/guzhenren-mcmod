@@ -31,9 +31,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * The speed is the client's own per-tick position change, so the choice needs no synchronized state.
  *
  * <p>A hit that leaves a resting beetle alive plays {@code animation.hurt} (0.3 seconds, from the rest pose, so
- * never in flight). With one health point that takes damage below one. Death holds {@code animation.death},
- * which rolls the beetle onto its back where it is -- in the air too -- and {@link #tickDeath} removes it at
- * {@link #DEATH_REMOVE_TICK}: the controller first blends into the death pose for {@code TRANSITION_TICKS} and only
+ * never in flight). With one health point, only a hit below one damage leaves it alive. Death holds
+ * {@code animation.death}, which rolls the beetle onto its back where it is -- in the air too -- and
+ * {@link #tickDeath} removes it at {@link #DEATH_REMOVE_TICK}: the controller first blends into the death pose for {@code TRANSITION_TICKS} and only
  * then plays the animation's {@link #DEATH_TICKS}, so removing at the animation's own length would cut off the end
  * of the roll. A running lift or land is stopped first so the death starts at once.
  *

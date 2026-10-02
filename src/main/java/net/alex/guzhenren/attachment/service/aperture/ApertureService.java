@@ -37,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>⚠ The body-physique/base-essence invariant is enforced here ({@code enforce}); the concrete
  * physique and talent grant live in {@code BodyService}. ⚠ {@code awaken} does NOT refuse an awakened
  * holder -- it appends; the caller gates. ⚠ {@code reconcileTalentPaths} (ten-extreme Dao marks plus
- * human qi) is one of the two cross-domain grants; a third is the coordinator threshold.
+ * human qi) is one of the two cross-domain grants; a third would trigger extracting a coordinator.
  *
  * <p>{@link #status(Player, int)} is the one derivation of {@link ApertureStatus}: Zombie,
  * Half-Zombie and petrified apertures are DEAD; every other aperture is NORMAL.

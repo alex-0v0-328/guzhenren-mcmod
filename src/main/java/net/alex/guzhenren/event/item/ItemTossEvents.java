@@ -13,7 +13,7 @@ import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
  *
  * <p>Only {@link net.alex.guzhenren.item.GuItem#isVital} stacks are refused. This handler must
  * hand the stack back into the inventory: vanilla's {@link net.neoforged.neoforge.event.entity.item.ItemTossEvent}
- * removes the entity before posting, so cancelling alone deletes the item instead of saving it.
+ * removes the entity before posting, so canceling alone deletes the item instead of saving it.
  *
  * @author Alex
  * @version 1.0.0

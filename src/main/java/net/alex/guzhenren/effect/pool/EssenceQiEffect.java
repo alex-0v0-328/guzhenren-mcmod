@@ -12,7 +12,7 @@ import net.minecraft.world.effect.MobEffectCategory;
  * net.alex.guzhenren.attachment.service.aperture.ApertureEssenceService#regenStep} rather than applied
  * from here, so essence regeneration stays a single formula in a single place.
  *
- * <p>⚠ 死气 [Death Qi] outranks this: the regen step checks {@code isChoked} first and returns.
+ * <p>⚠ Death Qi [死气] outranks this: the regen step checks {@code isChoked} first and returns.
  *
  * @author Alex
  * @version 1.0.0

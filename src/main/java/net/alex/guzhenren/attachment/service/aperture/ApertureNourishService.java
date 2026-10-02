@@ -145,7 +145,7 @@ public final class ApertureNourishService {
         }
     }
 
-    //region 温养 [nourishing] -- the second that the heartbeat bills
+    //region nourishing [温养] -- the second that the heartbeat bills
     public static void tickNourish(@NotNull ServerPlayer player) {
         for (int second = PathTimeFlowService.steps(player); second > 0; second--) {
             if (!nourishSecond(player)) return;
@@ -203,7 +203,7 @@ public final class ApertureNourishService {
     }
     //endregion
 
-    //region 石窍蛊 [Stone Aperture Gu] -- straight to this rank's peak, and never further
+    //region Stone Aperture Gu [石窍蛊] -- straight to this rank's peak, and never further
     public static void petrify(@NotNull ServerPlayer player, int index) {
         Aperture aperture = ApertureService.aperture(player, index);
         if (aperture.petrified()) return;

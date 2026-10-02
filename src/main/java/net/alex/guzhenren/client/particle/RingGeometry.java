@@ -11,8 +11,8 @@ import org.joml.Vector3f;
  * an orthonormal basis of the plane perpendicular to the spawn direction ({@link #facing}).
  *
  * <p>{@link #LARGEST_CANVAS} is the canvas width of the largest hand-drawn ring; every frame's
- * world size scales off it through {@link #scaleForWidth} (the half-span multiplier
- * {@code quadSize} for a frame drawn on a canvas that wide). A direction shorter than
+ * world size scales off it through {@link #scaleForWidth} (the {@code quadSize}
+ * half-span multiplier for a frame drawn on a canvas that wide). A direction shorter than
  * {@link #MIN_DIRECTION_LENGTH} is treated as "no direction" and falls back to GROUND.
  *
  * <p>{@link #MIN_OPENING_DEGREES} is the minimum opening toward the camera, in degrees (Alex,

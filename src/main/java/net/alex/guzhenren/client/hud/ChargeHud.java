@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * fraction the bar reads that, otherwise it falls back to the vanilla remaining-ticks ratio.
  *
  * <p>⚠ Any Gu whose use has a duration gets this for free, so adding a charged Gu needs no change here.
- * Whenever a leaf's caption is a {@code a / b} reading, that leaf owes a {@code chargeFraction} over
+ * Whenever a leaf class's caption reads {@code a / b}, that class owes a {@code chargeFraction} over
  * the same pair.
  *
  * @author Alex

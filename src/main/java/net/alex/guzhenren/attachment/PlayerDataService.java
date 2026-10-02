@@ -46,7 +46,7 @@ import org.jetbrains.annotations.NotNull;
  * resetAll} is the one carve-out from read-{@code Player}/write-{@code ServerPlayer}: during {@code
  * PlayerEvent.Clone} the fresh entity is typed {@code Player}; never widen a domain service. ⚠ {@code
  * copy} must carry {@code BORN} or the next login re-rolls brilliance. ⚠ A new death needs an {@code
- * onRespawn} line; its un-fire returns BARE values (soul 1, mind 0) the lethal check never fires on.
+ * onRespawn} line; its un-fire returns BARE values (soul 1, mind 0), on which the lethal check never fires.
  *
  * <p>{@link #dropHumanApertures}: a death that wipes the apertures shakes one Human Aperture [人窍]
  * loose per aperture, each at its own rank, at the corpse; keepInventory deaths keep the apertures

@@ -43,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * <p>⚠ The ritual lives in the menu deliberately. The grid locks while it runs, nothing is consumed
  * until the last tick, and the client reads every live figure through {@link
- * net.minecraft.world.inventory.ContainerData} (nine ints) because it cannot match a recipe itself.
+ * net.minecraft.world.inventory.ContainerData} (ten ints) because it cannot match a recipe itself.
  *
  * @author Alex
  * @version 1.0.0
@@ -56,7 +56,7 @@ public class RefinementMenu extends AbstractContainerMenu {
     public static final int SLOT = 18;
     public static final int GRID_SLOT = 22;
 
-    //region the input -- a 5x5 with its four corners cut away: 外圈 [outer ring] 12 around 内圈 [inner ring] 9
+    //region the input -- a 5x5 with its four corners cut away: outer ring [外圈] 12 around inner ring [内圈] 9
     public static final int GRID_COLS = 5;
     public static final int GRID_ROWS = 5;
     public static final int RING_SIZE = 12;
@@ -198,7 +198,7 @@ public class RefinementMenu extends AbstractContainerMenu {
     public GuRecipeInput grid() { return GuRecipeInput.of(input); }
     //endregion
 
-    //region the 蛊方 [Gu Recipe] behind the button -- a selected one is the only one match() will consider
+    //region the Gu Recipe [蛊方] behind the button -- a selected one is the only one match() will consider
     private @Nullable GuRecipe match() {
         MinecraftServer server = player.getServer();
         if (server == null) return null;
@@ -246,7 +246,7 @@ public class RefinementMenu extends AbstractContainerMenu {
     }
     //endregion
 
-    //region 自动填充 [autofill] -- picking a 蛊方 pulls what the bag can cover into the cells it names
+    //region autofill [自动填充] -- picking a 蛊方 pulls what the bag can cover into the cells it names
     private void fill(GuRecipe recipe) {
         for (int n = 0; n < recipe.ingredients().size(); n++) {
             int slot = recipe.slots().get(n);
@@ -369,7 +369,7 @@ public class RefinementMenu extends AbstractContainerMenu {
     }
     //endregion
 
-    //region 魂魄 [soul] -- current first, then maxSoul at a tenth the rate, which is what kills him
+    //region soul [魂魄] -- current first, then maxSoul at a tenth the rate, which is what kills him
     private static void burnSoul(ServerPlayer server, long amount) {
         if (amount <= 0L || SoulService.consume(server, amount)) return;
 
@@ -381,7 +381,7 @@ public class RefinementMenu extends AbstractContainerMenu {
     }
     //endregion
 
-    //region 元石补给 [the stone top-up] -- only ever what the window did not want
+    //region the stone top-up [元石补给] -- only ever what the window did not want
     private void refillFromSupply(ServerPlayer server) {
         if (!PrimevalStoneItem.needsTopUp(server)) return;
 

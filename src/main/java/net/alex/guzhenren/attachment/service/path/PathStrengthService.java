@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Strength [力道]: what has been accumulated, and how much of it a body can actually bring to bear.
- * Static service; {@code usableJin} reads the 承受上限 [capacity] ramp; {@code isUnleashed} checks 全力以赴.
+ * Static service; {@code usableJin} reads the capacity [承受上限] ramp; {@code isUnleashed} checks 全力以赴.
  *
  * <p>⚠ {@code usableJin(int, int)} is a deliberate seam so the ramp is unit-testable without a {@link
  * Player} (a boundary bug once jumped 101 straight to 120; only arithmetic catches that). ⚠ The tail

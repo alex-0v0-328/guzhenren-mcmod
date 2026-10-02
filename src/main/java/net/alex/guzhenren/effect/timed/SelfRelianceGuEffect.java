@@ -6,7 +6,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
- * Self-Reliance Gu [自力更生蛊] effect: a slow self-heal that only mends what sits below its grade's limit.
+ * Self Reliance Gu [自力更生蛊] effect: a slow self-heal that only mends what sits below its grade's limit.
  *
  * <p>One pulse per second, healing {@code grade + 1} HP up to a limit between half and seventy
  * percent of max health by grade. The item also drives itself at the brink -- see

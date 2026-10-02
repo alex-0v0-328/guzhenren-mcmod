@@ -58,7 +58,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * <p>⚠ {@code DATA_APPEARING} is born true, so the spawn packet already carries it and the first client frame
  * is the first appear frame, not a full-size soul that then shrinks. A trader read back from a save that
  * says {@code Appeared} starts false instead; a {@code /summon} with NBT has no such key and still appears.
- * The client decides once per entity instance whether its movement animation opens with the appear.
+ * The client decides once per entity instance whether its movement animation opens with the appear animation.
  *
  * @author Alex
  * @version 1.0.0

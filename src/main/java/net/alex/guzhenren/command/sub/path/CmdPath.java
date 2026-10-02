@@ -19,7 +19,7 @@ import net.minecraft.server.level.ServerPlayer;
  * sub-commands. Uses {@link net.alex.guzhenren.command.ModEnumArgument} for the path argument; all
  * writes delegate to {@link net.alex.guzhenren.attachment.service.path.PathService}.
  *
- * <p>☠ A command books 自然 [NATURAL] and can name no other tag -- a handwritten source tag cannot be
+ * <p>☠ A command books NATURAL [自然] and can name no other tag -- a handwritten source tag cannot be
  * told from what a Gu laid down, and that is how a race mark was forged onto a path no race revokes.
  *
  * <p>☠ The verbs sit before the path word: {@code GuPath} also has {@code qi}/{@code strength}

@@ -11,8 +11,8 @@ import net.minecraft.world.effect.MobEffectCategory;
  * them. A {@link net.minecraft.world.effect.MobEffect} has no expiry hook, so the burning runs on the
  * heartbeat in {@code PlayerTickEvents.tickDeathQi}, settling the debt by reading the level.
  *
- * <p>⚠ {@code YEAR_INTERVAL_TICKS} is 120 = 6 × 20 — it must divide the heartbeat's 20, or the burning
- * silently stops. 生气 [Life Qi] pays 死气 down 1:1; clearing to 0 refunds {@code REFUND_NUMERATOR / REFUND_DENOMINATOR}.
+ * <p>⚠ {@code YEAR_INTERVAL_TICKS} is 120 = 6 × 20 — it must be a multiple of the heartbeat's 20, or the burning
+ * silently stops. Life Qi [生气] pays 死气 down 1:1; clearing to 0 refunds {@code REFUND_NUMERATOR / REFUND_DENOMINATOR}.
  *
  * @author Alex
  * @version 1.0.0

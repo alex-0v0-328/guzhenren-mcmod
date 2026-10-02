@@ -96,7 +96,7 @@ public abstract class TendedGuItem extends MortalGuItem {
     public boolean hungry(ServerPlayer p, ItemStack s) { return refined(s) && clock.hungry(p, s); }
     //endregion
 
-    //region 蛊虫生命值 [Gu health] -- stored as damage TAKEN, so an untouched 野生 Gu reads as full
+    //region Gu health [蛊虫生命值] -- stored as damage TAKEN, so an untouched 野生 Gu reads as full
     public static final int HEALTH_PER_RANK = 12;
 
     public int maxHealth() { return HEALTH_PER_RANK; }

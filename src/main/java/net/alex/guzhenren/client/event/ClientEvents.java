@@ -64,7 +64,7 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
  * {@link net.alex.guzhenren.client.hud.NourishHud}), the key mapping for the B panel, the menu
  * screens for the three containers, the shockwave-ring particle provider, fixed-texture renderers sharing each Gu family's GeckoLib model,
  * the soul traders' translucent {@code human_soul} renderer (texture chosen per trader, not per model),
- * and the wild boar's cutout GeckoLib model,
+ * the wild boar's cutout GeckoLib model,
  * and the Hope Gu [希望蛊] entity as a
  * {@link net.minecraft.client.renderer.entity.NoopRenderer} (pure particles, no model), plus the
  * Spirit Spring fluid's translucent render layer.

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * The only writer of what an Aperture [空窍] holds, including the Vital Gu [本命蛊] bound to each.
  * {@code setVital} also rewrites the aperture's primary path via {@link ApertureService#setPrimaryPath}
- * -- binding a Gu IS what sets 主修 [primary path] (the store is not synced; the aperture is).
+ * -- binding a Gu IS what sets primary path [主修] (the store is not synced; the aperture is).
  *
  * <p>⚠ Reaches into {@code item/} on purpose ({@link GuItem}) -- binding a Vital Gu reads that Gu's
  * declared path; do not "fix" those imports. ⚠ Writes NEVER go through {@code ApertureService.store}:

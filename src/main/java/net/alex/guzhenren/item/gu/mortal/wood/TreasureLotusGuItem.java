@@ -18,13 +18,13 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Treasure Lotus Gu [天元宝莲]: a passive that mints primeval stones [元石] and restores essence [真元].
+ * Heavenly Essence Treasure Lotus Gu [天元宝莲]: a passive that mints primeval stones [元石] and restores essence [真元].
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.TendedGuItem} but declares no clock -- never eats, never
  * starves. The one-second heartbeat of {@code payOwnUpkeep} restores 5% of max essence and mints {@code
  * stonesPerSecond} stones: while hurt they are banked toward the {@code stonesPerHealth} repair, else
- * Elder Gu vaults, main bag, hotbar, offhand, then a drop. Refined right click is a refused {@code fail}
- * (no swing); unrefined Gu still refine through the held channel.
+ * they go to Elder Gu vaults, main bag, hotbar, offhand, then a drop. Refined right click is a refused {@code fail}
+ * (no swing); unrefined Gu are still refined through the held channel.
  *
  * <p>⚠ The bank rides {@code HEAL_BANK}, not {@code RefinedGuState} (shared by all tended Gu); resets on heal.
  *
