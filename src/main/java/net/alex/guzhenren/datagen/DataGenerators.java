@@ -13,6 +13,7 @@ import net.alex.guzhenren.datagen.item.ModItemModelProvider;
 import net.alex.guzhenren.datagen.item.ModItemTagsProvider;
 import net.alex.guzhenren.datagen.lang.EnUsLanguageProvider;
 import net.alex.guzhenren.datagen.lang.ZhCnLanguageProvider;
+import net.alex.guzhenren.datagen.lang.ZhTwLanguageProvider;
 import net.alex.guzhenren.datagen.loot.WildBoarLootProvider;
 import net.alex.guzhenren.datagen.particle.ModParticleDescriptionProvider;
 import net.alex.guzhenren.datagen.recipe.ModRecipeProvider;
@@ -56,6 +57,7 @@ public final class DataGenerators {
 
         generator.addProvider(event.includeClient(), new EnUsLanguageProvider(packOutput));
         generator.addProvider(event.includeClient(), new ZhCnLanguageProvider(packOutput));
+        generator.addProvider(event.includeClient(), new ZhTwLanguageProvider(packOutput));
 
         generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
 

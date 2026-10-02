@@ -42,6 +42,10 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
  * simultaneously covers the block, its block item, and its fluid type (they share one description
  * id).
  *
+ * <p>{@link net.alex.guzhenren.datagen.lang.ZhTwLanguageProvider} extends this table through the
+ * protected locale constructor and converts every value on its way in, so a string written here
+ * reaches {@code zh_tw} with no second line.
+ *
  * @author Alex
  * @version 1.0.0
  * @see net.alex.guzhenren.datagen.lang.EnUsLanguageProvider
@@ -51,7 +55,11 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 public class ZhCnLanguageProvider extends LanguageProvider {
 
     public ZhCnLanguageProvider(PackOutput output) {
-        super(output, Guzhenren.MOD_ID, "zh_cn");
+        this(output, "zh_cn");
+    }
+
+    protected ZhCnLanguageProvider(PackOutput output, String locale) {
+        super(output, Guzhenren.MOD_ID, locale);
     }
 
     @Override
