@@ -126,10 +126,6 @@ public final class ModDisplayText {
         return Component.translatable("guzhenren.display.lifespan", years(lifespan), years(age));
     }
 
-    public static MutableComponent lifespan(BodyData body) {
-        return lifespan(body.lifespanYears(), body.ageYears());
-    }
-
     public static MutableComponent hudLifespan(BodyData body) {
         return Component.translatable("guzhenren.display.lifespan",
                 String.format(Locale.ROOT, "%.1f", body.lifespanYears()),

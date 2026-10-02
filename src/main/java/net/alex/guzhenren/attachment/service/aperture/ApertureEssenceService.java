@@ -93,8 +93,6 @@ public final class ApertureEssenceService {
         }
     }
 
-    public static void set(@NotNull ServerPlayer p, long v) { set(p, ApertureService.PRIMARY, v); }
-
     public static void set(@NotNull ServerPlayer player, int index, long value) {
         ApertureService.set(player, index, ApertureService.aperture(player, index).withCurrentEssence(value));
     }

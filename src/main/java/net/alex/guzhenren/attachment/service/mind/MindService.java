@@ -120,12 +120,4 @@ public final class MindService {
     public static void onSleepComplete(@NotNull ServerPlayer p) {
         set(p, WisdomType.THOUGHTS, pool(p, WisdomType.THOUGHTS).slept());
     }
-
-    public static boolean consume(@NotNull ServerPlayer player, @NotNull WisdomType type, long amount) {
-        if (amount <= 0L) return true;
-        long current = current(player, type);
-        if (current < amount) return false;
-        setCurrent(player, type, current - amount);
-        return true;
-    }
 }

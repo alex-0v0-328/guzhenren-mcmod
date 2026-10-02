@@ -90,8 +90,6 @@ public abstract class GuItem extends Item {
         return s.getOrDefault(ModDataComponents.VITAL_APERTURE.get(), ApertureData.PRIMARY);
     }
 
-    public static void bind(ItemStack s, Player p) { bind(s, p, ApertureData.PRIMARY); }
-
     public static void bind(ItemStack s, Player p, int aperture) {
         s.set(ModDataComponents.VITAL_OWNER.get(), p.getUUID());
         s.set(ModDataComponents.VITAL_APERTURE.get(), aperture);

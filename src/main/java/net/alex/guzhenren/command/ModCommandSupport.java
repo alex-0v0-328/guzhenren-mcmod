@@ -170,7 +170,7 @@ public final class ModCommandSupport {
     @FunctionalInterface
     public interface PlayerOperation {
 
-        void apply(ServerPlayer player) throws CommandSyntaxException;
+        void apply(ServerPlayer player);
     }
 
     @FunctionalInterface

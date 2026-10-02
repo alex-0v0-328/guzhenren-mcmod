@@ -5,7 +5,6 @@ import net.alex.guzhenren.attachment.service.body.BodyAttackService;
 import net.alex.guzhenren.attachment.service.body.BodyService;
 import net.alex.guzhenren.custom.enums.strength.BeastStrength;
 import net.alex.guzhenren.custom.enums.strength.HumanStrength;
-import net.alex.guzhenren.custom.enums.strength.StrengthPathBranch;
 import net.alex.guzhenren.registry.attachment.ModAttachments;
 import net.alex.guzhenren.registry.effect.ModEffects;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,10 +41,6 @@ public final class PathStrengthService {
 
     public static int humanStrength(@NotNull Player p, @NotNull HumanStrength k) {
         return get(p).humanStrengthCount(k);
-    }
-
-    public static boolean hasPathBranch(@NotNull Player p, @NotNull StrengthPathBranch b) {
-        return get(p).hasPathBranch(b);
     }
 
     //region what the body can actually bring to bear [承受上限]

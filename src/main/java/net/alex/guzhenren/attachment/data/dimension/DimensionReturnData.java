@@ -43,10 +43,6 @@ public record DimensionReturnData(Optional<ReturnPoint> point) {
         return point.isPresent();
     }
 
-    public static DimensionReturnData empty() {
-        return DEFAULT;
-    }
-
     public static DimensionReturnData of(@NotNull ReturnPoint point) {
         return new DimensionReturnData(Optional.of(point));
     }
@@ -54,10 +50,6 @@ public record DimensionReturnData(Optional<ReturnPoint> point) {
     public static DimensionReturnData of(@NotNull ResourceKey<Level> level, double x, double y, double z,
             float yaw, float pitch, boolean flying) {
         return of(new ReturnPoint(level, x, y, z, yaw, pitch, flying));
-    }
-
-    public DimensionReturnData cleared() {
-        return DEFAULT;
     }
 
     public record ReturnPoint(ResourceKey<Level> level, double x, double y, double z, float yaw, float pitch,

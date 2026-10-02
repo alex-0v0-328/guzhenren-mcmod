@@ -73,10 +73,6 @@ public enum Talent implements StringRepresentable, EnumTranslatable {
 
     public static Talent randomTalent() { return WeightedPick.pick(values(), t -> t.weight); }
 
-    public static Talent randomNormalTalent() {
-        return WeightedPick.pick(values(), t -> t != EXTREME, t -> t.weight);
-    }
-
     public static int randomPercent(Talent talent) {
         if (talent.minPercent == talent.maxPercent) return talent.minPercent;
         return ThreadLocalRandom.current().nextInt(talent.minPercent, talent.maxPercent + 1);

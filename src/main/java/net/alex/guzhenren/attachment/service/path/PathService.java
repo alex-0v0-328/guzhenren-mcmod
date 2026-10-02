@@ -66,13 +66,4 @@ public final class PathService {
     public static void setAttainment(@NotNull ServerPlayer p, @NotNull GuPath path, @NotNull GuAttainment attainment) {
         store(p, get(p).with(path, entry(p, path).withAttainment(attainment)));
     }
-
-    public static boolean consume(@NotNull ServerPlayer player, @NotNull GuPath path, @NotNull MarkTag tag,
-            long amount) {
-        if (amount <= 0L) return true;
-        long current = mark(player, path, tag);
-        if (current < amount) return false;
-        setMark(player, path, tag, current - amount);
-        return true;
-    }
 }
