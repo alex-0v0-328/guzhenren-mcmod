@@ -43,4 +43,4 @@ When Alex brings a GitHub Actions failure, the loop locate → fix → this flow
 
 ## After
 
-When a change moved folders or packages, Alex runs a Gradle refresh in IDEA. Before a change that rewrites many files (a move, a rename), ship any pending WIP first, and ask Alex to pause IDEA edits until it lands.
+When a change moved folders or packages or touched a build script, the agent confirms IDEA's Gradle reload through the JetBrains MCP and asks Alex for the reload button only when it did not happen (`CLAUDE.md` › Checks and shipping). Before a change that rewrites many files (a move, a rename), ship any pending WIP first, and ask Alex to pause IDEA edits until it lands.
