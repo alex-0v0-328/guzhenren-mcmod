@@ -15,7 +15,6 @@ import net.alex.guzhenren.registry.item.ModItems;
 import net.alex.guzhenren.registry.menu.ModMenus;
 import net.alex.guzhenren.registry.particle.ModParticles;
 import net.alex.guzhenren.registry.recipe.ModRecipes;
-import net.alex.guzhenren.registry.world.ModFeatures;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -25,10 +24,11 @@ import org.slf4j.Logger;
  * Mod entry point: builds every registry holder and hands them to the mod event bus.
  *
  * <p>Holds the {@code MOD_ID} constant and the {@link #id} helper used across the codebase for
- * {@link ResourceLocation} creation. The constructor wires fourteen {@code DeferredRegister} holders
+ * {@link ResourceLocation} creation. The constructor wires thirteen {@code DeferredRegister} holders
  * (attachments, data components, effects, fluid types, fluids, blocks, entities, items, creative
- * tabs, menus, particles, recipes, criterion triggers, features) to the mod event bus in the order
- * NeoForge requires.
+ * tabs, menus, particles, recipes, criterion triggers) to the mod event bus in the order NeoForge
+ * requires. Worldgen features live in the sibling mod Gu World, which places the Spirit Spring
+ * [元泉] block registered here (2026-10-02).
  *
  * @author Alex
  * @version 1.0.0
@@ -57,7 +57,6 @@ public class Guzhenren {
         ModParticles.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModCriteriaTriggers.register(modEventBus);
-        ModFeatures.register(modEventBus);
         modEventBus.addListener(EpicFightIntegration::onAnimationRegistry);
         EpicFightIntegration.initialize();
     }

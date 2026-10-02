@@ -10,10 +10,8 @@ import net.alex.guzhenren.entity.RhinocerosBeetleGuEntity;
 import net.alex.guzhenren.registry.damage.ModDamageTypes;
 import net.alex.guzhenren.registry.entity.ModEntityTypes;
 import net.alex.guzhenren.registry.world.ModBiomeTags;
-import net.alex.guzhenren.registry.world.ModFeatures;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -23,15 +21,6 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.RarityFilter;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
@@ -41,18 +30,13 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
  * The single provider for every datapack registry this mod writes.
  *
  * <p>Extends {@link net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider}. Builds damage
- * types, the Spirit Spring worldgen feature and biome modifiers in one {@code RegistrySetBuilder}; the
- * dimensions belong to the sibling mod Gu World. The tag providers take
- * {@code getRegistryProvider()} from this instance, not the plain lookup, so the tag pass sees the
- * types this run generates.
+ * types and the wild-spawn biome modifiers in one {@code RegistrySetBuilder}; the dimensions and the
+ * Spirit Spring [元泉] worldgen belong to the sibling mod Gu World (the spring's since 2026-10-02). The
+ * tag providers take {@code getRegistryProvider()} from this instance, not the plain lookup, so the tag
+ * pass sees the types this run generates.
  *
  * <p>⚠ There can only be one. The builtin-entries provider reports a fixed name, so a second instance
  * fails datagen outright; add a registry to this one's builder instead.
- *
- * <p>⚠ {@link #SPIRIT_SPRING_RARITY} is Alex's pick (2026-09-23): desert-well scale, but across 39 land
- * biomes instead of one. ⚠ {@link #SPIRIT_SPRING_UNDERGROUND_RARITY} is Alex's constraint (2026-09-26):
- * strictly rarer than the surface roll. 3000 is the initial pick, his to tune -- the cave-floor scan
- * also fails most sampled attempts, so the effective underground rate lands far below the surface one.
  *
  * @author Alex
  * @version 1.0.0
@@ -63,8 +47,6 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
 
     private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.DAMAGE_TYPE, ModDatapackProvider::damageTypes)
-            .add(Registries.CONFIGURED_FEATURE, ModDatapackProvider::configuredFeatures)
-            .add(Registries.PLACED_FEATURE, ModDatapackProvider::placedFeatures)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModDatapackProvider::biomeModifiers);
 
     public ModDatapackProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
@@ -84,45 +66,7 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
     }
     //endregion
 
-    //region Worldgen features [世界生成] -- the Spirit Spring [元泉] structures, surface and underground
-    private static final ResourceKey<ConfiguredFeature<?, ?>> SPIRIT_SPRING_CONFIGURED = ResourceKey.create(
-            Registries.CONFIGURED_FEATURE, Guzhenren.id("spirit_spring"));
-    private static final ResourceKey<PlacedFeature> SPIRIT_SPRING_PLACED = ResourceKey.create(
-            Registries.PLACED_FEATURE, Guzhenren.id("spirit_spring"));
-    private static final ResourceKey<ConfiguredFeature<?, ?>> SPIRIT_SPRING_UNDERGROUND_CONFIGURED =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, Guzhenren.id("spirit_spring_underground"));
-    private static final ResourceKey<PlacedFeature> SPIRIT_SPRING_UNDERGROUND_PLACED = ResourceKey.create(
-            Registries.PLACED_FEATURE, Guzhenren.id("spirit_spring_underground"));
-    private static final int SPIRIT_SPRING_RARITY = 1000;
-    private static final int SPIRIT_SPRING_UNDERGROUND_RARITY = 3000;
-
-    private static void configuredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        context.register(SPIRIT_SPRING_CONFIGURED,
-                new ConfiguredFeature<>(ModFeatures.SPIRIT_SPRING.get(), NoneFeatureConfiguration.INSTANCE));
-        context.register(SPIRIT_SPRING_UNDERGROUND_CONFIGURED, new ConfiguredFeature<>(
-                ModFeatures.SPIRIT_SPRING_UNDERGROUND.get(), NoneFeatureConfiguration.INSTANCE));
-    }
-
-    private static void placedFeatures(BootstrapContext<PlacedFeature> context) {
-        HolderGetter<ConfiguredFeature<?, ?>> configured = context.lookup(Registries.CONFIGURED_FEATURE);
-        context.register(SPIRIT_SPRING_PLACED, new PlacedFeature(
-                configured.getOrThrow(SPIRIT_SPRING_CONFIGURED),
-                List.of(RarityFilter.onAverageOnceEvery(SPIRIT_SPRING_RARITY),
-                        InSquarePlacement.spread(), BiomeFilter.biome())));
-        context.register(SPIRIT_SPRING_UNDERGROUND_PLACED, new PlacedFeature(
-                configured.getOrThrow(SPIRIT_SPRING_UNDERGROUND_CONFIGURED),
-                List.of(RarityFilter.onAverageOnceEvery(SPIRIT_SPRING_UNDERGROUND_RARITY),
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(8), VerticalAnchor.belowTop(8)),
-                        BiomeFilter.biome())));
-    }
-    //endregion
-
-    //region Biome modifiers [生态修改] -- where wild entities [野生实体] spawn and the spring generates
-    private static final ResourceKey<BiomeModifier> GENERATE_SPIRIT_SPRING = ResourceKey.create(
-            NeoForgeRegistries.Keys.BIOME_MODIFIERS, Guzhenren.id("spirit_spring"));
-    private static final ResourceKey<BiomeModifier> GENERATE_SPIRIT_SPRING_UNDERGROUND = ResourceKey.create(
-            NeoForgeRegistries.Keys.BIOME_MODIFIERS, Guzhenren.id("spirit_spring_underground"));
+    //region Biome modifiers [生态修改] -- where wild entities [野生实体] spawn
     private static final ResourceKey<BiomeModifier> SPAWN_HOPE_GU = ResourceKey.create(
             NeoForgeRegistries.Keys.BIOME_MODIFIERS,
             Guzhenren.id("spawn_hope_gu"));
@@ -204,15 +148,6 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
                 biomes.getOrThrow(ModBiomeTags.TIGER_SPAWNS), List.of(new MobSpawnSettings.SpawnerData(
                         ModEntityTypes.WHITE_TIGER.get(), WHITE_TIGER_SPAWN_WEIGHT,
                         BEAST_PACK_MINIMUM, BEAST_PACK_MAXIMUM))));
-        HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
-        context.register(GENERATE_SPIRIT_SPRING, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(ModBiomeTags.SPIRIT_SPRING_GENERATES),
-                HolderSet.direct(placedFeatures.getOrThrow(SPIRIT_SPRING_PLACED)),
-                GenerationStep.Decoration.TOP_LAYER_MODIFICATION));
-        context.register(GENERATE_SPIRIT_SPRING_UNDERGROUND, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(ModBiomeTags.SPIRIT_SPRING_GENERATES),
-                HolderSet.direct(placedFeatures.getOrThrow(SPIRIT_SPRING_UNDERGROUND_PLACED)),
-                GenerationStep.Decoration.UNDERGROUND_DECORATION));
     }
 
     private static MobSpawnSettings.SpawnerData beetleSpawns(EntityType<RhinocerosBeetleGuEntity> type,

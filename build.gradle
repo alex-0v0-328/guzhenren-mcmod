@@ -216,6 +216,9 @@ tasks.register('pureTest', Test) {
     description = 'Runs the pure JVM test source set without booting the modded runtime.'
     group = 'verification'
     workingDir junitGameDir
+    // The test process cannot start in a missing directory, and only the moddev 'test' task creates
+    // it: after a clean (Gu World's check builds this project's jar from clean) pureTest may run first.
+    doFirst { junitGameDir.mkdirs() }
     testClassesDirs = sourceSets.pureTest.output.classesDirs
     classpath = sourceSets.pureTest.runtimeClasspath
     useJUnitPlatform()
