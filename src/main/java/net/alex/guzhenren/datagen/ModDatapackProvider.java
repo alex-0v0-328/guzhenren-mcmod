@@ -136,10 +136,14 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
                 biomes.getOrThrow(ModBiomeTags.WILD_BOAR_SPAWNS), List.of(new MobSpawnSettings.SpawnerData(
                         ModEntityTypes.WILD_BOAR.get(), WILD_BOAR_SPAWN_WEIGHT,
                         WILD_BOAR_PACK_MINIMUM, WILD_BOAR_PACK_MAXIMUM))));
-        context.register(SPAWN_BROWN_BEAR, bearSpawns(biomes, ModEntityTypes.BROWN_BEAR.get(), BEAR_SPAWN_WEIGHT));
-        context.register(SPAWN_ASIAN_BLACK_BEAR, bearSpawns(biomes, ModEntityTypes.ASIAN_BLACK_BEAR.get(), BEAR_SPAWN_WEIGHT));
-        context.register(SPAWN_AMERICAN_BLACK_BEAR, bearSpawns(biomes, ModEntityTypes.AMERICAN_BLACK_BEAR.get(), BEAR_SPAWN_WEIGHT));
-        context.register(SPAWN_ALBINO_BEAR, bearSpawns(biomes, ModEntityTypes.ALBINO_BEAR.get(), ALBINO_BEAR_SPAWN_WEIGHT));
+        context.register(SPAWN_BROWN_BEAR,
+                bearSpawns(biomes, ModEntityTypes.BROWN_BEAR.get(), BEAR_SPAWN_WEIGHT));
+        context.register(SPAWN_ASIAN_BLACK_BEAR,
+                bearSpawns(biomes, ModEntityTypes.ASIAN_BLACK_BEAR.get(), BEAR_SPAWN_WEIGHT));
+        context.register(SPAWN_AMERICAN_BLACK_BEAR,
+                bearSpawns(biomes, ModEntityTypes.AMERICAN_BLACK_BEAR.get(), BEAR_SPAWN_WEIGHT));
+        context.register(SPAWN_ALBINO_BEAR,
+                bearSpawns(biomes, ModEntityTypes.ALBINO_BEAR.get(), ALBINO_BEAR_SPAWN_WEIGHT));
         context.register(SPAWN_TIGER, new BiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(ModBiomeTags.TIGER_SPAWNS), List.of(new MobSpawnSettings.SpawnerData(
                         ModEntityTypes.TIGER.get(), TIGER_SPAWN_WEIGHT,
