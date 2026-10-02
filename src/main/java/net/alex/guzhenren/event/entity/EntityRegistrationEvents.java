@@ -32,8 +32,9 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
  * spawns on animal-spawnable ground with animal-appropriate light, via the hand-written predicate below
  * ({@code BlockTags.ANIMALS_SPAWNABLE_ON} underfoot, raw brightness above 8). The flying placement uses
  * {@link net.minecraft.world.level.levelgen.Heightmap.Types#MOTION_BLOCKING_NO_LEAVES} and a custom check that
- * requires {@code pos.getY() >= level.getSeaLevel()} — NOT {@code canSeeSky}, because leaves count as cover
- * and would empty every forest floor. Soul traders get attributes but no placement: they are summoned only.
+ * requires {@code pos.getY()} at or above the dimension's chunk-generator sea level — NOT {@code canSeeSky},
+ * because leaves count as cover and would empty every forest floor ({@code Level#getSeaLevel} is a deprecated
+ * constant 63). Soul traders get attributes but no placement: they are summoned only.
  *
  * @author Alex
  * @version 1.0.0
@@ -116,6 +117,6 @@ public final class EntityRegistrationEvents {
 
     private static <T extends Mob> boolean onTheSurface(EntityType<T> type, ServerLevelAccessor level,
                                                         MobSpawnType reason, BlockPos pos, RandomSource random) {
-        return pos.getY() >= level.getLevel().getSeaLevel();
+        return pos.getY() >= level.getLevel().getChunkSource().getGenerator().getSeaLevel();
     }
 }
