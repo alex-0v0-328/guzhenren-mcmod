@@ -22,7 +22,9 @@ Gu World (`../guworld`, remote `alex-0v0-328/mcmod-guworld`) ships through the s
 
 Camera Shift (`../camera-shift`, remote `alex-0v0-328/mcmod-camera-shift`) ships the same way with `--project camerashift` (Alex, 2026-10-01): plan at `C:\workspace\Dev\Projects\_Temp\camerashift\commit-push-plan.json`; check runs `build` with its local JUnit suite, and the mirror runs `build` as its GitHub workflow does, then again with the gitignored `src/test` copied in. Read each sibling's `CLAUDE.md` whole before touching that repository.
 
-Both siblings track the same `.claude/` cloud files as this repository (`settings.json`, `hooks/session_start.py`, the two always-on skills). They are copies: edit them here, run `python .claude/hooks/session_start.py --deploy`, and ship each sibling's refreshed copy with that sibling.
+Burst Flight (`../burst-flight`, public remote `alex-0v0-328/mcmod-burst-flight`) ships the same way with `--project burstflight` (Alex, 2026-10-02): plan at `C:\workspace\Dev\Projects\_Temp\burstflight\commit-push-plan.json`; check runs `build` with its local JUnit suite and `gametest`, and the mirror runs `build` as its GitHub workflow does, then both with the gitignored `src/test` copied in.
+
+Every sibling tracks the same `.claude/` cloud files as this repository (`settings.json`, `hooks/session_start.py`, the two always-on skills). They are copies: edit them here, run `python .claude/hooks/session_start.py --deploy`, and ship each sibling's refreshed copy with that sibling.
 
 ## Push rules
 
