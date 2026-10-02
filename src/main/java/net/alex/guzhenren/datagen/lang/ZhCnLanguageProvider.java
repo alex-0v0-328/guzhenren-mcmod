@@ -174,7 +174,7 @@ public class ZhCnLanguageProvider extends LanguageProvider {
         add("guzhenren.command.header", "[GZR]");
         add("guzhenren.command.tagged", "[GZR] %s");
         add("guzhenren.command.updated", "已更新 %s 名玩家");
-        add("guzhenren.command.unknown_value", "未知的取值: %s");
+        add("guzhenren.command.unknown_value", "未知的取值：%s");
 
         add("guzhenren.command.failed.awakened", "%s 已开窍");
         add("guzhenren.command.failed.unawakened", "%s 尚未开窍");
@@ -438,7 +438,7 @@ public class ZhCnLanguageProvider extends LanguageProvider {
         add("guzhenren.item.failed.gu_cooldown", "此蛊尚需 %s 秒");
         add("guzhenren.item.failed.all_out_active", "全力以赴蛊效果未散");
         add("guzhenren.item.failed.zombie_already", "彻底转变为了僵尸");
-        add("guzhenren.item.failed.gu_starving", "蛊已太饿 需先喂食");
+        add("guzhenren.item.failed.gu_starving", "蛊已太饿，需先喂食");
         add("guzhenren.item.failed.no_use", "此蛊无需使用");
 
         add("guzhenren.item.gu.invested", "已投入 %s/%s");
@@ -513,7 +513,7 @@ public class ZhCnLanguageProvider extends LanguageProvider {
         add("death.attack.guzhenren.mind_ocean_shattered", "%1$s 脑海炸裂而亡");
         add("death.attack.guzhenren.aperture_pressure_explosion", "%1$s 空窍压力爆炸而亡");
         add("death.attack.guzhenren.ten_extreme_disaster", "%1$s 被十绝天灾波及而亡");
-        add("death.attack.guzhenren.vital_gu_lost", "%1$s 本命蛊死亡而亡");
+        add("death.attack.guzhenren.vital_gu_lost", "%1$s 因本命蛊死亡而亡");
     }
     //endregion
 

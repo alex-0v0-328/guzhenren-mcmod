@@ -191,14 +191,14 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("guzhenren.command.info.lifespan", "Lifespan:    %s");
         add("guzhenren.command.info.physique", "%s");
         add("guzhenren.command.info.race", "Race:        %s");
-        add("guzhenren.command.info.wisdom_path_achieve", "Wisdom Path Achieve:");
+        add("guzhenren.command.info.wisdom_path_achieve", "Wisdom Path Attainment:");
         add("guzhenren.command.info.wisdom_path_achieve_entry", "  %s  %s");
-        add("guzhenren.command.info.qi_path_achieve", "Qi Path Achieve:");
+        add("guzhenren.command.info.qi_path_achieve", "Qi Path Attainment:");
         add("guzhenren.command.info.qi_path_achieve_entry", "  %s  %s");
         add("guzhenren.command.info.paths", "Paths:");
-        add("guzhenren.command.info.strength_path_achieve", "Strength Path Achieve:");
+        add("guzhenren.command.info.strength_path_achieve", "Strength Path Attainment:");
         add("guzhenren.command.info.strength_path_achieve_entry", "  %s  %s");
-        add("guzhenren.command.info.time_path_achieve", "Time Path Achieve:");
+        add("guzhenren.command.info.time_path_achieve", "Time Path Attainment:");
         add("guzhenren.command.info.time_rate_up_entry", "  Time Rate Up  %s");
         add("guzhenren.command.info.capacity", "Bearing:     %s / %s jin");
         add("guzhenren.command.info.attack", "Base Attack: %s");
@@ -226,7 +226,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("guzhenren.screen.tab.aperture", "Aperture");
         add("guzhenren.screen.tab.body", "Body");
         add("guzhenren.screen.tab.soul", "Soul");
-        add("guzhenren.screen.tab.path", "Path Achieve");
+        add("guzhenren.screen.tab.path", "Path Attainment");
         add("guzhenren.screen.tab.mind", "Mind");
         add("guzhenren.screen.tab.refinement", "Refinement");
         add("guzhenren.menu.aperture_storage", "Aperture Storage");
@@ -278,7 +278,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("guzhenren.impact.success", "Aperture Rank Up");
         add("guzhenren.impact.hold", "Flush Failed, No change");
         add("guzhenren.impact.drop_stage", "Flush Failed, Stage dropped");
-        add("guzhenren.impact.drop_base", "Flush Failed, Talent dropped");
+        add("guzhenren.impact.drop_base", "Flush Failed, Aptitude dropped");
         add("guzhenren.screen.label.realm", "Realm");
         add("guzhenren.screen.label.aperture_status", "Aperture Status");
         add("guzhenren.screen.label.talent", "Aptitude");
@@ -286,13 +286,13 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("guzhenren.screen.label.distilled", "Distilled");
         add("guzhenren.screen.label.physique", "Physique");
         add("guzhenren.screen.label.race", "Race");
-        add("guzhenren.screen.label.wisdom_path_achieve", "Wisdom Path Achieve");
+        add("guzhenren.screen.label.wisdom_path_achieve", "Wisdom Path Attainment");
         add("guzhenren.screen.label.soul", "Soul");
         add("guzhenren.screen.label.lifespan", "Lifespan");
-        add("guzhenren.screen.label.qi_path_achieve", "Qi Path Achieve");
+        add("guzhenren.screen.label.qi_path_achieve", "Qi Path Attainment");
         add("guzhenren.screen.label.paths", "Paths");
-        add("guzhenren.screen.label.strength_path_achieve", "Strength Path Achieve");
-        add("guzhenren.screen.label.time_path_achieve", "Time Path Achieve");
+        add("guzhenren.screen.label.strength_path_achieve", "Strength Path Attainment");
+        add("guzhenren.screen.label.time_path_achieve", "Time Path Attainment");
         add("guzhenren.screen.label.time_rate_up", "Time Rate Up");
         add("guzhenren.screen.label.body_capacity", "Capacity");
         add("guzhenren.screen.label.attack", "Base Attack");
@@ -330,14 +330,14 @@ public class EnUsLanguageProvider extends LanguageProvider {
         addItem(ModItems.ALL_OUT_EFFORT_GU_4, "All-Out Effort Gu IV");
         addItem(ModItems.ALL_OUT_EFFORT_GU_5, "All-Out Effort Gu V");
         addItem(ModItems.JIN_STRENGTH_GU, "Jin Strength Gu");
-        addItem(ModItems.TENS_JIN_STRENGTH_GU, "Tens Jin Strength Gu");
+        addItem(ModItems.TENS_JIN_STRENGTH_GU, "Ten Jin Strength Gu");
         addItem(ModItems.JUN_STRENGTH_GU, "Jun Strength Gu");
-        addItem(ModItems.TENS_JUN_STRENGTH_GU, "Tens Jun Strength Gu");
+        addItem(ModItems.TENS_JUN_STRENGTH_GU, "Ten Jun Strength Gu");
         addItem(ModItems.VITALITY_LEAF_GU, "Vitality Leaf Gu");
         addItem(ModItems.LIFESPAN_GU, "Lifespan Gu");
-        addItem(ModItems.TENS_LIFESPAN_GU, "Tens Years Lifespan Gu");
-        addItem(ModItems.HUNDREDS_LIFESPAN_GU, "Hundreds Years Lifespan Gu");
-        addItem(ModItems.THOUSANDS_LIFESPAN_GU, "Thousands Years Lifespan Gu");
+        addItem(ModItems.TENS_LIFESPAN_GU, "Ten-Year Lifespan Gu");
+        addItem(ModItems.HUNDREDS_LIFESPAN_GU, "Hundred-Year Lifespan Gu");
+        addItem(ModItems.THOUSANDS_LIFESPAN_GU, "Thousand-Year Lifespan Gu");
         addItem(ModItems.LIQUOR_WORM, "Liquor Worm");
         addItem(ModItems.FOUR_FLAVORS_LIQUOR_WORM, "Four Flavors Liquor Worm");
         addItem(ModItems.SEVEN_FRAGRANCES_LIQUOR_WORM, "Seven Fragrances Liquor Worm");
@@ -422,12 +422,12 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("guzhenren.item.failed.stage_peak", "You are at the Stage Peak");
         add("guzhenren.item.failed.second_aperture_rank", "The second aperture already stands at or above this rank");
         add("guzhenren.item.failed.aperture_unavailable", "No usable aperture remains");
-        add("guzhenren.item.failed.beast_strength_held", "Already hold the %s's strength");
+        add("guzhenren.item.failed.beast_strength_held", "You already hold the %s's strength");
         add("guzhenren.item.failed.human_strength_full", "This strength is already at %s layers");
         add("guzhenren.item.failed.vitality_active", "Vitality Leaf is still working");
         add("guzhenren.item.failed.refine_essence", "NOT enough essence to refine");
         add("guzhenren.item.failed.essence", "NOT enough essence");
-        add("guzhenren.item.failed.liquor_rank", "Rank %s can drive this gu");
+        add("guzhenren.item.failed.liquor_rank", "Only a %s Gu Master can use this");
         add("guzhenren.item.failed.liquor_distilling", "You are already distilling");
         add("guzhenren.item.failed.elder_gu_empty", "This Gu holds no Primeval Stones");
         add("guzhenren.item.failed.elder_gu_full", "This Gu is full of Primeval Stones");
@@ -489,9 +489,9 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("entity.guzhenren.white_tiger", "White Tiger");
         add("entity.guzhenren.horizontal_crash_gu_entity", "Horizontal Crash Gu");
         add("entity.guzhenren.vertical_crash_gu_entity", "Vertical Crash Gu");
-        add("entity.guzhenren.charging_crash_gu_4_entity", "Rank Four Charging Crash Gu");
-        add("entity.guzhenren.charging_crash_gu_5_entity", "Rank Five Charging Crash Gu");
-        add("entity.guzhenren.test_trade_gu_immortal", "Test Trade GuImmortal");
+        add("entity.guzhenren.charging_crash_gu_4_entity", "Charging Crash Gu IV");
+        add("entity.guzhenren.charging_crash_gu_5_entity", "Charging Crash Gu V");
+        add("entity.guzhenren.test_trade_gu_immortal", "Test Trade Gu Immortal");
     }
     //endregion
 
@@ -508,7 +508,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add("death.attack.guzhenren.soul_collapse", "%1$s suffered soul collapse");
         add("death.attack.guzhenren.mind_ocean_shattered", "%1$s shattered their Mind Ocean");
         add("death.attack.guzhenren.aperture_pressure_explosion", "%1$s died in an aperture pressure explosion");
-        add("death.attack.guzhenren.ten_extreme_disaster", "%1$s was killed by a Ten-Extreme disaster");
+        add("death.attack.guzhenren.ten_extreme_disaster", "%1$s was killed by a Ten-Extremes disaster");
         add("death.attack.guzhenren.vital_gu_lost", "%1$s lost their Vital Gu");
     }
     //endregion
@@ -625,7 +625,7 @@ public class EnUsLanguageProvider extends LanguageProvider {
         add(EssenceColor.GREEN_COPPER, "Green Copper");
         add(EssenceColor.RED_STEEL, "Red Steel");
         add(EssenceColor.WHITE_SILVER, "White Silver");
-        add(EssenceColor.YELLOW_GOLDEN, "Yellow Golden");
+        add(EssenceColor.YELLOW_GOLDEN, "Yellow Gold");
         add(EssenceColor.PURPLE_CRYSTAL, "Purple Crystal");
         add(EssenceColor.GREEN_GRAPE, "Green Grape");
         add(EssenceColor.RED_DATE, "Red Date");
