@@ -1,11 +1,11 @@
 package net.alex.guzhenren.item.material.qi;
 
-import net.alex.guzhenren.attachment.service.aperture.ApertureEssenceService;
-import net.alex.guzhenren.attachment.service.path.PathQiService;
-import net.alex.guzhenren.custom.enums.aperture.Rank;
-import net.alex.guzhenren.custom.enums.path.GuPath;
-import net.alex.guzhenren.custom.enums.qi.QiKind;
+import net.alex.guzhenren.aperture.ApertureEssenceService;
+import net.alex.guzhenren.aperture.Rank;
 import net.alex.guzhenren.item.material.GuMaterialItem;
+import net.alex.guzhenren.path.GuPath;
+import net.alex.guzhenren.path.qi.PathQiService;
+import net.alex.guzhenren.path.qi.QiKind;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>Extends {@link net.alex.guzhenren.item.material.GuMaterialItem}. The {@link QiKind} comes from
  * registration; essence [真元] cost scales with the rank [转数] tier and is spread evenly across the charge ladder
  * (5/10/20 ticks via {@code useChargeByGap}). The apply delegates to
- * {@link net.alex.guzhenren.attachment.service.path.PathQiService#add}.
+ * {@link net.alex.guzhenren.path.qi.PathQiService#add}.
  *
  * <p>⚠ A material, not a Gu: it keeps the base item's hooks, and it stacks; no progress is stored -- the
  * component is shared by the whole stack, and storing it would be the Hope Gu bug.

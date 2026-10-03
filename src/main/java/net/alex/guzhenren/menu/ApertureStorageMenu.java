@@ -2,8 +2,8 @@ package net.alex.guzhenren.menu;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
-import net.alex.guzhenren.attachment.service.aperture.ApertureStorageService;
+import net.alex.guzhenren.aperture.ApertureService;
+import net.alex.guzhenren.aperture.storage.ApertureStorageService;
 import net.alex.guzhenren.item.GuItem;
 import net.alex.guzhenren.item.gu.MortalGuItem;
 import net.alex.guzhenren.item.gu.TendedGuItem;
@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.attachment.service.aperture.ApertureStorageService
+ * @see net.alex.guzhenren.aperture.storage.ApertureStorageService
  * @since 1.0.0
  */
 

@@ -1,7 +1,7 @@
 package net.alex.guzhenren.client.event;
 
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.attachment.service.aperture.ApertureNourishService;
+import net.alex.guzhenren.aperture.ApertureNourishService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.Input;
 import net.neoforged.api.distmarker.Dist;
@@ -14,7 +14,7 @@ import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
  * The client half of the cultivation stance [温养空窍]: it holds the player still and pulls the view in.
  *
  * <p>Annotated {@code @EventBusSubscriber(Dist.CLIENT)}. On {@code MovementInputUpdateEvent} it zeroes
- * every input axis while {@link net.alex.guzhenren.attachment.service.aperture.ApertureNourishService#isCultivating}
+ * every input axis while {@link net.alex.guzhenren.aperture.ApertureNourishService#isCultivating}
  * is true; on {@code ComputeFovModifierEvent} it sets a multiplier so the view pulls in to a
  * {@link #CULTIVATION_FOV}-degree field of view.
  *

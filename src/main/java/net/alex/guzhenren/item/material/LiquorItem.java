@@ -1,7 +1,7 @@
 package net.alex.guzhenren.item.material;
 
-import net.alex.guzhenren.custom.enums.aperture.Rank;
-import net.alex.guzhenren.custom.enums.path.GuPath;
+import net.alex.guzhenren.aperture.Rank;
+import net.alex.guzhenren.path.GuPath;
 import net.alex.guzhenren.registry.effect.ModEffects;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;

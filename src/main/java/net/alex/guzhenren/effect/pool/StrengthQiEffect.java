@@ -6,7 +6,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 
 /**
  * Strength Qi [力气] effect — a pool projection of the 力气 held in {@link
- * net.alex.guzhenren.attachment.data.path.PathQiData}, which adds attack damage while held.
+ * net.alex.guzhenren.path.qi.PathQiData}, which adds attack damage while held.
  *
  * <p>Pool effects are rebuilt every heartbeat by {@code PathQiService.syncEffects}, so milk cannot cure
  * them. It contributes via {@link net.alex.guzhenren.effect.AttackContributor}, not an attribute

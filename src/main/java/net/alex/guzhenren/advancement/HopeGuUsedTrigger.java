@@ -2,7 +2,7 @@ package net.alex.guzhenren.advancement;
 
 import com.mojang.serialization.Codec;
 import java.util.Optional;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
+import net.alex.guzhenren.aperture.ApertureService;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;

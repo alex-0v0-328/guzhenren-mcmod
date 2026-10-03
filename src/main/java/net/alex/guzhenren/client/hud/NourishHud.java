@@ -1,8 +1,8 @@
 package net.alex.guzhenren.client.hud;
 
-import net.alex.guzhenren.attachment.data.aperture.ApertureNourishData;
-import net.alex.guzhenren.attachment.service.aperture.ApertureNourishService;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
+import net.alex.guzhenren.aperture.ApertureNourishData;
+import net.alex.guzhenren.aperture.ApertureNourishService;
+import net.alex.guzhenren.aperture.ApertureService;
 import net.alex.guzhenren.client.ModPalette;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * <p>Extends {@link net.alex.guzhenren.client.hud.HotbarHud}. Registered above
  * {@code VanillaGuiLayers.AIR_LEVEL}. Reads the cultivation fraction from
- * {@link net.alex.guzhenren.attachment.service.aperture.ApertureNourishService#fraction} and swaps to a red
+ * {@link net.alex.guzhenren.aperture.ApertureNourishService#fraction} and swaps to a red
  * fill when starving.
  *
  * <p>⚠ It is a separate layer from the charge bar on purpose: that one reads only the held item, and

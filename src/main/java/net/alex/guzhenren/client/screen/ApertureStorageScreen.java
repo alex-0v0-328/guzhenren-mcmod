@@ -1,6 +1,6 @@
 package net.alex.guzhenren.client.screen;
 
-import net.alex.guzhenren.attachment.service.aperture.ApertureStorageService;
+import net.alex.guzhenren.aperture.storage.ApertureStorageService;
 import net.alex.guzhenren.client.ModPalette;
 import net.alex.guzhenren.menu.ApertureStorageMenu;
 import net.minecraft.client.Minecraft;

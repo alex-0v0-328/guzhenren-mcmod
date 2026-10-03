@@ -1,7 +1,7 @@
 package net.alex.guzhenren.item.gu.mortal.zombie;
 
-import net.alex.guzhenren.attachment.service.body.BodyService;
-import net.alex.guzhenren.custom.enums.aperture.Rank;
+import net.alex.guzhenren.aperture.Rank;
+import net.alex.guzhenren.body.BodyService;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.TendedGuItem;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.TendedGuItem}. Nine Gu register against this one
  * class (二转..五转). The gate refuses only "already 僵"; the payout delegates to
- * {@link net.alex.guzhenren.attachment.service.body.BodyService} to enter half-zombie or, on a
+ * {@link net.alex.guzhenren.body.BodyService} to enter half-zombie or, on a
  * relapse, turn permanently 僵.
  *
  * <p>⚠ Using one again too soon is not refused -- it is the penalty, and it makes the form permanent.

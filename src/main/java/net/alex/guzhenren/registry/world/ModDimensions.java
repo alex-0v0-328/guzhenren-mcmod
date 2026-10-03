@@ -14,7 +14,7 @@ import net.minecraft.world.phys.Vec3;
  * companion mod Gu World ({@code guworld}), a sibling project that depends on this mod; this mod never
  * sees its classes. So each dimension is named here by its level key alone, a contract that Gu World's
  * level stem keeps. Without that mod installed the level is absent, and {@code /guworld enter} refuses every target
- * ({@link net.alex.guzhenren.attachment.service.dimension.DimensionTravelService#enter} finds no level).
+ * ({@link net.alex.guzhenren.dimension.DimensionTravelService#enter} finds no level).
  * The dimension's display name, {@code dimension.<namespace>.<path>}, is that mod's language key too.
  *
  * <p>{@link AnchoredDimension} is an anchored dimension: {@code /guworld enter} may target it, and a

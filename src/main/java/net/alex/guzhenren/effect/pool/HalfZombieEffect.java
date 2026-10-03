@@ -5,7 +5,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 
 /**
  * Half-Zombie [半生半僵] effect — a pool projection of the form stored on {@link
- * net.alex.guzhenren.attachment.data.body.BodyData}, never a truth of its own.
+ * net.alex.guzhenren.body.BodyData}, never a truth of its own.
  *
  * <p>Pool effects are rebuilt every heartbeat — the qi ones by {@code PathQiService.syncEffects}, this
  * one by {@code PlayerTickEvents.projectHalfZombie} — so milk, {@code /effect clear} and death cannot
@@ -16,7 +16,7 @@ import net.minecraft.world.effect.MobEffectCategory;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.attachment.service.body.BodyService
+ * @see net.alex.guzhenren.body.BodyService
  * @since 1.0.0
  */
 

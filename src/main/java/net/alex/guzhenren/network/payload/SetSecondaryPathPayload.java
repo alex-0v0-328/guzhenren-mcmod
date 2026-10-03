@@ -2,7 +2,7 @@ package net.alex.guzhenren.network.payload;
 
 import io.netty.buffer.ByteBuf;
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.custom.enums.path.GuPath;
+import net.alex.guzhenren.path.GuPath;
 import net.alex.guzhenren.serialization.ModStreamCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Client intent: choose the secondary path [辅修] on the named aperture [空窍].
  *
- * <p>A payload carrying only an aperture index and a nullable {@link net.alex.guzhenren.custom.enums.path.GuPath}
+ * <p>A payload carrying only an aperture index and a nullable {@link net.alex.guzhenren.path.GuPath}
  * -- no other player data. The server handler in {@link net.alex.guzhenren.network.ModPayloads}
  * writes the choice through the aperture service. The path travels as its ordinal plus one (zero =
  * unset) via {@link net.alex.guzhenren.serialization.ModStreamCodecs#ofNullableEnum}.

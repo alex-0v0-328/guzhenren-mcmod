@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * Client intent: begin or abandon nourishing the aperture [温养空窍]. A payload carrying a named
  * action ({@code START} / {@code CANCEL}) and the target aperture index -- no player data. The server
  * handler in {@link net.alex.guzhenren.network.ModPayloads} delegates to {@link
- * net.alex.guzhenren.attachment.service.aperture.ApertureNourishService}; client intent is the one
+ * net.alex.guzhenren.aperture.ApertureNourishService}; client intent is the one
  * direction attachment sync cannot carry.
  *
  * <p>⚠ Two intents ride one payload as a named action rather than a bare boolean, because a boolean at

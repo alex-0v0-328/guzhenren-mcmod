@@ -1,8 +1,8 @@
 package net.alex.guzhenren.item.gu.mortal.liquor;
 
 import net.alex.guzhenren.Ticks;
-import net.alex.guzhenren.attachment.service.aperture.ApertureEssenceService;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
+import net.alex.guzhenren.aperture.ApertureEssenceService;
+import net.alex.guzhenren.aperture.ApertureService;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.TendedGuItem;
 import net.alex.guzhenren.registry.effect.ModEffects;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.TendedGuItem}. Four rungs register against this one class,
  * each usable only at its own rank. The payout calls
- * {@link net.alex.guzhenren.attachment.service.aperture.ApertureEssenceService#beginDistilling} and stamps a
+ * {@link net.alex.guzhenren.aperture.ApertureEssenceService#beginDistilling} and stamps a
  * day-long effect; the three phases (drain, redirect, 1:2 spend) live in the service and the effect, not here.
  *
  * <p>⚠ While it runs the ordinary pool is empty by design. Anything gating on essence must ask for the

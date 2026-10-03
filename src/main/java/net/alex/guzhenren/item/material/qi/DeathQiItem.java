@@ -1,7 +1,7 @@
 package net.alex.guzhenren.item.material.qi;
 
-import net.alex.guzhenren.custom.enums.aperture.Rank;
-import net.alex.guzhenren.custom.enums.qi.QiKind;
+import net.alex.guzhenren.aperture.Rank;
+import net.alex.guzhenren.path.qi.QiKind;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -11,8 +11,8 @@ import net.minecraft.world.item.ItemStack;
  * <p>Extends {@link net.alex.guzhenren.item.material.qi.QiMaterialItem}. Both the essence cost and
  * the charge duration are overridden to zero -- it is the only Qi material a mortal can use, and that
  * is exactly why: it harms him. {@code apply} is inherited unchanged; the curse and the lifespan debt are
- * handled by {@link net.alex.guzhenren.attachment.service.path.PathQiService} and
- * {@link net.alex.guzhenren.attachment.service.body.BodyService}.
+ * handled by {@link net.alex.guzhenren.path.qi.PathQiService} and
+ * {@link net.alex.guzhenren.body.BodyService}.
  *
  * <p>⚠ The debt is tallied on the body record, not the effect (no expiry hook); milk and /effect clear cannot cure it.
  *

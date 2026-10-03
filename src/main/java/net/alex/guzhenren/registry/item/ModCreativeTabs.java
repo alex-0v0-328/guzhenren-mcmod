@@ -4,9 +4,9 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import net.alex.guzhenren.Guzhenren;
 import net.alex.guzhenren.block.SpiritSpringBlock;
-import net.alex.guzhenren.custom.enums.path.GuPath;
 import net.alex.guzhenren.item.gu.MortalGuItem;
 import net.alex.guzhenren.item.material.GuMaterialItem;
+import net.alex.guzhenren.path.GuPath;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import static net.alex.guzhenren.custom.enums.path.GuPath.STRENGTH;
+import static net.alex.guzhenren.path.GuPath.STRENGTH;
 
 /**
  * The creative tabs, filled by dispatching on the item's class and path.

@@ -1,8 +1,8 @@
 package net.alex.guzhenren.network;
 
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.attachment.service.aperture.ApertureNourishService;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
+import net.alex.guzhenren.aperture.ApertureNourishService;
+import net.alex.guzhenren.aperture.ApertureService;
 import net.alex.guzhenren.compat.EpicFightIntegration;
 import net.alex.guzhenren.item.gu.MortalGuItem;
 import net.alex.guzhenren.menu.ApertureStorageMenu;

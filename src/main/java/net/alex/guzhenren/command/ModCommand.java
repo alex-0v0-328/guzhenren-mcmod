@@ -3,15 +3,14 @@ package net.alex.guzhenren.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.command.sub.CmdInfo;
-import net.alex.guzhenren.command.sub.CmdReset;
-import net.alex.guzhenren.command.sub.CmdTravel;
-import net.alex.guzhenren.command.sub.aperture.CmdAperture;
-import net.alex.guzhenren.command.sub.aperture.CmdAwaken;
-import net.alex.guzhenren.command.sub.body.CmdBody;
-import net.alex.guzhenren.command.sub.mind.CmdMind;
-import net.alex.guzhenren.command.sub.path.CmdPath;
-import net.alex.guzhenren.command.sub.soul.CmdSoul;
+import net.alex.guzhenren.aperture.CmdAperture;
+import net.alex.guzhenren.aperture.CmdAwaken;
+import net.alex.guzhenren.body.CmdBody;
+import net.alex.guzhenren.dimension.CmdTravel;
+import net.alex.guzhenren.lifecycle.CmdReset;
+import net.alex.guzhenren.mind.CmdMind;
+import net.alex.guzhenren.path.CmdPath;
+import net.alex.guzhenren.soul.CmdSoul;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,14 +21,14 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
  * The root of {@code /guzhenren} (alias {@code /gzr}), assembling every subcommand under it.
  *
  * <p>Registers the literal {@code guzhenren} with permission level 2, then attaches the eight root
- * branches ({@link net.alex.guzhenren.command.sub.CmdInfo}, {@code CmdAwaken}, {@code CmdReset},
+ * branches ({@link net.alex.guzhenren.command.CmdInfo}, {@code CmdAwaken}, {@code CmdReset},
  * {@code CmdAperture}, {@code CmdBody}, {@code CmdSoul}, {@code CmdPath}, {@code CmdMind}) -- all
  * attachment-data commands. The
  * {@code gzr} alias is a {@code redirect} to that root, so everything typed after it parses into a
  * child context.
  *
  * <p>World-environment commands live on the separate {@code guworld} root (same permission level):
- * currently {@link net.alex.guzhenren.command.sub.CmdTravel}'s {@code enter}/{@code exit}.
+ * currently {@link net.alex.guzhenren.dimension.CmdTravel}'s {@code enter}/{@code exit}.
  *
  * @author Alex
  * @version 1.0.0

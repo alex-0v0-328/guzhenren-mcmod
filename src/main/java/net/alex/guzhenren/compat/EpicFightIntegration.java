@@ -2,10 +2,10 @@ package net.alex.guzhenren.compat;
 
 import java.util.Objects;
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
-import net.alex.guzhenren.attachment.service.body.BodyAttackService;
-import net.alex.guzhenren.attachment.service.body.BodyService;
-import net.alex.guzhenren.custom.enums.body.ExtremePhysique;
+import net.alex.guzhenren.aperture.ApertureService;
+import net.alex.guzhenren.body.BodyAttackService;
+import net.alex.guzhenren.body.BodyService;
+import net.alex.guzhenren.body.ExtremePhysique;
 import net.alex.guzhenren.effect.timed.CrashGuEffect;
 import net.alex.guzhenren.entity.WildGuEntity;
 import net.alex.guzhenren.particle.RingConeEmitter;

@@ -2,7 +2,7 @@ package net.alex.guzhenren.entity;
 
 import java.util.function.Supplier;
 import net.alex.guzhenren.Ticks;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
+import net.alex.guzhenren.aperture.ApertureService;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;

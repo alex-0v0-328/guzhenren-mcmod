@@ -1,9 +1,9 @@
 package net.alex.guzhenren.item.gu.mortal.strength;
 
-import net.alex.guzhenren.attachment.service.path.PathStrengthService;
-import net.alex.guzhenren.custom.enums.strength.HumanStrength;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.TendedGuItem;
+import net.alex.guzhenren.path.strength.HumanStrength;
+import net.alex.guzhenren.path.strength.PathStrengthService;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.TendedGuItem}. Four rungs register against this one
  * class (斤 / 十斤 / 钧 / 十钧). The gate refuses a holder who has maxed out that kind; the apply
- * delegates to {@link net.alex.guzhenren.attachment.service.path.PathStrengthService#addHumanStrength}.
+ * delegates to {@link net.alex.guzhenren.path.strength.PathStrengthService#addHumanStrength}.
  * One layer per grant is fixed by {@code LAYERS_PER_GRANT}.
  *
  * <p>⚠ What it grants rides the player rather than the stack, so a holder who has already maxed out

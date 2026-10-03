@@ -2,10 +2,10 @@ package net.alex.guzhenren.item.gu;
 
 import java.util.List;
 import net.alex.guzhenren.Ticks;
-import net.alex.guzhenren.attachment.service.aperture.ApertureEssenceService;
-import net.alex.guzhenren.custom.enums.path.GuPath;
-import net.alex.guzhenren.custom.enums.strength.StrengthPathBranch;
+import net.alex.guzhenren.aperture.ApertureEssenceService;
 import net.alex.guzhenren.item.GuItem;
+import net.alex.guzhenren.path.GuPath;
+import net.alex.guzhenren.path.strength.StrengthPathBranch;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

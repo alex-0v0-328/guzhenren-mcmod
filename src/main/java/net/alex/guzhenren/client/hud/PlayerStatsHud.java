@@ -1,14 +1,14 @@
 package net.alex.guzhenren.client.hud;
 
-import net.alex.guzhenren.attachment.data.aperture.Aperture;
-import net.alex.guzhenren.attachment.data.aperture.ApertureData;
-import net.alex.guzhenren.attachment.data.body.BodyData;
-import net.alex.guzhenren.attachment.data.soul.SoulData;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
-import net.alex.guzhenren.attachment.service.body.BodyService;
-import net.alex.guzhenren.attachment.service.soul.SoulService;
+import net.alex.guzhenren.aperture.Aperture;
+import net.alex.guzhenren.aperture.ApertureData;
+import net.alex.guzhenren.aperture.ApertureService;
+import net.alex.guzhenren.body.BodyData;
+import net.alex.guzhenren.body.BodyService;
 import net.alex.guzhenren.client.ModPalette;
 import net.alex.guzhenren.display.ModDisplayText;
+import net.alex.guzhenren.soul.SoulData;
+import net.alex.guzhenren.soul.SoulService;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

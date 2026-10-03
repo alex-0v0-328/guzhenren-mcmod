@@ -11,7 +11,7 @@ import net.minecraft.world.effect.MobEffectCategory;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.attachment.service.path.PathTimeFlowService
+ * @see net.alex.guzhenren.path.time.PathTimeFlowService
  * @since 1.0.0
  */
 

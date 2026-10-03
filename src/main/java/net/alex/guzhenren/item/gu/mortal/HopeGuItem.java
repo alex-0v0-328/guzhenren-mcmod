@@ -1,9 +1,9 @@
 package net.alex.guzhenren.item.gu.mortal;
 
 import net.alex.guzhenren.Ticks;
-import net.alex.guzhenren.attachment.service.aperture.ApertureService;
+import net.alex.guzhenren.aperture.ApertureService;
+import net.alex.guzhenren.aperture.Talent;
 import net.alex.guzhenren.command.ModCommandSupport;
-import net.alex.guzhenren.custom.enums.aperture.Talent;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.MortalGuItem;
 import net.alex.guzhenren.registry.advancement.ModCriteriaTriggers;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>Extends {@link net.alex.guzhenren.item.gu.MortalGuItem} directly, not {@code OneShotGuItem},
  * because the ritual bar needs a much longer charge than the one-shot template fixes. The rolled value
  * lives in a {@link net.alex.guzhenren.registry.item.ModDataComponents} component, locked on first
- * press; awakening goes through {@link net.alex.guzhenren.attachment.service.aperture.ApertureService#awaken}.
+ * press; awakening goes through {@link net.alex.guzhenren.aperture.ApertureService#awaken}.
  *
  * <p>⚠ One-shot in behavior but {@code stacksTo(1)}: a data component is shared by the whole stack, so
  * stacking gives 64 copies of one single aptitude. Creative clears it after use so a reset can re-roll.

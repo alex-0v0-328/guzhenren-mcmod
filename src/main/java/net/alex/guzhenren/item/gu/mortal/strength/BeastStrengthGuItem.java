@@ -1,9 +1,9 @@
 package net.alex.guzhenren.item.gu.mortal.strength;
 
-import net.alex.guzhenren.attachment.service.path.PathStrengthService;
-import net.alex.guzhenren.custom.enums.strength.BeastStrength;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.TendedGuItem;
+import net.alex.guzhenren.path.strength.BeastStrength;
+import net.alex.guzhenren.path.strength.PathStrengthService;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.TendedGuItem}. The gate refuses a holder who already
  * carries that species; the apply delegates to
- * {@link net.alex.guzhenren.attachment.service.path.PathStrengthService#grant}. A species declares its
+ * {@link net.alex.guzhenren.path.strength.PathStrengthService#grant}. A species declares its
  * own family and worth on the enum, so adding one never touches this class.
  *
  * <p>⚠ If an edit here starts to look necessary, a number has been put in the wrong place.
