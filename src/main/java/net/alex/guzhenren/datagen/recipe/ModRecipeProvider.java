@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.menu.RefinementMenu;
-import net.alex.guzhenren.recipe.GuRecipe;
+import net.alex.guzhenren.gameplay.refinement.GuRecipe;
+import net.alex.guzhenren.gameplay.refinement.RefinementMenu;
 import net.alex.guzhenren.registry.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.recipe.GuRecipe
+ * @see GuRecipe
  * @since 1.0.0
  */
 

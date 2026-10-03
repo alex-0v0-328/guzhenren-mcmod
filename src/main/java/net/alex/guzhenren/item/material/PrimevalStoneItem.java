@@ -1,10 +1,10 @@
 package net.alex.guzhenren.item.material;
 
-import net.alex.guzhenren.aperture.ApertureEssenceService;
-import net.alex.guzhenren.aperture.ApertureService;
-import net.alex.guzhenren.aperture.Rank;
+import net.alex.guzhenren.gameplay.aperture.ApertureEssenceService;
+import net.alex.guzhenren.gameplay.aperture.ApertureService;
+import net.alex.guzhenren.gameplay.aperture.Rank;
+import net.alex.guzhenren.gameplay.path.GuPath;
 import net.alex.guzhenren.item.gu.mortal.PrimevalElderGuItem;
-import net.alex.guzhenren.path.GuPath;
 import net.alex.guzhenren.registry.item.ModItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

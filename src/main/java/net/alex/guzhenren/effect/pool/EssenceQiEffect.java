@@ -1,22 +1,25 @@
 package net.alex.guzhenren.effect.pool;
 
+import net.alex.guzhenren.gameplay.aperture.ApertureEssenceService;
+import net.alex.guzhenren.gameplay.path.qi.PathQiData;
+import net.alex.guzhenren.gameplay.path.qi.PathQiService;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
 /**
  * Essence Qi [元气] effect — a pool projection of the 元气 held in {@link
- * net.alex.guzhenren.path.qi.PathQiData}, which lifts essence [真元] regeneration.
+ * PathQiData}, which lifts essence [真元] regeneration.
  *
  * <p>Pool effects are rebuilt every heartbeat by {@code PathQiService.syncEffects}, so milk cannot cure
  * them — the pool is the truth. The {@code REGEN_BONUS} table is read by {@link
- * net.alex.guzhenren.aperture.ApertureEssenceService#regenStep} rather than applied
+ * ApertureEssenceService#regenStep} rather than applied
  * from here, so essence regeneration stays a single formula in a single place.
  *
  * <p>⚠ Death Qi [死气] outranks this: the regen step checks {@code isChoked} first and returns.
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.path.qi.PathQiService
+ * @see PathQiService
  * @since 1.0.0
  */
 

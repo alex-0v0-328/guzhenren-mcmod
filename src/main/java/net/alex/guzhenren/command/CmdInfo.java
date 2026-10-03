@@ -6,9 +6,9 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import java.util.List;
 import java.util.function.Function;
-import net.alex.guzhenren.aperture.Aperture;
-import net.alex.guzhenren.display.InfoModel;
-import net.alex.guzhenren.display.ModDisplayText;
+import net.alex.guzhenren.gameplay.aperture.Aperture;
+import net.alex.guzhenren.ui.display.InfoModel;
+import net.alex.guzhenren.ui.display.ModDisplayText;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -19,7 +19,7 @@ import net.minecraft.server.level.ServerPlayer;
 /**
  * {@code /gzr info}: prints what a player is, from the same rows the B panel draws.
  *
- * <p>Reads the shared {@link net.alex.guzhenren.display.InfoModel} so the command and the screen
+ * <p>Reads the shared {@link InfoModel} so the command and the screen
  * cannot word the same fact two different ways. Five sections mirror the B-panel tabs (aperture,
  * body, soul, path, mind); the bare form defaults to {@code aperture} on self.
  *
@@ -28,7 +28,7 @@ import net.minecraft.server.level.ServerPlayer;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.display.InfoModel
+ * @see InfoModel
  * @since 1.0.0
  */
 

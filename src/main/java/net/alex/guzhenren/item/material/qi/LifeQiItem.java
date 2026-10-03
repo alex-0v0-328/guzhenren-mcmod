@@ -1,10 +1,10 @@
 package net.alex.guzhenren.item.material.qi;
 
-import net.alex.guzhenren.aperture.Rank;
-import net.alex.guzhenren.body.BodyService;
 import net.alex.guzhenren.effect.pool.DeathQiEffect;
-import net.alex.guzhenren.path.qi.PathQiService;
-import net.alex.guzhenren.path.qi.QiKind;
+import net.alex.guzhenren.gameplay.aperture.Rank;
+import net.alex.guzhenren.gameplay.body.BodyService;
+import net.alex.guzhenren.gameplay.path.qi.PathQiService;
+import net.alex.guzhenren.gameplay.path.qi.QiKind;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,9 +12,9 @@ import net.minecraft.world.item.ItemStack;
  * Life Qi [生气] material: it pays down a Death Qi [死气] debt before it does anything else.
  *
  * <p>Extends {@link net.alex.guzhenren.item.material.qi.QiMaterialItem}. The apply overrides the base to
- * route the amount into {@link net.alex.guzhenren.path.qi.PathQiService} against Death
+ * route the amount into {@link PathQiService} against Death
  * Qi first; only the excess reaches the Life Qi pool. When Death Qi clears to zero the lifespan [寿元]
- * refund is handled by {@link net.alex.guzhenren.body.BodyService#refundDeathQiDebt}.
+ * refund is handled by {@link BodyService#refundDeathQiDebt}.
  *
  * <p>⚠ Only clearing that debt outright refunds any of the burnt lifespan [寿元]; paying it partway
  * down refunds nothing at all. The asymmetry is deliberate.

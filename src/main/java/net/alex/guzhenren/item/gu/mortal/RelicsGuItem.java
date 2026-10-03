@@ -1,7 +1,7 @@
 package net.alex.guzhenren.item.gu.mortal;
 
-import net.alex.guzhenren.aperture.ApertureService;
-import net.alex.guzhenren.aperture.Stage;
+import net.alex.guzhenren.gameplay.aperture.ApertureService;
+import net.alex.guzhenren.gameplay.aperture.Stage;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.OneShotGuItem;
 import net.minecraft.network.chat.Component;
@@ -14,8 +14,8 @@ import org.jetbrains.annotations.Nullable;
  * A one-shot Relics Gu [舍利蛊] that advances the holder's stage [阶段], only at its own rank.
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.OneShotGuItem}. The gate refuses a rank mismatch and
- * a holder already at {@link net.alex.guzhenren.aperture.Stage#HIGHEST}; the apply
- * delegates to {@link net.alex.guzhenren.aperture.ApertureService#shiftStage}.
+ * a holder already at {@link Stage#HIGHEST}; the apply
+ * delegates to {@link ApertureService#shiftStage}.
  *
  * @author Alex
  * @version 1.0.0

@@ -1,8 +1,8 @@
 package net.alex.guzhenren.item.material;
 
-import net.alex.guzhenren.aperture.Rank;
+import net.alex.guzhenren.gameplay.aperture.Rank;
+import net.alex.guzhenren.gameplay.path.GuPath;
 import net.alex.guzhenren.item.GuItem;
-import net.alex.guzhenren.path.GuPath;
 
 /**
  * Gu material [蛊材]: concrete and with no axes of its own.

@@ -3,14 +3,14 @@ package net.alex.guzhenren.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.aperture.CmdAperture;
-import net.alex.guzhenren.aperture.CmdAwaken;
-import net.alex.guzhenren.body.CmdBody;
-import net.alex.guzhenren.dimension.CmdTravel;
-import net.alex.guzhenren.lifecycle.CmdReset;
-import net.alex.guzhenren.mind.CmdMind;
-import net.alex.guzhenren.path.CmdPath;
-import net.alex.guzhenren.soul.CmdSoul;
+import net.alex.guzhenren.gameplay.aperture.CmdAperture;
+import net.alex.guzhenren.gameplay.aperture.CmdAwaken;
+import net.alex.guzhenren.gameplay.body.CmdBody;
+import net.alex.guzhenren.gameplay.dimension.CmdTravel;
+import net.alex.guzhenren.gameplay.lifecycle.CmdReset;
+import net.alex.guzhenren.gameplay.mind.CmdMind;
+import net.alex.guzhenren.gameplay.path.CmdPath;
+import net.alex.guzhenren.gameplay.soul.CmdSoul;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -28,7 +28,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
  * child context.
  *
  * <p>World-environment commands live on the separate {@code guworld} root (same permission level):
- * currently {@link net.alex.guzhenren.dimension.CmdTravel}'s {@code enter}/{@code exit}.
+ * currently {@link net.alex.guzhenren.gameplay.dimension.CmdTravel}'s {@code enter}/{@code exit}.
  *
  * @author Alex
  * @version 1.0.0

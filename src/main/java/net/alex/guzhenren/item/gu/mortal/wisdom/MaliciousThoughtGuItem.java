@@ -1,10 +1,10 @@
 package net.alex.guzhenren.item.gu.mortal.wisdom;
 
 import net.alex.guzhenren.effect.timed.MaliciousThoughtEffect;
+import net.alex.guzhenren.gameplay.mind.MindService;
+import net.alex.guzhenren.gameplay.mind.ThoughtTag;
 import net.alex.guzhenren.item.gu.ConsumedGuItem;
 import net.alex.guzhenren.item.gu.GuSpec;
-import net.alex.guzhenren.mind.MindService;
-import net.alex.guzhenren.mind.ThoughtTag;
 import net.alex.guzhenren.registry.effect.ModEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,8 +17,8 @@ import org.jetbrains.annotations.Nullable;
  * The Malicious Thought Gu [恶念蛊]: a one-use wisdom Gu that floods the mind with evil thoughts.
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.ConsumedGuItem}, making it tended AND taken by its own
- * use. The payout grants an immediate {@link net.alex.guzhenren.mind.ThoughtTag#EVIL} burst
- * via {@link net.alex.guzhenren.mind.MindService#addThoughts}, then stamps the
+ * use. The payout grants an immediate {@link ThoughtTag#EVIL} burst
+ * via {@link MindService#addThoughts}, then stamps the
  * sustained effect whose amplifier is derived from the rank.
  *
  * <p>⚠ Rank five floods past the burst line from an empty mind, so it kills on the spot. That is the

@@ -1,12 +1,12 @@
 package net.alex.guzhenren.network;
 
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.aperture.ApertureNourishService;
-import net.alex.guzhenren.aperture.ApertureService;
 import net.alex.guzhenren.compat.EpicFightIntegration;
+import net.alex.guzhenren.gameplay.aperture.ApertureNourishService;
+import net.alex.guzhenren.gameplay.aperture.ApertureService;
+import net.alex.guzhenren.gameplay.aperture.storage.ApertureStorageMenu;
+import net.alex.guzhenren.gameplay.refinement.RefinementMenu;
 import net.alex.guzhenren.item.gu.MortalGuItem;
-import net.alex.guzhenren.menu.ApertureStorageMenu;
-import net.alex.guzhenren.menu.RefinementMenu;
 import net.alex.guzhenren.network.payload.DashPayload;
 import net.alex.guzhenren.network.payload.ImpactApertureWallPayload;
 import net.alex.guzhenren.network.payload.NourishAperturePayload;

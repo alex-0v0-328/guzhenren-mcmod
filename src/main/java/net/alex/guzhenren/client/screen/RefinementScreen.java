@@ -3,13 +3,13 @@ package net.alex.guzhenren.client.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import java.util.ArrayList;
 import java.util.List;
-import net.alex.guzhenren.aperture.ApertureEssenceService;
 import net.alex.guzhenren.client.ModPalette;
-import net.alex.guzhenren.menu.RefinementMenu;
-import net.alex.guzhenren.recipe.GuRecipe;
-import net.alex.guzhenren.recipe.GuRecipeInput;
-import net.alex.guzhenren.soul.SoulData;
-import net.alex.guzhenren.soul.SoulService;
+import net.alex.guzhenren.gameplay.aperture.ApertureEssenceService;
+import net.alex.guzhenren.gameplay.refinement.GuRecipe;
+import net.alex.guzhenren.gameplay.refinement.GuRecipeInput;
+import net.alex.guzhenren.gameplay.refinement.RefinementMenu;
+import net.alex.guzhenren.gameplay.soul.SoulData;
+import net.alex.guzhenren.gameplay.soul.SoulService;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  * The refinement [炼蛊] screen: the ring grid, the phase bar, and the recipe picker.
  *
  * <p>Extends {@link net.minecraft.client.gui.screens.inventory.AbstractContainerScreen} for
- * {@link net.alex.guzhenren.menu.RefinementMenu}. Draws the 5×5 grid (corners cut), the craft
+ * {@link RefinementMenu}. Draws the 5×5 grid (corners cut), the craft
  * button in three states, the phase bar, the stone slot, and the recipe picker modal. Ghosts for
  * missing ingredients are drawn from {@code renderLabels} so the carried item paints last. The picker
  * modal translates Z to 500 to stay above slot items. In {@link #mouseClicked(double, double, int)},

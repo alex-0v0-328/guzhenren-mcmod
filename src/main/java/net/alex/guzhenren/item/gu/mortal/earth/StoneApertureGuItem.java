@@ -1,10 +1,10 @@
 package net.alex.guzhenren.item.gu.mortal.earth;
 
-import net.alex.guzhenren.aperture.ApertureData;
-import net.alex.guzhenren.aperture.ApertureNourishService;
-import net.alex.guzhenren.aperture.ApertureService;
-import net.alex.guzhenren.aperture.ApertureStatus;
-import net.alex.guzhenren.aperture.Stage;
+import net.alex.guzhenren.gameplay.aperture.ApertureData;
+import net.alex.guzhenren.gameplay.aperture.ApertureNourishService;
+import net.alex.guzhenren.gameplay.aperture.ApertureService;
+import net.alex.guzhenren.gameplay.aperture.ApertureStatus;
+import net.alex.guzhenren.gameplay.aperture.Stage;
 import net.alex.guzhenren.item.gu.ConsumedGuItem;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.minecraft.network.chat.Component;

@@ -1,5 +1,6 @@
 package net.alex.guzhenren.effect.timed;
 
+import net.alex.guzhenren.gameplay.path.time.PathTimeFlowService;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
@@ -11,7 +12,7 @@ import net.minecraft.world.effect.MobEffectCategory;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.path.time.PathTimeFlowService
+ * @see PathTimeFlowService
  * @since 1.0.0
  */
 

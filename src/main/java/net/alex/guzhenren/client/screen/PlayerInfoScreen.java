@@ -3,19 +3,19 @@ package net.alex.guzhenren.client.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import java.util.ArrayList;
 import java.util.List;
-import net.alex.guzhenren.aperture.ApertureData;
-import net.alex.guzhenren.aperture.ApertureNourishService;
-import net.alex.guzhenren.aperture.ApertureService;
 import net.alex.guzhenren.client.ModKeyMappings;
 import net.alex.guzhenren.client.ModPalette;
-import net.alex.guzhenren.display.InfoModel;
-import net.alex.guzhenren.display.ModDisplayText;
+import net.alex.guzhenren.gameplay.aperture.ApertureData;
+import net.alex.guzhenren.gameplay.aperture.ApertureNourishService;
+import net.alex.guzhenren.gameplay.aperture.ApertureService;
+import net.alex.guzhenren.gameplay.path.GuPath;
 import net.alex.guzhenren.network.payload.ImpactApertureWallPayload;
 import net.alex.guzhenren.network.payload.NourishAperturePayload;
 import net.alex.guzhenren.network.payload.OpenApertureStoragePayload;
 import net.alex.guzhenren.network.payload.OpenRefinementPayload;
 import net.alex.guzhenren.network.payload.SetSecondaryPathPayload;
-import net.alex.guzhenren.path.GuPath;
+import net.alex.guzhenren.ui.display.InfoModel;
+import net.alex.guzhenren.ui.display.ModDisplayText;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -36,14 +36,14 @@ import org.jetbrains.annotations.Nullable;
  * keeps the single-column layout -- and every column carries its own nourish [温养空窍] /
  * flush [冲刷窍壁] / storage [空窍存储] buttons; the storage button opens that aperture's container.
  * The refinement tab opens its container via a client-intent payload instead of drawing rows. Row
- * content comes from {@link net.alex.guzhenren.display.InfoModel}, shared with {@code /gzr
+ * content comes from {@link InfoModel}, shared with {@code /gzr
  * info}, so the two surfaces cannot diverge.
  *
  * <p>⚠ A plain screen with no menu behind it: no container channel to send an intent over.
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.display.InfoModel
+ * @see InfoModel
  * @since 1.0.0
  */
 

@@ -2,12 +2,12 @@ package net.alex.guzhenren.compat;
 
 import java.util.Objects;
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.aperture.ApertureService;
-import net.alex.guzhenren.body.BodyAttackService;
-import net.alex.guzhenren.body.BodyService;
-import net.alex.guzhenren.body.ExtremePhysique;
 import net.alex.guzhenren.effect.timed.CrashGuEffect;
 import net.alex.guzhenren.entity.WildGuEntity;
+import net.alex.guzhenren.gameplay.aperture.ApertureService;
+import net.alex.guzhenren.gameplay.body.BodyAttackService;
+import net.alex.guzhenren.gameplay.body.BodyService;
+import net.alex.guzhenren.gameplay.body.ExtremePhysique;
 import net.alex.guzhenren.particle.RingConeEmitter;
 import net.alex.guzhenren.registry.effect.ModEffects;
 import net.minecraft.resources.ResourceLocation;

@@ -1,8 +1,8 @@
 package net.alex.guzhenren.item.gu;
 
-import net.alex.guzhenren.aperture.Rank;
-import net.alex.guzhenren.path.GuPath;
-import net.alex.guzhenren.path.strength.StrengthPathBranch;
+import net.alex.guzhenren.gameplay.aperture.Rank;
+import net.alex.guzhenren.gameplay.path.GuPath;
+import net.alex.guzhenren.gameplay.path.strength.StrengthPathBranch;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

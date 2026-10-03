@@ -1,6 +1,7 @@
 package net.alex.guzhenren.entity;
 
 import net.alex.guzhenren.Guzhenren;
+import net.alex.guzhenren.gameplay.trade.SoulTraderEntity;
 import net.alex.guzhenren.registry.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;

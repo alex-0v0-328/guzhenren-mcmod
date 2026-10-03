@@ -2,9 +2,9 @@ package net.alex.guzhenren.item.gu.mortal.wood;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.alex.guzhenren.aperture.ApertureData;
-import net.alex.guzhenren.aperture.ApertureEssenceService;
-import net.alex.guzhenren.aperture.storage.ApertureStorageService;
+import net.alex.guzhenren.gameplay.aperture.ApertureData;
+import net.alex.guzhenren.gameplay.aperture.ApertureEssenceService;
+import net.alex.guzhenren.gameplay.aperture.storage.ApertureStorageService;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.TendedGuItem;
 import net.alex.guzhenren.item.gu.mortal.PrimevalElderGuItem;

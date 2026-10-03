@@ -1,30 +1,30 @@
 package net.alex.guzhenren.datagen.lang;
 
-import net.alex.guzhenren.EnumTranslatable;
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.aperture.ApertureStatus;
-import net.alex.guzhenren.aperture.EssenceColor;
-import net.alex.guzhenren.aperture.Rank;
-import net.alex.guzhenren.aperture.Stage;
-import net.alex.guzhenren.aperture.Talent;
-import net.alex.guzhenren.aperture.Title;
-import net.alex.guzhenren.body.ExtremePhysique;
-import net.alex.guzhenren.body.Physique;
-import net.alex.guzhenren.body.Race;
-import net.alex.guzhenren.mind.Brilliance;
-import net.alex.guzhenren.mind.ThoughtTag;
-import net.alex.guzhenren.mind.WisdomType;
-import net.alex.guzhenren.path.GuAttainment;
-import net.alex.guzhenren.path.GuPath;
-import net.alex.guzhenren.path.MarkTag;
-import net.alex.guzhenren.path.qi.QiKind;
-import net.alex.guzhenren.path.strength.BeastStrength;
-import net.alex.guzhenren.path.strength.BeastStrengthFamily;
-import net.alex.guzhenren.path.strength.HumanStrength;
-import net.alex.guzhenren.path.strength.StrengthPathBranch;
+import net.alex.guzhenren.NamedEnum;
+import net.alex.guzhenren.gameplay.aperture.ApertureStatus;
+import net.alex.guzhenren.gameplay.aperture.EssenceColor;
+import net.alex.guzhenren.gameplay.aperture.Rank;
+import net.alex.guzhenren.gameplay.aperture.Stage;
+import net.alex.guzhenren.gameplay.aperture.Talent;
+import net.alex.guzhenren.gameplay.aperture.Title;
+import net.alex.guzhenren.gameplay.body.ExtremePhysique;
+import net.alex.guzhenren.gameplay.body.Physique;
+import net.alex.guzhenren.gameplay.body.Race;
+import net.alex.guzhenren.gameplay.mind.Brilliance;
+import net.alex.guzhenren.gameplay.mind.ThoughtTag;
+import net.alex.guzhenren.gameplay.mind.WisdomType;
+import net.alex.guzhenren.gameplay.path.GuAttainment;
+import net.alex.guzhenren.gameplay.path.GuPath;
+import net.alex.guzhenren.gameplay.path.MarkTag;
+import net.alex.guzhenren.gameplay.path.qi.QiKind;
+import net.alex.guzhenren.gameplay.path.strength.BeastStrength;
+import net.alex.guzhenren.gameplay.path.strength.BeastStrengthFamily;
+import net.alex.guzhenren.gameplay.path.strength.HumanStrength;
+import net.alex.guzhenren.gameplay.path.strength.StrengthPathBranch;
+import net.alex.guzhenren.gameplay.soul.SoulTier;
 import net.alex.guzhenren.registry.block.ModBlocks;
 import net.alex.guzhenren.registry.item.ModItems;
-import net.alex.guzhenren.soul.SoulTier;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
@@ -75,7 +75,7 @@ public class ZhCnLanguageProvider extends LanguageProvider {
         addDeathMessages();
     }
 
-    private void add(EnumTranslatable key, String value) { add(key.getTranslationKey(), value); }
+    private void add(NamedEnum key, String value) { add(key.getTranslationKey(), value); }
 
     //region DISPLAY
     private void addDisplayKeys() {

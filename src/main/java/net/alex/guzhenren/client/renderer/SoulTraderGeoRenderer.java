@@ -3,7 +3,7 @@ package net.alex.guzhenren.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.entity.SoulTraderEntity;
+import net.alex.guzhenren.gameplay.trade.SoulTraderEntity;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

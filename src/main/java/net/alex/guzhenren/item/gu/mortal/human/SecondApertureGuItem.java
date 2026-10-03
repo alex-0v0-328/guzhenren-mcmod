@@ -1,7 +1,7 @@
 package net.alex.guzhenren.item.gu.mortal.human;
 
-import net.alex.guzhenren.aperture.ApertureData;
-import net.alex.guzhenren.aperture.ApertureService;
+import net.alex.guzhenren.gameplay.aperture.ApertureData;
+import net.alex.guzhenren.gameplay.aperture.ApertureService;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.OneShotGuItem;
 import net.minecraft.server.level.ServerPlayer;

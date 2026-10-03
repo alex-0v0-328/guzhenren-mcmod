@@ -1,14 +1,14 @@
 package net.alex.guzhenren.client.hud;
 
-import net.alex.guzhenren.aperture.Aperture;
-import net.alex.guzhenren.aperture.ApertureData;
-import net.alex.guzhenren.aperture.ApertureService;
-import net.alex.guzhenren.body.BodyData;
-import net.alex.guzhenren.body.BodyService;
 import net.alex.guzhenren.client.ModPalette;
-import net.alex.guzhenren.display.ModDisplayText;
-import net.alex.guzhenren.soul.SoulData;
-import net.alex.guzhenren.soul.SoulService;
+import net.alex.guzhenren.gameplay.aperture.Aperture;
+import net.alex.guzhenren.gameplay.aperture.ApertureData;
+import net.alex.guzhenren.gameplay.aperture.ApertureService;
+import net.alex.guzhenren.gameplay.body.BodyData;
+import net.alex.guzhenren.gameplay.body.BodyService;
+import net.alex.guzhenren.gameplay.soul.SoulData;
+import net.alex.guzhenren.gameplay.soul.SoulService;
+import net.alex.guzhenren.ui.display.ModDisplayText;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -26,11 +26,11 @@ import org.jetbrains.annotations.NotNull;
  * {@link net.alex.guzhenren.client.event.ClientEvents}. Draws the title line (realm + title + aptitude), then
  * bars in order: essence, distilled, soul, gap, lifespan/age and pressure text. Hidden with
  * {@code hideGui}, in spectator, and under F3. Every phrase comes from
- * {@link net.alex.guzhenren.display.ModDisplayText} so the HUD and the info command cannot diverge.
+ * {@link ModDisplayText} so the HUD and the info command cannot diverge.
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.display.ModDisplayText
+ * @see ModDisplayText
  * @since 1.0.0
  */
 

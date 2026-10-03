@@ -1,13 +1,15 @@
 package net.alex.guzhenren.effect.pool;
 
 import net.alex.guzhenren.Ticks;
+import net.alex.guzhenren.gameplay.path.qi.PathQiData;
+import net.alex.guzhenren.gameplay.path.qi.PathQiService;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Life Qi [生气] effect — a pool projection of the 生气 held in {@link
- * net.alex.guzhenren.path.qi.PathQiData}, which heals the holder periodically.
+ * PathQiData}, which heals the holder periodically.
  *
  * <p>Pool effects are rebuilt every heartbeat by {@code PathQiService.syncEffects}, so milk cannot cure
  * them — the pool is the truth. The heal runs on vanilla's own {@code applyEffectTick} cadence
@@ -18,7 +20,7 @@ import net.minecraft.world.entity.LivingEntity;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.path.qi.PathQiService
+ * @see PathQiService
  * @since 1.0.0
  */
 

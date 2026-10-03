@@ -1,10 +1,12 @@
 package net.alex.guzhenren.effect;
 
+import net.alex.guzhenren.gameplay.body.BodyAttackService;
+
 /**
  * The one seam anything adds attack damage through, so the body panel and a real hit stay one number.
  *
  * <p>Implemented by the 力道 qi effect and the timed attack-buff Gu effects. {@link
- * net.alex.guzhenren.body.BodyAttackService#bonus} walks {@code getActiveEffects()}
+ * BodyAttackService#bonus} walks {@code getActiveEffects()}
  * and asks each contributor, instead of listing the effects it knows about — a new effect is one
  * interface, no edit there.
  *
@@ -13,7 +15,7 @@ package net.alex.guzhenren.effect;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.body.BodyAttackService
+ * @see BodyAttackService
  * @since 1.0.0
  */
 

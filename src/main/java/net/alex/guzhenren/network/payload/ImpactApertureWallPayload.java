@@ -2,6 +2,7 @@ package net.alex.guzhenren.network.payload;
 
 import io.netty.buffer.ByteBuf;
 import net.alex.guzhenren.Guzhenren;
+import net.alex.guzhenren.gameplay.aperture.ApertureNourishService;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * <p>A zero-byte singleton payload -- it carries no data at all, only the button press. The server
  * handler in {@link net.alex.guzhenren.network.ModPayloads} delegates to
- * {@link net.alex.guzhenren.aperture.ApertureNourishService}. Client intent is the one
+ * {@link ApertureNourishService}. Client intent is the one
  * direction attachment sync cannot carry; no player data travels upstream.
  *
  * @author Alex

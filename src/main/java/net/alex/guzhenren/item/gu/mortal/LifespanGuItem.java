@@ -1,6 +1,6 @@
 package net.alex.guzhenren.item.gu.mortal;
 
-import net.alex.guzhenren.body.BodyService;
+import net.alex.guzhenren.gameplay.body.BodyService;
 import net.alex.guzhenren.item.gu.GuSpec;
 import net.alex.guzhenren.item.gu.OneShotGuItem;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
  *
  * <p>Extends {@link net.alex.guzhenren.item.gu.OneShotGuItem}; the roll window is the only thing the
  * constructor carries, and the service write goes through
- * {@link net.alex.guzhenren.body.BodyService#addLifespan}. Each of the four rungs
+ * {@link BodyService#addLifespan}. Each of the four rungs
  * carries its own range, and the name is the promise -- the roll only decides the tail.
  *
  * @author Alex

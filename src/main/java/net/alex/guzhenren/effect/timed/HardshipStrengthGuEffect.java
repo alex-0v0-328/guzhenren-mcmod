@@ -1,6 +1,7 @@
 package net.alex.guzhenren.effect.timed;
 
 import net.alex.guzhenren.Ticks;
+import net.alex.guzhenren.gameplay.path.strength.PathStrengthService;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
@@ -9,12 +10,12 @@ import net.minecraft.world.effect.MobEffectCategory;
  * holder's health fraction, not from here.
  *
  * <p>This class carries only the duration and the icon; the 0..120 capacity bonus is computed in
- * {@link net.alex.guzhenren.path.strength.PathStrengthService#capacity} off missing
+ * {@link PathStrengthService#capacity} off missing
  * health, so the effect staying present IS what keeps that ramp alive.
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.path.strength.PathStrengthService
+ * @see PathStrengthService
  * @since 1.0.0
  */
 

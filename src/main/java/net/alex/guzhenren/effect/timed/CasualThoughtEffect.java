@@ -1,8 +1,8 @@
 package net.alex.guzhenren.effect.timed;
 
 import net.alex.guzhenren.Ticks;
-import net.alex.guzhenren.mind.MindService;
-import net.alex.guzhenren.mind.ThoughtTag;
+import net.alex.guzhenren.gameplay.mind.MindService;
+import net.alex.guzhenren.gameplay.mind.ThoughtTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -15,14 +15,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * <p>Timed effects own their truth on vanilla's timer. One effect, two grades — the amplifier is
  * the rank's tier, and the {@code RANGES} table widens with it. Thoughts land through {@link
- * net.alex.guzhenren.mind.MindService#addThoughts} tagged {@code NATURAL}.
+ * MindService#addThoughts} tagged {@code NATURAL}.
  *
  * <p>⚠ {@code applyEffectTick} must {@code return true} — returning false lets vanilla remove the
  * effect on the spot.
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.mind.MindService
+ * @see MindService
  * @since 1.0.0
  */
 

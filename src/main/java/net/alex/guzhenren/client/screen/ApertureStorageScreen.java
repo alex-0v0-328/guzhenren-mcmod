@@ -1,8 +1,8 @@
 package net.alex.guzhenren.client.screen;
 
-import net.alex.guzhenren.aperture.storage.ApertureStorageService;
 import net.alex.guzhenren.client.ModPalette;
-import net.alex.guzhenren.menu.ApertureStorageMenu;
+import net.alex.guzhenren.gameplay.aperture.storage.ApertureStorageMenu;
+import net.alex.guzhenren.gameplay.aperture.storage.ApertureStorageService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -14,13 +14,13 @@ import org.jetbrains.annotations.NotNull;
  * The screen for one aperture's [空窍] store, a page at a time.
  *
  * <p>Extends {@link net.minecraft.client.gui.screens.inventory.AbstractContainerScreen} for
- * {@link net.alex.guzhenren.menu.ApertureStorageMenu}. Draws 54 slots per page, prev/next pager
+ * {@link ApertureStorageMenu}. Draws 54 slots per page, prev/next pager
  * buttons, and the Vital Gu [本命蛊] slot past the right edge of the panel. A back button ({@code <-})
  * closes the container first, then opens the B panel. All drawing is {@code g.fill}, no textures.
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.menu.ApertureStorageMenu
+ * @see ApertureStorageMenu
  * @since 1.0.0
  */
 

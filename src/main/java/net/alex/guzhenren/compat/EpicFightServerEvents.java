@@ -1,7 +1,7 @@
 package net.alex.guzhenren.compat;
 
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.body.BodyAttackService;
+import net.alex.guzhenren.gameplay.body.BodyAttackService;
 import net.alex.guzhenren.particle.RingConeEmitter;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

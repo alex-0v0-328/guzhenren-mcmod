@@ -1,7 +1,7 @@
 package net.alex.guzhenren.client.renderer;
 
 import net.alex.guzhenren.Guzhenren;
-import net.alex.guzhenren.entity.SoulTraderEntity;
+import net.alex.guzhenren.gameplay.trade.SoulTraderEntity;
 import net.minecraft.util.Mth;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;

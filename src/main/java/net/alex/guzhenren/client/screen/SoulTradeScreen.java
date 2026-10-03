@@ -2,8 +2,8 @@ package net.alex.guzhenren.client.screen;
 
 import java.util.List;
 import net.alex.guzhenren.client.ModPalette;
-import net.alex.guzhenren.menu.SoulTradeMenu;
-import net.alex.guzhenren.menu.SoulTradeOffer;
+import net.alex.guzhenren.gameplay.trade.SoulTradeMenu;
+import net.alex.guzhenren.gameplay.trade.SoulTradeOffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

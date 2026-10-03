@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
  * <p>Production rides the block scheduled-tick channel, not the fluid's own flow tick, so its
  * cadence cannot collide with {@code LiquidBlock}'s 5t flow reschedules. The chain is armed from
  * {@code onPlace}/{@code neighborChanged}; after a save/reload the source's random tick
- * ({@link net.alex.guzhenren.registry.fluid.ModFluids.Source}) re-arms it, because a settled
+ * ({@link SpiritSpringFluid.Source}) re-arms it, because a settled
  * source receives no scheduled ticks on its own.
  *
  * <p>⚠ The five constants below are Alex's picks (2026-09-14, player gate 2026-09-23), not silent

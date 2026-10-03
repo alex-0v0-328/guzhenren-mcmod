@@ -1,5 +1,6 @@
 package net.alex.guzhenren.effect.timed;
 
+import net.alex.guzhenren.gameplay.aperture.ApertureEssenceService;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
@@ -7,7 +8,7 @@ import net.minecraft.world.effect.MobEffectCategory;
  * The effect worn while a Liquor Worm [酒虫] distills — a marker for the vanilla HUD icon, not the state itself.
  *
  * <p>Timed effects own their truth on vanilla's timer, but this one is exceptional: it marks the
- * state, it does not hold it. {@link net.alex.guzhenren.aperture.ApertureEssenceService}
+ * state, it does not hold it. {@link ApertureEssenceService}
  * owns the three phases, so removing this effect does not end the distillation. The 1:2 payback on
  * expiry is watched by {@code PlayerTickEvents.closeDistilling}, which reads the level — the only thing
  * that catches milk, {@code /effect clear} and death.
@@ -16,7 +17,7 @@ import net.minecraft.world.effect.MobEffectCategory;
  *
  * @author Alex
  * @version 1.0.0
- * @see net.alex.guzhenren.aperture.ApertureEssenceService
+ * @see ApertureEssenceService
  * @since 1.0.0
  */
 
